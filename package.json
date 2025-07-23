@@ -13,6 +13,7 @@
     "@ant-design/nextjs-registry": "^1.1.0",
     "@ant-design/pro-components": "^2.8.10",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@fontsource/montserrat": "^5.2.6",
     "@fullcalendar/core": "^6.1.18",
     "@fullcalendar/daygrid": "^6.1.18",
     "@fullcalendar/react": "^6.1.18",
