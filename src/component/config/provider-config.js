@@ -19,3 +19,6 @@ export const getProviderConfig = (isDark = false) => ({
     },
   },
 });
+
+export const DARK_MODE = getProviderConfig(true);
+export const LIGHT_MODE = getProviderConfig(false);
