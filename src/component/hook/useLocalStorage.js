@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function useLocalStorage(key, initialValue) {
   // Thêm tiền tố bingo- vào trước key để dễ quản lý
@@ -21,6 +21,33 @@ export function useLocalStorage(key, initialValue) {
       return initialValue;
     }
   });
+
+  // Lắng nghe sự kiện storage để đồng bộ giữa các tab
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleStorageChange = (e) => {
+      if (e.key === prefixedKey) {
+        try {
+          const newValue = e.newValue ? JSON.parse(e.newValue) : initialValue;
+          setStoredValue(newValue);
+        } catch (error) {
+          console.error(
+            `Error parsing localStorage value for key "${prefixedKey}":`,
+            error
+          );
+        }
+      }
+    };
+
+    // Lắng nghe sự kiện storage từ các tab khác
+    window.addEventListener("storage", handleStorageChange);
+
+    // Cleanup listener
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [prefixedKey, initialValue]);
 
   // Hàm để set giá trị
   const setValue = (value) => {
