@@ -20,13 +20,6 @@
  * | _null     | Là NULL                  | IS NULL           | deleted_at_null=true     | deleted_at IS NULL                           |
  * | _nnull    | Không phải NULL          | IS NOT NULL       | deleted_at_nnull=true    | deleted_at IS NOT NULL                       |
  *
- * ## Định dạng giá trị hậu tố
- *
- * Ngoài việc sử dụng hậu tố ở key, bạn có thể sử dụng định dạng "_hậu_tố giá_trị" trong value:
- * - age: "_lt 65" -> age_lt=65
- * - price: "_gte 1000" -> price_gte=1000
- * - status: "_e active" -> status_e=active
- *
  * ## Toán tử OR
  *
  * Để thực hiện truy vấn OR, sử dụng key đặc biệt "or" với object chứa các điều kiện:
@@ -53,11 +46,6 @@ const sampleParams = {
   updated_at_nnull: true,
   role_in: ["admin", "user"],
   status_nin: ["banned", "guest"],
-
-  // định dạng hậu tố value mới
-  score: "_gte 80",
-  rating: "_lt 5",
-  category: "_e premium",
 
   // toán tử OR (chỉ 1 tầng)
   or: {
@@ -93,44 +81,6 @@ const sampleIgnoredSearchColumns = ["age"];
 */
 
 /**
- * Các toán tử hậu tố hợp lệ
- */
-const VALID_SUFFIXES = [
-  "like",
-  "nlike",
-  "e",
-  "ne",
-  "gt",
-  "gte",
-  "lt",
-  "lte",
-  "in",
-  "nin",
-  "null",
-  "nnull",
-];
-
-/**
- * Phân tích giá trị chuỗi với định dạng "_hậu_tố giá_trị"
- * @param {string} value - Chuỗi cần phân tích
- * @returns {{suffix: string|null, parsedValue: string}} - Kết quả phân tích
- */
-function parseSuffixValue(value) {
-  if (typeof value === "string" && value.startsWith("_")) {
-    const spaceIndex = value.indexOf(" ");
-    if (spaceIndex > 1) {
-      const potentialSuffix = value.substring(1, spaceIndex).trim();
-      const actualValue = value.substring(spaceIndex + 1).trim();
-
-      if (VALID_SUFFIXES.includes(potentialSuffix)) {
-        return { suffix: potentialSuffix, parsedValue: actualValue };
-      }
-    }
-  }
-  return { suffix: null, parsedValue: value };
-}
-
-/**
  * Kiểm tra xem key có phải là OR key không (or, or_1, or_2, ...)
  * @param {string} key - Key cần kiểm tra
  * @returns {boolean} - True nếu là OR key
@@ -146,7 +96,6 @@ function isOrKey(key) {
  *   - id, *_id: chuyển đổi thành _e (khớp chính xác)
  *   - Mảng 2 giá trị (không có hậu tố): chuyển đổi thành _gte và _lte (trong khoảng)
  *   - current, pageSize: giữ nguyên cho phân trang
- *   - Chuỗi có định dạng "_hậu_tố giá_trị": "_lt 65" -> key_lt=65
  *   - Key có hậu tố sẵn: giữ nguyên (ví dụ: age_gt, price_lte)
  *   - Key "or": object chứa các điều kiện OR (chỉ 1 tầng) - backward compatibility
  *   - Key "or_1", "or_2", ...: object chứa các điều kiện OR (nhiều nhóm OR)
@@ -159,7 +108,7 @@ function isOrKey(key) {
  * buildSearchParams({
  *   name: 'John',
  *   id: 1,
- *   age: '_lt 65',
+ *   age_lt: 65,
  *   startDate: ['2024-01-01','2024-12-31'],
  *   scoreGt: 18,
  *   current: 2,
@@ -227,16 +176,8 @@ export function buildSearchParams(params = {}, sort = {}, filter = {}) {
     ) {
       paramKey = `${key}_e`;
     } else {
-      // Kiểm tra định dạng "_hậu_tố giá_trị" trước
-      const { suffix, parsedValue } = parseSuffixValue(value);
-
-      if (suffix) {
-        paramKey = `${key}_${suffix}`;
-        paramValue = parsedValue;
-      } else {
-        // Mặc định: sử dụng _like cho tìm kiếm chuỗi
-        paramKey = `${key}_like`;
-      }
+      // Mặc định: sử dụng _like cho tìm kiếm chuỗi
+      paramKey = `${key}_like`;
     }
 
     searchParams.append(paramKey, paramValue);
