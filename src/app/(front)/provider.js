@@ -4,7 +4,7 @@ import { useTheme } from "@/component/hook";
 const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
-  const { themeMode, setThemeMode, modeConfig } = useTheme();
+  const { setThemeMode, modeConfig } = useTheme();
 
   // Memoize the context value to avoid unnecessary re-renders
   const contextValue = useMemo(

@@ -68,7 +68,6 @@ export function useTheme() {
   const currentMode = isDarkMode ? DARK_MODE : LIGHT_MODE;
 
   return {
-    themeMode,
     setThemeMode,
     modeConfig: currentMode,
   };
