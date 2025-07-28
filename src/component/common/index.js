@@ -9,7 +9,7 @@
 // export * from "./form";
 export * from "./layout";
 // export * from "./modal";
-// export * from "./page";
+export * from "./page";
 export * from "./provider";
 // export * from "./result";
 export * from "./spin";
