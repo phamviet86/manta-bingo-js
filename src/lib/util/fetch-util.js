@@ -133,10 +133,11 @@ export async function fetchDelete(url, values = {}) {
   });
 }
 
+// sử dụng chủ yếu cho request trong columns của ant design schema
 export async function fetchOption(
   url,
   params = {},
-  optionConfig = { label: "id", value: "id" }
+  fieldMapping = { label: "id", value: "id" }
 ) {
   const searchParams = buildSearchParams(params);
   const result = await performFetch(`${url}?${searchParams}`, {
@@ -146,8 +147,8 @@ export async function fetchOption(
   // Xử lý kết quả và chuyển đổi thành format option
   if (result.success && Array.isArray(result.data)) {
     return result.data.map((item) => ({
-      value: item[optionConfig.value],
-      label: item[optionConfig.label],
+      value: item[fieldMapping.value],
+      label: item[fieldMapping.label],
     }));
   }
 
