@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Card, Space } from "antd";
+import { Col, Row, Card, Space } from "antd";
 import { SettingOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { AntPage, BackButton } from "@/component/common";
 import { OptionsFormCreate, getOptionsColumn } from "@/component/custom";
@@ -42,13 +42,17 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <Card hoverable variant="outlined">
-      <OptionsFormCreate
-        columns={useOptions.columns}
-        // onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
-        onSubmitSuccess={navBack}
-      />
-    </Card>
+    <Row wrap gutter={[16, 16]} justify="left">
+      <Col xs={24} sm={24} md={16} lg={12} xl={10} xxl={8}>
+        <Card hoverable variant="outlined">
+          <OptionsFormCreate
+            columns={useOptions.columns}
+            // onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
+            onSubmitSuccess={navBack}
+          />
+        </Card>
+      </Col>
+    </Row>
   );
 
   // Render

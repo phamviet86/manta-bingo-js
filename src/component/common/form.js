@@ -82,6 +82,7 @@ export function AntForm({
         const result = await onSubmit(values);
         // result: { success, message, data: array }
         messageApi.success(result.message);
+        if (variant === "modal" || variant === "drawer") close(); // Close drawer/modal if variant is set
         onSubmitSuccess?.(result);
         return true;
       } catch (error) {
@@ -91,7 +92,7 @@ export function AntForm({
         return false;
       }
     },
-    [onSubmit, onSubmitSuccess, onSubmitError, messageApi]
+    [onSubmit, onSubmitSuccess, onSubmitError, variant, messageApi, close]
   );
 
   // Data delete handler with error handling

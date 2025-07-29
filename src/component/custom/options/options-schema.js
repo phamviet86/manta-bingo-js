@@ -11,7 +11,6 @@ export function getOptionsColumn(params, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      colProps: { xs: 12 },
     },
     {
       key: "option_table",
@@ -58,12 +57,17 @@ export function getOptionsColumn(params, columnMapping = []) {
   return renderColumns(schema, columnMapping);
 }
 
-// export const OPTIONS_MAPPING = [
-//   { key: "id", responsive: ["md"] },
-//   { key: "option_table", responsive: ["lg"] },
-//   { key: "option_column" },
-//   { key: "displayLabel", hideInDescriptions: true },
-//   { key: "option_label", hidden: true },
-//   { key: "option_color", hidden: true },
-//   { key: "option_group", responsive: ["xl"] },
-// ];
+export const OPTIONS_MAPPING = [
+  {
+    key: "id",
+    fieldProps: {
+      disabled: true,
+    },
+  },
+  { key: "option_table", responsive: ["lg"] },
+  { key: "option_column" },
+  { key: "displayLabel", hideInDescriptions: true },
+  { key: "option_label", hidden: true },
+  { key: "option_color", hidden: true },
+  { key: "option_group", responsive: ["xl"] },
+];
