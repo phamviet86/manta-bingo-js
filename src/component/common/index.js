@@ -6,3 +6,5 @@ export * from "./layout";
 export * from "./page";
 export * from "./link";
 export * from "./button";
+export * from "./table";
+export * from "./form";
