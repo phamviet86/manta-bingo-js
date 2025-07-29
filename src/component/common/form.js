@@ -1,11 +1,14 @@
-import { useCallback } from "react";
-import { message, Popconfirm, Flex } from "antd";
+import { useCallback, cloneElement } from "react";
+import { message, Popconfirm, Flex, Modal, Drawer } from "antd";
 import { BetaSchemaForm } from "@ant-design/pro-components";
 import { AntButton } from "@/component/common";
-import { FORM_CONFIG } from "@/component/config";
+import { FORM_CONFIG, MODAL_CONFIG, DRAWER_CONFIG } from "@/component/config";
 import { DeleteOutlined } from "@ant-design/icons";
 
 export function AntForm({
+  // Form variant configuration
+  variant = "page", // "page" | "modal" | "drawer"
+
   // Data handling props
   onRequest = undefined,
   onRequestSuccess = undefined,
@@ -24,19 +27,22 @@ export function AntForm({
   deleteParams = undefined,
 
   // Form configuration
-  variant = "Form", // "Form" | "ModalForm" | "DrawerForm" | "StepsForm" | "StepForm"
-  // columns = [],
   extra = [],
   showDeleteBtn = true,
 
   // Form reference hook
   formHook = {},
 
+  // Modal/Drawer specific props
+  modalProps = {},
+  drawerProps = {},
+  trigger = undefined,
+
   // Other props
   ...props
 }) {
   // ========== Hooks and State ==========
-  const { formRef, close, visible, setVisible } = formHook;
+  const { formRef, visible, open, close } = formHook;
   const [messageApi, contextHolder] = message.useMessage();
 
   // ========== Event Handlers ==========
@@ -99,7 +105,7 @@ export function AntForm({
       const result = await onDelete(deleteParams);
       // result: { success, message, data: array }
       messageApi.success(result.message);
-      if (variant == "ModalForm" || variant == "DrawerForm") close(); // Close drawer/modal if variant is set
+      if (variant === "modal" || variant === "drawer") close(); // Close drawer/modal if variant is set
       onDeleteSuccess?.(result);
       return true;
     } catch (error) {
@@ -170,21 +176,60 @@ export function AntForm({
     ),
   };
 
+  // ========== Base Form Props ==========
+  const baseFormProps = {
+    ...props,
+    ...FORM_CONFIG,
+    formRef,
+    request: onRequest ? handleDataRequest : undefined,
+    params: requestParams,
+    onFinish: onSubmit ? handleDataSubmit : undefined,
+    submitter: submitterConfig,
+  };
+
+  // ========== Render Logic ==========
+  // If variant is "drawer", render DrawerForm
+  if (variant === "drawer") {
+    return (
+      <>
+        {contextHolder}
+        {trigger && cloneElement(trigger, { onClick: open })}
+        <Drawer
+          {...DRAWER_CONFIG}
+          {...drawerProps}
+          open={visible}
+          onClose={close}
+        >
+          <BetaSchemaForm {...baseFormProps} />
+        </Drawer>
+      </>
+    );
+  }
+
+  // If variant is "modal", render ModalForm
+  if (variant === "modal") {
+    return (
+      <>
+        {contextHolder}
+        {trigger && cloneElement(trigger, { onClick: open })}
+        <Modal
+          {...MODAL_CONFIG}
+          {...modalProps}
+          open={visible}
+          onCancel={close}
+          footer={null} // No footer buttons in modal
+        >
+          <BetaSchemaForm {...baseFormProps} />
+        </Modal>
+      </>
+    );
+  }
+
+  // Default: page variant
   return (
     <>
       {contextHolder}
-      <BetaSchemaForm
-        {...props}
-        {...FORM_CONFIG}
-        formRef={formRef}
-        request={onRequest ? handleDataRequest : undefined}
-        params={requestParams}
-        onFinish={onSubmit ? handleDataSubmit : undefined}
-        submitter={submitterConfig}
-        layoutType={layoutType}
-        open={visible}
-        onOpenChange={setVisible}
-      />
+      <BetaSchemaForm {...baseFormProps} />
     </>
   );
 }

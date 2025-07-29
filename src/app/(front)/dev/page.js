@@ -148,9 +148,7 @@ export default function Page() {
 
   const handleSubmitSuccess = (result) => {
     console.log("Submit success:", result);
-    // Close modals/drawers after successful submit
-    modalFormHook.close();
-    drawerFormHook.close();
+    // The form component will automatically close modals/drawers after successful submit
   };
 
   const handleDeleteSuccess = (result) => {
@@ -182,7 +180,7 @@ export default function Page() {
             </Paragraph>
             <AntForm
               formHook={basicFormHook}
-              layoutType="Form"
+              variant="page"
               columns={userFormColumns}
               onRequest={mockApiRequest}
               onRequestSuccess={handleRequestSuccess}
@@ -202,22 +200,14 @@ export default function Page() {
               Form displayed in a modal dialog. Click the button below to open
               the modal form.
             </Paragraph>
-            <Space>
-              <AntButton
-                label="Open Modal Form"
-                type="primary"
-                onClick={() => {
-                  modalFormHook.setRequestParams({ id: 1 });
-                  modalFormHook.setDeleteParams({ id: 1 });
-                  modalFormHook.open();
-                }}
-              />
-            </Space>
             <AntForm
               formHook={modalFormHook}
-              layoutType="ModalForm"
-              title="Edit User (Modal)"
-              width={900}
+              variant="modal"
+              modalProps={{
+                title: "Edit User (Modal)",
+                width: 900,
+              }}
+              trigger={<AntButton label="Open Modal Form" type="primary" />}
               columns={userFormColumns}
               onRequest={mockApiRequest}
               onRequestSuccess={handleRequestSuccess}
@@ -225,6 +215,8 @@ export default function Page() {
               onSubmitSuccess={handleSubmitSuccess}
               onDelete={mockApiDelete}
               onDeleteSuccess={handleDeleteSuccess}
+              requestParams={{ id: 1 }}
+              deleteParams={{ id: 1 }}
               showDeleteBtn={true}
             />
           </Card>
@@ -235,22 +227,14 @@ export default function Page() {
               Form displayed in a drawer panel. Click the button below to open
               the drawer form.
             </Paragraph>
-            <Space>
-              <AntButton
-                label="Open Drawer Form"
-                type="primary"
-                onClick={() => {
-                  drawerFormHook.setRequestParams({ id: 1 });
-                  drawerFormHook.setDeleteParams({ id: 1 });
-                  drawerFormHook.open();
-                }}
-              />
-            </Space>
             <AntForm
               formHook={drawerFormHook}
-              layoutType="DrawerForm"
-              title="Edit User (Drawer)"
-              width={500}
+              variant="drawer"
+              drawerProps={{
+                title: "Edit User (Drawer)",
+                width: 500,
+              }}
+              trigger={<AntButton label="Open Drawer Form" type="primary" />}
               columns={userFormColumns}
               onRequest={mockApiRequest}
               onRequestSuccess={handleRequestSuccess}
@@ -258,6 +242,8 @@ export default function Page() {
               onSubmitSuccess={handleSubmitSuccess}
               onDelete={mockApiDelete}
               onDeleteSuccess={handleDeleteSuccess}
+              requestParams={{ id: 1 }}
+              deleteParams={{ id: 1 }}
               showDeleteBtn={true}
             />
           </Card>
@@ -266,7 +252,7 @@ export default function Page() {
           <Card title="4. Form without Delete Button" size="small">
             <Paragraph>Form configuration with delete button hidden.</Paragraph>
             <AntForm
-              layoutType="Form"
+              variant="page"
               columns={userFormColumns.slice(0, 2)} // Only show first 2 groups
               onSubmit={mockApiSubmit}
               onSubmitSuccess={handleSubmitSuccess}
@@ -279,8 +265,7 @@ export default function Page() {
             <Title level={4}>Key Features:</Title>
             <ul>
               <li>
-                <strong>Multiple Layout Types:</strong> Form, ModalForm,
-                DrawerForm, StepsForm, StepForm
+                <strong>Multiple Layout Types:</strong> page, modal, drawer
               </li>
               <li>
                 <strong>Data Operations:</strong> Request (load), Submit (save),
@@ -302,6 +287,10 @@ export default function Page() {
                 <strong>Ant Design Integration:</strong> Built on
                 @ant-design/pro-components
               </li>
+              <li>
+                <strong>Trigger Support:</strong> Modal and drawer forms support
+                trigger elements
+              </li>
             </ul>
 
             <Divider />
@@ -313,8 +302,8 @@ export default function Page() {
                 with success/error callbacks
               </li>
               <li>
-                <strong>Configuration:</strong> layoutType, columns,
-                showDeleteBtn, extra
+                <strong>Configuration:</strong> variant (page/modal/drawer),
+                columns, showDeleteBtn, extra
               </li>
               <li>
                 <strong>Parameters:</strong> requestParams, deleteParams for API
@@ -322,6 +311,13 @@ export default function Page() {
               </li>
               <li>
                 <strong>Form Hook:</strong> formHook for form state and actions
+              </li>
+              <li>
+                <strong>Modal/Drawer Props:</strong> modalProps, drawerProps for
+                customization
+              </li>
+              <li>
+                <strong>Trigger:</strong> trigger element for modal/drawer forms
               </li>
             </ul>
           </Card>

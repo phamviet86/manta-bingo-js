@@ -35,8 +35,10 @@ export function AntTable({
   title = undefined,
   extra = undefined,
 
-  // Modal/Drawer specific props
+  // Table reference hook
   tableHook = {},
+
+  // Modal/Drawer specific props
   modalProps = {},
   drawerProps = {},
   trigger = undefined,
