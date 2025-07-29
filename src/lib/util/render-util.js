@@ -5,9 +5,9 @@ import { presetPrimaryColors } from "@ant-design/colors";
 import { COLOR_ENUM } from "@/component/config/enum-config";
 
 // Helper function to map columns with display configuration
-export function renderColumns(columns, displayConfig) {
-  if (Array.isArray(displayConfig) && displayConfig.length > 0) {
-    return displayConfig
+export function renderColumns(columns, columnMapping) {
+  if (Array.isArray(columnMapping) && columnMapping.length > 0) {
+    return columnMapping
       .map((item) => {
         const col = columns.find((c) => c.key === item.key);
         if (!col) return null;
