@@ -1,19 +1,10 @@
 import { createContext, useContext, useMemo } from "react";
-import { useTheme } from "@/component/hook";
 
 const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
-  const { setThemeMode, modeConfig } = useTheme();
-
   // Memoize the context value to avoid unnecessary re-renders
-  const contextValue = useMemo(
-    () => ({
-      setThemeMode,
-      modeConfig,
-    }),
-    [setThemeMode, modeConfig]
-  );
+  const contextValue = useMemo(() => ({}), []);
 
   // Provide the context to children components
   return (

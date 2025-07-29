@@ -11,6 +11,7 @@ import {
   MoonOutlined,
   ThunderboltOutlined,
 } from "@ant-design/icons";
+import { useTheme } from "@/component/hook";
 
 const AntLayout = dynamic(
   () => import("@/component/common/layout").then((mod) => mod.AntLayout),
@@ -29,7 +30,7 @@ export default function Layout({ children }) {
 }
 
 function LayoutContent({ children }) {
-  const { setThemeMode, modeConfig } = useAppContext();
+  const { setThemeMode, modeConfig } = useTheme();
 
   const themeMenuItems = [
     {
