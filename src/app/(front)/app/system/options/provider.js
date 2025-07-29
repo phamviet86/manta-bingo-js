@@ -1,7 +1,7 @@
 // OPTIONS PROVIDER
 
 import { createContext, useContext, useMemo } from "react";
-import { useAppContext } from "../../provider";
+import { useAppContext } from "../../../provider";
 import { convertSelection } from "@/lib/util/convert-util";
 import { COLOR_ENUM } from "@/component/config";
 
@@ -11,7 +11,7 @@ export function PageProvider({ children }) {
   const {} = useAppContext();
   // See the sample below for how to use the context
 
-  const { optionColor } = COLOR_ENUM;
+  const optionColor = COLOR_ENUM;
 
   // Memoize the context value to avoid unnecessary re-renders
   const contextValue = useMemo(() => ({ optionColor }), [optionColor]);

@@ -1,69 +1,69 @@
 // path: @/component/custom/options-schema.js
 
-import { renderColumns, renderEnum } from "@/lib/util/render-util";
+import { renderColumns } from "@/lib/util/render-util";
 
-export function getOptionSchema(params, columnMapping = []) {
-  const {} = params || {};
+export function getOptionsColumn(params, columnMapping = []) {
+  const { optionColor } = params || {};
 
-  const columns = [
+  const schema = [
     {
-      title: "ID",
-      dataIndex: "id",
       key: "id",
+      dataIndex: "id",
+      title: "ID",
       valueType: "text",
-      sorter: { multiple: 1 },
-      search: false,
-      width: 80,
+      colProps: { xs: 12 },
     },
     {
-      title: "Bảng",
-      dataIndex: "option_table",
       key: "option_table",
+      dataIndex: "option_table",
+      title: "Bảng",
       valueType: "text",
-      sorter: { multiple: 1 },
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
-      title: "Cột",
-      dataIndex: "option_column",
       key: "option_column",
+      dataIndex: "option_column",
+      title: "Cột",
       valueType: "text",
-      sorter: { multiple: 1 },
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
-      title: "Nhãn",
-      dataIndex: "option_label",
       key: "option_label",
-      valueType: "text",
-      sorter: { multiple: 1 },
-    },
-    {
-      title: "Màu Sắc",
-      dataIndex: "option_color",
-      key: "option_color",
-      valueType: "select",
-      valueEnum: COLOR_ENUM,
-      sorter: { multiple: 1 },
-    },
-    {
-      title: "Nhóm",
-      dataIndex: "option_group",
-      key: "option_group",
-      valueType: "text",
-      sorter: { multiple: 1 },
-    },
-    {
+      dataIndex: "option_label",
       title: "Nhãn",
-      key: "displayLabel",
-      search: false,
-      render: (_, record) =>
-        renderEnum(
-          COLOR_ENUM,
-          record?.option_color,
-          record?.option_label,
-          "badge"
-        ),
+      valueType: "text",
+      formItemProps: {
+        rules: [{ required: true }],
+      },
+    },
+    {
+      key: "option_color",
+      dataIndex: "option_color",
+      title: "Màu Sắc",
+      valueType: "select",
+      valueEnum: optionColor || {},
+    },
+    {
+      key: "option_group",
+      dataIndex: "option_group",
+      title: "Nhóm",
+      valueType: "text",
     },
   ];
 
-  return renderColumns(columns, columnMapping);
+  return renderColumns(schema, columnMapping);
 }
+
+// export const OPTIONS_MAPPING = [
+//   { key: "id", responsive: ["md"] },
+//   { key: "option_table", responsive: ["lg"] },
+//   { key: "option_column" },
+//   { key: "displayLabel", hideInDescriptions: true },
+//   { key: "option_label", hidden: true },
+//   { key: "option_color", hidden: true },
+//   { key: "option_group", responsive: ["xl"] },
+// ];

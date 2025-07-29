@@ -2,19 +2,12 @@
 
 "use client";
 
-import { Space } from "antd";
+import { Card, Space } from "antd";
 import { SettingOutlined, InfoCircleOutlined } from "@ant-design/icons";
-import { ProCard } from "@ant-design/pro-components";
-import { AntPage, AntButton, DetailButton } from "@/component/common";
-import {
-  OptionsTable,
-  OptionsCreate,
-  OptionsColumns,
-  OptionsFields,
-} from "@/component/custom";
-import { useTable, useForm, useNav } from "@/component/hook";
+import { AntPage, AntButton, PathButton } from "@/component/common";
+import { OptionsTable, getOptionsColumn } from "@/component/custom";
+import { useTable } from "@/component/hook";
 import { PageProvider, usePageContext } from "./provider";
-import { OPTIONS_COLUMN } from "@/component/config";
 
 export default function Page(props) {
   return (
@@ -26,17 +19,12 @@ export default function Page(props) {
 
 function PageContent() {
   // Context
-  const {} = usePageContext();
-
-  // Hooks
-  const { navDetail } = useNav();
+  const { optionColor } = usePageContext();
 
   // Option logic hooks
   const useOptions = {
     table: useTable(),
-    create: useForm(),
-    columns: OptionsColumns({}, OPTIONS_COLUMN),
-    fields: OptionsFields(),
+    columns: getOptionsColumn({ optionColor }, []),
   };
 
   // Page action buttons
@@ -48,45 +36,38 @@ function PageContent() {
       variant="outlined"
       onClick={() => useOptions.table.reload()}
     />,
-    <AntButton
-      key="create-button"
+    <PathButton
+      key="new-button"
       label="Tạo mới"
       color="primary"
       variant="solid"
-      onClick={() => useOptions.create.open()}
+      path="new"
     />,
   ];
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <Card hoverable variant="outlined">
       <OptionsTable
         tableHook={useOptions.table}
         columns={useOptions.columns}
-        leftColumns={[
+        rightColumns={[
           {
             width: 56,
             align: "center",
             search: false,
             render: (_, record) => (
-              <DetailButton
+              <PathButton
                 icon={<InfoCircleOutlined />}
                 color="primary"
                 variant="link"
-                id={record?.id}
+                path={record?.id}
               />
             ),
           },
         ]}
       />
-      <OptionsCreate
-        formHook={useOptions.create}
-        fields={useOptions.fields}
-        onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
-        title="Tạo tùy chọn"
-        variant="drawer"
-      />
-    </ProCard>
+    </Card>
   );
 
   // Render

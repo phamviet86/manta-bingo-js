@@ -10,10 +10,10 @@ export function AntButton({ label, ...props }) {
   return <Button {...props}>{label}</Button>;
 }
 
-export function DetailButton({ id, ...props }) {
+export function PathButton({ path, ...props }) {
   const pathname = usePathname();
   return (
-    <Link href={`${pathname}/${id}`}>
+    <Link href={`${pathname}/${path}`}>
       <AntButton {...props} />
     </Link>
   );
