@@ -117,7 +117,7 @@ function PageContent() {
         },
         { title: "Tùy chọn" },
       ]}
-      title="Danh sách tùy chọn"
+      title="Danh sách"
       extra={pageButton}
       content={pageContent}
     />

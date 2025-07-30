@@ -17,6 +17,8 @@ export function getOptionsColumn(params = {}, columnMapping = []) {
       formItemProps: {
         style: { display: "none" },
       },
+      responsive: ["md"],
+      width: 56,
     },
     {
       key: "option_table",
@@ -26,6 +28,7 @@ export function getOptionsColumn(params = {}, columnMapping = []) {
       formItemProps: {
         rules: [{ required: true }],
       },
+      responsive: ["md"],
     },
     {
       key: "option_column",
@@ -51,12 +54,16 @@ export function getOptionsColumn(params = {}, columnMapping = []) {
       title: "Màu Sắc",
       valueType: "select",
       valueEnum: optionColor || {},
+      responsive: ["lg"],
+      search: false,
     },
     {
       key: "option_group",
       dataIndex: "option_group",
       title: "Nhóm",
       valueType: "text",
+      responsive: ["xl"],
+      search: false,
     },
   ];
 
