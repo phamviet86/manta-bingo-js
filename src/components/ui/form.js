@@ -21,7 +21,6 @@ export function AntForm({
   onSubmit = undefined,
   onSubmitSuccess = undefined,
   onSubmitError = undefined,
-  submitValues = undefined,
 
   // Data delete handlers
   onDelete = undefined,
@@ -82,7 +81,7 @@ export function AntForm({
       if (!values) return false;
 
       try {
-        const result = await onSubmit({ ...values, ...submitValues });
+        const result = await onSubmit(values);
         // result: { success, message, data: array }
         messageApi.success(result.message);
         if (variant === "modal" || variant === "drawer") close(); // Close drawer/modal if variant is set
@@ -95,15 +94,7 @@ export function AntForm({
         return false;
       }
     },
-    [
-      onSubmit,
-      onSubmitSuccess,
-      onSubmitError,
-      submitValues,
-      variant,
-      messageApi,
-      close,
-    ]
+    [onSubmit, onSubmitSuccess, onSubmitError, variant, messageApi, close]
   );
 
   // Data delete handler with error handling
