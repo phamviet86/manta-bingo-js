@@ -5,12 +5,8 @@
 import { Col, Row, Card, Space } from "antd";
 import { SettingOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { AntPage, AntButton, PathButton } from "@/component/common";
-import {
-  OptionsTable,
-  OptionsFormCreate,
-  getOptionsColumn,
-} from "@/component/custom";
-import { useTable, useForm } from "@/component/hook";
+import { OptionsTable, getOptionsColumn } from "@/component/custom";
+import { useTable } from "@/component/hook";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -28,7 +24,6 @@ function PageContent() {
   // Option logic hooks
   const useOptions = {
     table: useTable(),
-    create: useForm(),
     columns: getOptionsColumn({ optionColor }, []),
   };
 
@@ -47,13 +42,6 @@ function PageContent() {
       color="primary"
       variant="solid"
       path="new"
-    />,
-    <AntButton
-      key="create-button"
-      label="Tạo mới"
-      color="primary"
-      variant="solid"
-      onClick={() => useOptions.create.open()}
     />,
   ];
 
@@ -80,15 +68,6 @@ function PageContent() {
                 ),
               },
             ]}
-          />
-          <OptionsFormCreate
-            formHook={useOptions.create}
-            onSubmitSuccess={() => useOptions.table.reload()}
-            columns={useOptions.columns}
-            variant="drawer"
-            drawerProps={{
-              title: "Tạo tùy chọn mới",
-            }}
           />
         </Card>
       </Col>

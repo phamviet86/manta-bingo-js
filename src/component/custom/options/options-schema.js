@@ -11,6 +11,12 @@ export function getOptionsColumn(params, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
+      fieldProps: {
+        disabled: true,
+      },
+      formItemProps: {
+        style: { display: "none" },
+      },
     },
     {
       key: "option_table",
