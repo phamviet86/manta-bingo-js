@@ -7,7 +7,7 @@ CREATE TABLE user_roles (
   updated_at TIMESTAMPTZ DEFAULT NOW(),
   deleted_at TIMESTAMPTZ DEFAULT NULL,
   user_id UUID NOT NULL,
-  role_id UUID NOT NULL
+  role_id INTEGER NOT NULL
 );
 CREATE TRIGGER update_record BEFORE
 UPDATE ON user_roles FOR EACH ROW EXECUTE FUNCTION set_updated_at();
