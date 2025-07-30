@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { Spin, Provider } from "@/components/ui";
-import { AppProvider } from "./provider";
+import { AppProvider } from "../provider";
 
 const Layout = dynamic(
   () => import("@/components/ui/layout").then((mod) => mod.Layout),
