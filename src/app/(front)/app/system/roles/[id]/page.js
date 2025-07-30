@@ -12,7 +12,7 @@ import {
   getOptionsColumn,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
-import { PageProvider, usePageContext } from "./provider";
+import { PageProvider, usePageContext } from "../provider";
 
 export default function Page(props) {
   return (
