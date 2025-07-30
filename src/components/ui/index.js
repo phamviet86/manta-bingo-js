@@ -7,3 +7,5 @@ export * from "./page";
 export * from "./button";
 export * from "./link";
 export * from "./table";
+export * from "./info";
+export * from "./form";

@@ -1,0 +1,247 @@
+// path: @/components/ui/form.js
+
+import { useCallback, cloneElement } from "react";
+import { message, Popconfirm, Flex, Modal, Drawer } from "antd";
+import { BetaSchemaForm } from "@ant-design/pro-components";
+import { AntButton } from "@/components/ui";
+import { FORM_CONFIG, MODAL_CONFIG, DRAWER_CONFIG } from "@/configs";
+import { DeleteOutlined } from "@ant-design/icons";
+
+export function AntForm({
+  // Form variant configuration
+  variant = "page", // "page" | "modal" | "drawer"
+
+  // Data handling props
+  onRequest = undefined,
+  onRequestSuccess = undefined,
+  onRequestError = undefined,
+  requestParams = undefined,
+
+  // Data submit handlers
+  onSubmit = undefined,
+  onSubmitSuccess = undefined,
+  onSubmitError = undefined,
+  submitValues = undefined,
+
+  // Data delete handlers
+  onDelete = undefined,
+  onDeleteSuccess = undefined,
+  onDeleteError = undefined,
+  deleteParams = undefined,
+
+  // Form configuration
+  extra = [],
+  showDeleteBtn = true,
+
+  // Form reference hook
+  formHook = {},
+
+  // Modal/Drawer specific props
+  modalProps = {},
+  drawerProps = {},
+  trigger = undefined,
+
+  // Other props
+  ...props
+}) {
+  // ========== Hooks and State ==========
+  const { formRef, visible, open, close } = formHook;
+  const [messageApi, contextHolder] = message.useMessage();
+
+  // ========== Event Handlers ==========
+  // Data request handler with error handling
+  const handleDataRequest = useCallback(
+    async (params) => {
+      if (!onRequest) {
+        messageApi.error("Data request handler not provided");
+        return false;
+      }
+
+      try {
+        const result = await onRequest(params);
+        // result: { success, message, data: array }
+        onRequestSuccess?.(result);
+        return result.data[0] || {};
+      } catch (error) {
+        const errorMessage = error?.message || "Đã xảy ra lỗi";
+        messageApi.error(errorMessage);
+        onRequestError?.(error);
+        return false;
+      }
+    },
+    [onRequest, onRequestSuccess, onRequestError, messageApi]
+  );
+
+  // Data submit handler with error handling
+  const handleDataSubmit = useCallback(
+    async (values) => {
+      if (!onSubmit) {
+        messageApi.error("Data submit handler not provided");
+        return false;
+      }
+      if (!values) return false;
+
+      try {
+        const result = await onSubmit({ ...values, ...submitValues });
+        // result: { success, message, data: array }
+        messageApi.success(result.message);
+        if (variant === "modal" || variant === "drawer") close(); // Close drawer/modal if variant is set
+        onSubmitSuccess?.(result);
+        return true;
+      } catch (error) {
+        const errorMessage = error?.message || "Đã xảy ra lỗi";
+        messageApi.error(errorMessage);
+        onSubmitError?.(error);
+        return false;
+      }
+    },
+    [
+      onSubmit,
+      onSubmitSuccess,
+      onSubmitError,
+      submitValues,
+      variant,
+      messageApi,
+      close,
+    ]
+  );
+
+  // Data delete handler with error handling
+  const handleDataDelete = useCallback(async () => {
+    if (!onDelete) {
+      messageApi.error("Data delete handler not provided");
+      return false;
+    }
+
+    try {
+      const result = await onDelete(deleteParams);
+      // result: { success, message, data: array }
+      messageApi.success(result.message);
+      if (variant === "modal" || variant === "drawer") close(); // Close drawer/modal if variant is set
+      onDeleteSuccess?.(result);
+      return true;
+    } catch (error) {
+      const errorMessage = error?.message || "Đã xảy ra lỗi";
+      messageApi.error(errorMessage);
+      onDeleteError?.(error);
+      return false;
+    }
+  }, [
+    onDelete,
+    onDeleteSuccess,
+    onDeleteError,
+    deleteParams,
+    variant,
+    messageApi,
+    close,
+  ]);
+
+  // ========== Configuration Setup ==========
+  // Configure submitter buttons based on available handlers
+  const submitterConfig = {
+    searchConfig: { resetText: "Khôi phục", submitText: "Lưu" },
+    resetButtonProps: {
+      style: {
+        display: "none",
+      },
+    },
+    render: (props, defaultDoms) => (
+      <Flex
+        justify="space-between"
+        align="middle"
+        style={{ width: "100%" }}
+        gap="small"
+        wrap
+      >
+        {/* Left: delete */}
+        {showDeleteBtn && onDelete ? (
+          <Popconfirm
+            key="delete-button"
+            title="Xác nhận xóa?"
+            description="Bạn có chắc chắn muốn xóa?"
+            onConfirm={handleDataDelete}
+            okText="Xóa"
+            cancelText="Hủy"
+          >
+            <AntButton
+              color="danger"
+              variant="outlined"
+              label="Xoá"
+              icon={<DeleteOutlined />}
+            />
+          </Popconfirm>
+        ) : (
+          <div />
+        )}
+
+        {/* Right: reset + submit */}
+        <Flex justify="flex-end" gap="small" wrap>
+          {extra}
+          <AntButton
+            key="reset-button"
+            label="Khôi phục"
+            onClick={() => props.form?.resetFields()}
+          />
+          {defaultDoms}
+        </Flex>
+      </Flex>
+    ),
+  };
+
+  // ========== Base Form Props ==========
+  const baseFormProps = {
+    ...props,
+    ...FORM_CONFIG,
+    formRef,
+    request: onRequest ? handleDataRequest : undefined,
+    params: requestParams,
+    onFinish: onSubmit ? handleDataSubmit : undefined,
+    submitter: submitterConfig,
+  };
+
+  // ========== Render Logic ==========
+  // If variant is "drawer", render DrawerForm
+  if (variant === "drawer") {
+    return (
+      <>
+        {contextHolder}
+        {trigger && cloneElement(trigger, { onClick: open })}
+        <Drawer
+          {...DRAWER_CONFIG}
+          {...drawerProps}
+          open={visible}
+          onClose={close}
+        >
+          <BetaSchemaForm {...baseFormProps} />
+        </Drawer>
+      </>
+    );
+  }
+
+  // If variant is "modal", render ModalForm
+  if (variant === "modal") {
+    return (
+      <>
+        {contextHolder}
+        {trigger && cloneElement(trigger, { onClick: open })}
+        <Modal
+          {...MODAL_CONFIG}
+          {...modalProps}
+          open={visible}
+          onCancel={close}
+          footer={null} // No footer buttons in modal
+        >
+          <BetaSchemaForm {...baseFormProps} />
+        </Modal>
+      </>
+    );
+  }
+
+  // Default: page variant
+  return (
+    <>
+      {contextHolder}
+      <BetaSchemaForm {...baseFormProps} />
+    </>
+  );
+}

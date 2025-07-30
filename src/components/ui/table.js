@@ -1,4 +1,4 @@
-// path: @/component/common/table.js
+// path: @/components/ui/table.js
 
 import { useCallback, cloneElement } from "react";
 import { message, Modal, Drawer } from "antd";
