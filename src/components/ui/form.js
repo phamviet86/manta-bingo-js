@@ -130,6 +130,49 @@ export function AntForm({
 
   // ========== Configuration Setup ==========
   // Configure submitter buttons based on available handlers
+  const renderFormButtons = (props, defaultDoms) => (
+    <Flex
+      justify="space-between"
+      align="middle"
+      style={{ width: "100%" }}
+      gap="small"
+      wrap
+    >
+      {/* Left: delete */}
+      {showDeleteBtn && onDelete ? (
+        <Popconfirm
+          key="delete-button"
+          title="Xác nhận xóa?"
+          description="Bạn có chắc chắn muốn xóa?"
+          onConfirm={handleDataDelete}
+          okText="Xóa"
+          cancelText="Hủy"
+        >
+          <AntButton
+            color="danger"
+            variant="outlined"
+            label="Xoá"
+            icon={<DeleteOutlined />}
+          />
+        </Popconfirm>
+      ) : (
+        <div />
+      )}
+
+      {/* Right: reset + submit */}
+      <Flex justify="flex-end" gap="small" wrap>
+        {extra}
+        <AntButton
+          key="reset-button"
+          label="Khôi phục"
+          onClick={() => props.form?.resetFields()}
+        />
+        {defaultDoms}
+      </Flex>
+    </Flex>
+  );
+
+  // Submitter config for page variant
   const submitterConfig = {
     searchConfig: { resetText: "Khôi phục", submitText: "Lưu" },
     resetButtonProps: {
@@ -137,47 +180,12 @@ export function AntForm({
         display: "none",
       },
     },
-    render: (props, defaultDoms) => (
-      <Flex
-        justify="space-between"
-        align="middle"
-        style={{ width: "100%" }}
-        gap="small"
-        wrap
-      >
-        {/* Left: delete */}
-        {showDeleteBtn && onDelete ? (
-          <Popconfirm
-            key="delete-button"
-            title="Xác nhận xóa?"
-            description="Bạn có chắc chắn muốn xóa?"
-            onConfirm={handleDataDelete}
-            okText="Xóa"
-            cancelText="Hủy"
-          >
-            <AntButton
-              color="danger"
-              variant="outlined"
-              label="Xoá"
-              icon={<DeleteOutlined />}
-            />
-          </Popconfirm>
-        ) : (
-          <div />
-        )}
+    render: renderFormButtons,
+  };
 
-        {/* Right: reset + submit */}
-        <Flex justify="flex-end" gap="small" wrap>
-          {extra}
-          <AntButton
-            key="reset-button"
-            label="Khôi phục"
-            onClick={() => props.form?.resetFields()}
-          />
-          {defaultDoms}
-        </Flex>
-      </Flex>
-    ),
+  // Submitter config for modal/drawer variants (no buttons in form)
+  const submitterConfigModalDrawer = {
+    render: () => null,
   };
 
   // ========== Base Form Props ==========
@@ -188,7 +196,10 @@ export function AntForm({
     request: onRequest ? handleDataRequest : undefined,
     params: requestParams,
     onFinish: onSubmit ? handleDataSubmit : undefined,
-    submitter: submitterConfig,
+    submitter:
+      variant === "modal" || variant === "drawer"
+        ? submitterConfigModalDrawer
+        : submitterConfig,
   };
 
   // ========== Render Logic ==========
@@ -204,6 +215,14 @@ export function AntForm({
           open={visible}
           onClose={close}
           title={title}
+          footer={renderFormButtons({ form: formRef?.current }, [
+            <AntButton
+              key="submit-button"
+              type="primary"
+              label="Lưu"
+              onClick={() => formRef?.current?.submit()}
+            />,
+          ])}
         >
           <BetaSchemaForm {...baseFormProps} />
         </Drawer>
@@ -222,7 +241,14 @@ export function AntForm({
           {...modalProps}
           open={visible}
           onCancel={close}
-          footer={null} // No footer buttons in modal
+          footer={renderFormButtons({ form: formRef?.current }, [
+            <AntButton
+              key="submit-button"
+              type="primary"
+              label="Lưu"
+              onClick={() => formRef?.current?.submit()}
+            />,
+          ])}
           title={title}
         >
           <BetaSchemaForm {...baseFormProps} />
