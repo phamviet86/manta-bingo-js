@@ -1,13 +1,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Spin, Provider } from "@/components/ui";
+import { AntSpin, AntProvider } from "@/components/ui";
 import { AppProvider } from "../provider";
 
-const Layout = dynamic(
-  () => import("@/components/ui/layout").then((mod) => mod.Layout),
+const AntLayout = dynamic(
+  () => import("@/components/ui/layout").then((mod) => mod.AntLayout),
   {
-    loading: () => <Spin />,
+    loading: () => <AntSpin />,
     ssr: false,
   }
 );
@@ -22,8 +22,8 @@ export default function AppLayout({ children }) {
 
 function LayoutContent({ children }) {
   return (
-    <Provider>
-      <Layout>{children}</Layout>
-    </Provider>
+    <AntProvider>
+      <AntLayout>{children}</AntLayout>
+    </AntProvider>
   );
 }

@@ -1,11 +1,11 @@
 // path: @/components/ui/spin.js
 
-import { Flex, Spin as AntSpin } from "antd";
+import { Flex, Spin } from "antd";
 
-export function Spin() {
+export function AntSpin() {
   return (
     <Flex justify="center" align="center" style={{ height: "100vh" }}>
-      <AntSpin size="large" />
+      <Spin size="large" />
     </Flex>
   );
 }
