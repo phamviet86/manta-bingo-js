@@ -1,7 +1,13 @@
 // path: @/components/feature/options-component.js
 
 import { AntTable, AntInfo, AntForm } from "@/components/ui";
-import { fetchList } from "@/utils/fetch-util";
+import {
+  fetchList,
+  fetchGet,
+  fetchPost,
+  fetchPut,
+  fetchDelete,
+} from "@/utils/fetch-util";
 
 export function OptionsTable(props) {
   return (
@@ -14,7 +20,7 @@ export function OptionsTable(props) {
   );
 }
 
-export function OptionsDesc(props) {
+export function OptionsInfo(props) {
   return (
     <AntInfo
       {...props}

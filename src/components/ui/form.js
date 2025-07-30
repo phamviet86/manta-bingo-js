@@ -30,6 +30,7 @@ export function AntForm({
 
   // Form configuration
   extra = [],
+  title = undefined,
   showDeleteBtn = true,
 
   // Form reference hook
@@ -202,6 +203,7 @@ export function AntForm({
           {...drawerProps}
           open={visible}
           onClose={close}
+          title={title}
         >
           <BetaSchemaForm {...baseFormProps} />
         </Drawer>
@@ -221,6 +223,7 @@ export function AntForm({
           open={visible}
           onCancel={close}
           footer={null} // No footer buttons in modal
+          title={title}
         >
           <BetaSchemaForm {...baseFormProps} />
         </Modal>
@@ -232,7 +235,7 @@ export function AntForm({
   return (
     <>
       {contextHolder}
-      <BetaSchemaForm {...baseFormProps} />
+      <BetaSchemaForm title={title} {...baseFormProps} />
     </>
   );
 }
