@@ -1,17 +1,12 @@
-// path: @/app/(front)/app/system/options/page.js
+// path: @/app/(front)/app/system/roles/[id]/page.js
 
 "use client";
 
-import { EditOutlined } from "@ant-design/icons";
+import { use } from "react";
 import { Row, Col, Card } from "antd";
 import { AntPage, AntButton } from "@/components/ui";
-import {
-  OptionsTable,
-  OptionsCreate,
-  OptionsEdit,
-  getOptionsColumn,
-} from "@/components/feature";
-import { useTable, useForm } from "@/hooks";
+import { RolesInfo, RolesEdit, getRolesColumn } from "@/components/feature";
+import { useInfo, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
 
 export default function Page(props) {
@@ -22,41 +17,34 @@ export default function Page(props) {
   );
 }
 
-function PageContent() {
+function PageContent({ params }) {
   // Context
-  const { optionColor } = usePageContext();
+  const {} = usePageContext();
+  const { navBack } = useNavigate();
+  const { id: rolesId } = use(params);
 
   // Hooks
-  const useOptions = {
-    table: useTable(),
-    create: useForm(),
+  const useRoles = {
+    info: useInfo(),
     edit: useForm(),
-    columns: getOptionsColumn({ optionColor }),
-  };
-
-  // open edit form when a row is clicked
-  const openOptionsEdit = (record) => {
-    const { id } = record || {};
-    useOptions.edit.setRequestParams({ id });
-    useOptions.edit.setDeleteParams({ id });
-    useOptions.edit.open();
+    columns: getRolesColumn(),
   };
 
   // Page action buttons
   const pageButton = [
     <AntButton
-      key="reload-button"
-      label="Tải lại"
+      key="back-button"
+      label="Quay lại"
       color="default"
       variant="outlined"
-      onClick={() => useOptions.table.reload()}
+      onClick={navBack}
     />,
     <AntButton
-      key="create-button"
-      label="Tạo mới"
+      key="edit-button"
+      label="Chỉnh sửa"
       color="primary"
       variant="solid"
-      onClick={() => useOptions.create.open()}
+      onClick={() => useRoles.edit.open()}
     />,
   ];
 
@@ -65,42 +53,21 @@ function PageContent() {
     <Row gutter={[16, 16]} wrap>
       <Col xs={24}>
         <Card hoverable>
-          <OptionsTable
-            tableHook={useOptions.table}
-            columns={useOptions.columns}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => {
-                  return (
-                    <AntButton
-                      icon={<EditOutlined />}
-                      color="primary"
-                      variant="link"
-                      onClick={() => openOptionsEdit(record)}
-                    />
-                  );
-                },
-              },
-            ]}
+          <RolesInfo
+            infoHook={useRoles.info}
+            requestParams={{ id: rolesId }}
+            onRequestSuccess={(result) =>
+              useRoles.info.setDataSource(result?.data?.[0])
+            }
+            columns={useRoles.columns}
           />
-          <OptionsCreate
-            formHook={useOptions.create}
-            columns={useOptions.columns}
-            onSubmitSuccess={useOptions.table.reload}
-            title="Tạo tùy chọn"
-            variant="drawer"
-          />
-          <OptionsEdit
-            formHook={useOptions.edit}
-            columns={useOptions.columns}
-            requestParams={useOptions.edit.requestParams}
-            onSubmitSuccess={useOptions.table.reload}
-            deleteParams={useOptions.edit.deleteParams}
-            onDeleteSuccess={useOptions.table.reload}
-            title="Chỉnh sửa tùy chọn"
+          <RolesEdit
+            formHook={useRoles.edit}
+            columns={useRoles.columns}
+            requestParams={{ id: rolesId }}
+            onSubmitSuccess={useRoles.info.reload}
+            onDeleteSuccess={navBack}
+            title="Chỉnh sửa vai trò"
             variant="drawer"
           />
         </Card>
@@ -108,16 +75,18 @@ function PageContent() {
     </Row>
   );
 
+  // Page title
+  const pageTitle = useRoles.info?.dataSource?.role_name || "Chi tiết";
+
   // Render
   return (
     <AntPage
       items={[
-        {
-          title: "Hệ thống",
-        },
-        { title: "Tùy chọn" },
+        { title: "Hệ thống" },
+        { title: "Vai trò" },
+        { title: "Chi tiết" },
       ]}
-      title="Danh sách"
+      title={pageTitle}
       extra={pageButton}
       content={pageContent}
     />

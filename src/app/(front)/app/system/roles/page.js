@@ -1,17 +1,12 @@
-// path: @/app/(front)/app/system/options/page.js
+// path: @/app/(front)/app/system/roles/page.js
 
 "use client";
 
-import { EditOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import { Row, Col, Card } from "antd";
-import { AntPage, AntButton } from "@/components/ui";
-import {
-  OptionsTable,
-  OptionsCreate,
-  OptionsEdit,
-  getOptionsColumn,
-} from "@/components/feature";
-import { useTable, useForm } from "@/hooks";
+import { AntPage, AntButton, PathButton } from "@/components/ui";
+import { RolesTable, RolesCreate, getRolesColumn } from "@/components/feature";
+import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -24,22 +19,14 @@ export default function Page(props) {
 
 function PageContent() {
   // Context
-  const { optionColor } = usePageContext();
+  const {} = usePageContext();
+  const { navDetail } = useNavigate();
 
   // Hooks
-  const useOptions = {
+  const useRoles = {
     table: useTable(),
     create: useForm(),
-    edit: useForm(),
-    columns: getOptionsColumn({ optionColor }),
-  };
-
-  // open edit form when a row is clicked
-  const openOptionsEdit = (record) => {
-    const { id } = record || {};
-    useOptions.edit.setRequestParams({ id });
-    useOptions.edit.setDeleteParams({ id });
-    useOptions.edit.open();
+    columns: getRolesColumn(),
   };
 
   // Page action buttons
@@ -49,14 +36,14 @@ function PageContent() {
       label="Tải lại"
       color="default"
       variant="outlined"
-      onClick={() => useOptions.table.reload()}
+      onClick={() => useRoles.table.reload()}
     />,
     <AntButton
       key="create-button"
       label="Tạo mới"
       color="primary"
       variant="solid"
-      onClick={() => useOptions.create.open()}
+      onClick={() => useRoles.create.open()}
     />,
   ];
 
@@ -65,9 +52,9 @@ function PageContent() {
     <Row gutter={[16, 16]} wrap>
       <Col xs={24}>
         <Card hoverable>
-          <OptionsTable
-            tableHook={useOptions.table}
-            columns={useOptions.columns}
+          <RolesTable
+            tableHook={useRoles.table}
+            columns={useRoles.columns}
             rightColumns={[
               {
                 width: 56,
@@ -75,32 +62,22 @@ function PageContent() {
                 search: false,
                 render: (_, record) => {
                   return (
-                    <AntButton
-                      icon={<EditOutlined />}
+                    <PathButton
+                      icon={<InfoCircleOutlined />}
                       color="primary"
                       variant="link"
-                      onClick={() => openOptionsEdit(record)}
+                      path={record?.id}
                     />
                   );
                 },
               },
             ]}
           />
-          <OptionsCreate
-            formHook={useOptions.create}
-            columns={useOptions.columns}
-            onSubmitSuccess={useOptions.table.reload}
-            title="Tạo tùy chọn"
-            variant="drawer"
-          />
-          <OptionsEdit
-            formHook={useOptions.edit}
-            columns={useOptions.columns}
-            requestParams={useOptions.edit.requestParams}
-            onSubmitSuccess={useOptions.table.reload}
-            deleteParams={useOptions.edit.deleteParams}
-            onDeleteSuccess={useOptions.table.reload}
-            title="Chỉnh sửa tùy chọn"
+          <RolesCreate
+            formHook={useRoles.create}
+            columns={useRoles.columns}
+            onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
+            title="Tạo vai trò"
             variant="drawer"
           />
         </Card>
@@ -111,12 +88,7 @@ function PageContent() {
   // Render
   return (
     <AntPage
-      items={[
-        {
-          title: "Hệ thống",
-        },
-        { title: "Tùy chọn" },
-      ]}
+      items={[{ title: "Hệ thống" }, { title: "Vai trò" }]}
       title="Danh sách"
       extra={pageButton}
       content={pageContent}
