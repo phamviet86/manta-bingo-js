@@ -45,7 +45,7 @@ export function AntForm({
   ...props
 }) {
   // ========== Hooks and State ==========
-  const { formRef, visible, open, close } = formHook;
+  const { formRef, visible, open, close, reset } = formHook;
   const [messageApi, contextHolder] = message.useMessage();
 
   // ========== Event Handlers ==========
@@ -165,7 +165,7 @@ export function AntForm({
         <AntButton
           key="reset-button"
           label="Khôi phục"
-          onClick={() => props.form?.resetFields()}
+          onClick={() => reset()}
         />
         {defaultDoms}
       </Flex>
