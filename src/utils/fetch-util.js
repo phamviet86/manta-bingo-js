@@ -1,4 +1,4 @@
-// path: @/lib/util/fetch-util.js
+// path: @/lib/utils/fetch-util.js
 
 import { buildSearchParams } from "@/lib/util/query-util";
 
