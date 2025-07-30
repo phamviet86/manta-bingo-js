@@ -135,14 +135,16 @@ export function AntTable({
       <>
         {contextHolder}
         {trigger && cloneElement(trigger, { onClick: open })}
-        <Drawer
-          {...DRAWER_CONFIG}
-          {...drawerProps}
-          open={visible}
-          onClose={close}
-        >
-          <ProTable {...baseTableProps} />
-        </Drawer>
+        {visible === false ? null : (
+          <Drawer
+            {...DRAWER_CONFIG}
+            {...drawerProps}
+            open={visible}
+            onClose={close}
+          >
+            <ProTable {...baseTableProps} />
+          </Drawer>
+        )}
       </>
     );
   }
@@ -153,15 +155,17 @@ export function AntTable({
       <>
         {contextHolder}
         {trigger && cloneElement(trigger, { onClick: open })}
-        <Modal
-          {...MODAL_CONFIG}
-          {...modalProps}
-          open={visible}
-          onCancel={close}
-          footer={null} // No footer buttons in modal
-        >
-          <ProTable {...baseTableProps} />
-        </Modal>
+        {visible === false ? null : (
+          <Modal
+            {...MODAL_CONFIG}
+            {...modalProps}
+            open={visible}
+            onCancel={close}
+            footer={null} // No footer buttons in modal
+          >
+            <ProTable {...baseTableProps} />
+          </Modal>
+        )}
       </>
     );
   }

@@ -74,43 +74,43 @@ export function AntInfo({
   // ========== Render Logic ==========
   // If variant is "drawer", render DrawerForm
   if (variant === "drawer") {
-    if (!visible) return null;
-
     return (
       <>
         {contextHolder}
         {trigger && cloneElement(trigger, { onClick: open })}
-        <Drawer
-          {...DRAWER_CONFIG}
-          {...drawerProps}
-          open={visible}
-          onClose={close}
-          title={title}
-        >
-          <ProDescriptions {...baseDescriptionsProps} />
-        </Drawer>
+        {visible === false ? null : (
+          <Drawer
+            {...DRAWER_CONFIG}
+            {...drawerProps}
+            open={visible}
+            onClose={close}
+            title={title}
+          >
+            <ProDescriptions {...baseDescriptionsProps} />
+          </Drawer>
+        )}
       </>
     );
   }
 
   // If variant is "modal", render ModalForm
   if (variant === "modal") {
-    if (!visible) return null;
-
     return (
       <>
         {contextHolder}
         {trigger && cloneElement(trigger, { onClick: open })}
-        <Modal
-          {...MODAL_CONFIG}
-          {...modalProps}
-          open={visible}
-          onCancel={close}
-          title={title}
-          footer={null} // No footer buttons in modal
-        >
-          <ProDescriptions {...baseDescriptionsProps} title={title} />
-        </Modal>
+        {visible === false ? null : (
+          <Modal
+            {...MODAL_CONFIG}
+            {...modalProps}
+            open={visible}
+            onCancel={close}
+            title={title}
+            footer={null} // No footer buttons in modal
+          >
+            <ProDescriptions {...baseDescriptionsProps} title={title} />
+          </Modal>
+        )}
       </>
     );
   }
