@@ -1,17 +1,16 @@
-// path: @/app/(front)/app/system/options/page.js
+// path: @/app/(front)/app/dev/options/page.js
 
 "use client";
 
-import { EditOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import { Row, Col, Card } from "antd";
-import { AntPage, AntButton } from "@/components/ui";
+import { AntPage, AntButton, PathButton } from "@/components/ui";
 import {
   OptionsTable,
   OptionsCreate,
-  OptionsEdit,
   getOptionsColumn,
 } from "@/components/feature";
-import { useTable, useForm } from "@/hooks";
+import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -24,22 +23,14 @@ export default function Page(props) {
 
 function PageContent() {
   // Context
-  const { optionColor } = usePageContext();
+  const {} = usePageContext();
+  const { navDetail } = useNavigate();
 
   // Hooks
   const useOptions = {
     table: useTable(),
     create: useForm(),
-    edit: useForm(),
-    columns: getOptionsColumn({ optionColor }),
-  };
-
-  // Open edit form
-  const openOptionsEdit = (record) => {
-    const { id } = record || {};
-    useOptions.edit.setRequestParams({ id });
-    useOptions.edit.setDeleteParams({ id });
-    useOptions.edit.open();
+    columns: getOptionsColumn(),
   };
 
   // Page action buttons
@@ -75,11 +66,11 @@ function PageContent() {
                 search: false,
                 render: (_, record) => {
                   return (
-                    <AntButton
-                      icon={<EditOutlined />}
+                    <PathButton
+                      icon={<InfoCircleOutlined />}
                       color="primary"
                       variant="link"
-                      onClick={() => openOptionsEdit(record)}
+                      path={record?.id}
                     />
                   );
                 },
@@ -89,18 +80,8 @@ function PageContent() {
           <OptionsCreate
             formHook={useOptions.create}
             columns={useOptions.columns}
-            onSubmitSuccess={useOptions.table.reload}
-            title="Tạo tùy chọn"
-            variant="drawer"
-          />
-          <OptionsEdit
-            formHook={useOptions.edit}
-            columns={useOptions.columns}
-            requestParams={useOptions.edit.requestParams}
-            onSubmitSuccess={useOptions.table.reload}
-            deleteParams={useOptions.edit.deleteParams}
-            onDeleteSuccess={useOptions.table.reload}
-            title="Chỉnh sửa tùy chọn"
+            onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
+            title="Tạo tuỳ chọn"
             variant="drawer"
           />
         </Card>

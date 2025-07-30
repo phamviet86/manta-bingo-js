@@ -52,7 +52,7 @@ function PageContent() {
     columns: get{TableName}Column(),
   };
 
-  // Open edit form when a row is clicked
+  // Open edit
   const open{TableName}Edit = (record) => {
     const { id } = record || {};
     use{TableName}.edit.setRequestParams({ id });

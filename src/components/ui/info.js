@@ -108,7 +108,7 @@ export function AntInfo({
             title={title}
             footer={null} // No footer buttons in modal
           >
-            <ProDescriptions {...baseDescriptionsProps} title={title} />
+            <ProDescriptions {...baseDescriptionsProps} />
           </Modal>
         )}
       </>
@@ -119,7 +119,7 @@ export function AntInfo({
   return (
     <>
       {contextHolder}
-      <ProDescriptions {...baseDescriptionsProps} />
+      <ProDescriptions {...baseDescriptionsProps} title={title} />
     </>
   );
 }

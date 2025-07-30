@@ -55,11 +55,11 @@ function PageContent({ params }) {
         <Card hoverable>
           <RolesInfo
             infoHook={useRoles.info}
+            columns={useRoles.columns}
             requestParams={{ id: rolesId }}
             onRequestSuccess={(result) =>
               useRoles.info.setDataSource(result?.data?.[0])
             }
-            columns={useRoles.columns}
           />
           <RolesEdit
             formHook={useRoles.edit}
