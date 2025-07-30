@@ -108,7 +108,7 @@ export function AntForm({
     try {
       const result = await onDelete(deleteParams);
       // result: { success, message, data: array }
-      messageApi.success(result.message);
+      messageApi.warning(result.message);
       if (variant === "modal" || variant === "drawer") close(); // Close drawer/modal if variant is set
       onDeleteSuccess?.(result);
       return true;
@@ -209,23 +209,25 @@ export function AntForm({
       <>
         {contextHolder}
         {trigger && cloneElement(trigger, { onClick: open })}
-        <Drawer
-          {...DRAWER_CONFIG}
-          {...drawerProps}
-          open={visible}
-          onClose={close}
-          title={title}
-          footer={renderFormButtons({ form: formRef?.current }, [
-            <AntButton
-              key="submit-button"
-              type="primary"
-              label="Lưu"
-              onClick={() => formRef?.current?.submit()}
-            />,
-          ])}
-        >
-          <BetaSchemaForm {...baseFormProps} />
-        </Drawer>
+        {visible === false ? null : (
+          <Drawer
+            {...DRAWER_CONFIG}
+            {...drawerProps}
+            open={visible}
+            onClose={close}
+            title={title}
+            footer={renderFormButtons({ form: formRef?.current }, [
+              <AntButton
+                key="submit-button"
+                type="primary"
+                label="Lưu"
+                onClick={() => formRef?.current?.submit()}
+              />,
+            ])}
+          >
+            <BetaSchemaForm {...baseFormProps} />
+          </Drawer>
+        )}
       </>
     );
   }
@@ -236,23 +238,25 @@ export function AntForm({
       <>
         {contextHolder}
         {trigger && cloneElement(trigger, { onClick: open })}
-        <Modal
-          {...MODAL_CONFIG}
-          {...modalProps}
-          open={visible}
-          onCancel={close}
-          footer={renderFormButtons({ form: formRef?.current }, [
-            <AntButton
-              key="submit-button"
-              type="primary"
-              label="Lưu"
-              onClick={() => formRef?.current?.submit()}
-            />,
-          ])}
-          title={title}
-        >
-          <BetaSchemaForm {...baseFormProps} />
-        </Modal>
+        {visible === false ? null : (
+          <Modal
+            {...MODAL_CONFIG}
+            {...modalProps}
+            open={visible}
+            onCancel={close}
+            footer={renderFormButtons({ form: formRef?.current }, [
+              <AntButton
+                key="submit-button"
+                type="primary"
+                label="Lưu"
+                onClick={() => formRef?.current?.submit()}
+              />,
+            ])}
+            title={title}
+          >
+            <BetaSchemaForm {...baseFormProps} />
+          </Modal>
+        )}
       </>
     );
   }

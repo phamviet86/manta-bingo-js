@@ -2,11 +2,13 @@
 
 "use client";
 
+import { EditOutlined } from "@ant-design/icons";
 import { Row, Col, Card } from "antd";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   OptionsTable,
   OptionsCreate,
+  OptionsEdit,
   getOptionsColumn,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
@@ -22,13 +24,22 @@ export default function Page(props) {
 
 function PageContent() {
   // Context
-  const {} = usePageContext();
+  const { optionColor } = usePageContext();
 
   // Hooks
   const useOptions = {
     table: useTable(),
     create: useForm(),
-    columns: getOptionsColumn(),
+    edit: useForm(),
+    columns: getOptionsColumn({ optionColor }),
+  };
+
+  // open edit form when a row is clicked
+  const openOptionsEdit = (record) => {
+    const { id } = record || {};
+    useOptions.edit.setRequestParams({ id });
+    useOptions.edit.setDeleteParams({ id });
+    useOptions.edit.open();
   };
 
   // Page action buttons
@@ -57,12 +68,39 @@ function PageContent() {
           <OptionsTable
             tableHook={useOptions.table}
             columns={useOptions.columns}
+            rightColumns={[
+              {
+                width: 56,
+                align: "center",
+                search: false,
+                render: (_, record) => {
+                  return (
+                    <AntButton
+                      icon={<EditOutlined />}
+                      color="primary"
+                      variant="link"
+                      onClick={() => openOptionsEdit(record)}
+                    />
+                  );
+                },
+              },
+            ]}
           />
           <OptionsCreate
             formHook={useOptions.create}
             columns={useOptions.columns}
             onSubmitSuccess={useOptions.table.reload}
             title="Tạo tùy chọn"
+            variant="drawer"
+          />
+          <OptionsEdit
+            formHook={useOptions.edit}
+            columns={useOptions.columns}
+            requestParams={useOptions.edit.requestParams}
+            onSubmitSuccess={useOptions.table.reload}
+            deleteParams={useOptions.edit.deleteParams}
+            onDeleteSuccess={useOptions.table.reload}
+            title="Chỉnh sửa tùy chọn"
             variant="drawer"
           />
         </Card>
