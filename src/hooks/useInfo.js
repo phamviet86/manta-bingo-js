@@ -23,7 +23,7 @@ export function useInfo() {
   };
 
   const reload = () => {
-    descRef?.current?.reload();
+    infoRef?.current?.reload();
   };
 
   // Expose API
