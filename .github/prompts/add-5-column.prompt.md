@@ -35,6 +35,8 @@ export function get{TableName}Column(params = {}, columnMapping = []) {
       formItemProps: {
         style: { display: "none" },
       },
+      hideInDescriptions: true,
+      hideInTable: true,
     },
     {
       key: "{field1}",
