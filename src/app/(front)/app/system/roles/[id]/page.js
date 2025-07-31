@@ -117,7 +117,6 @@ function PageContent({ params }) {
           <RolePermissionsTransferByRole
             transferHook={useRolePermissions.transfer}
             roleId={roleId}
-            targetParams={{ role_id: roleId }}
           />
           <PermissionsCreate
             formHook={usePermissions.create}

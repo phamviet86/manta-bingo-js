@@ -19,7 +19,7 @@ export async function getPermissions(searchParams) {
       FROM permissions p
       WHERE p.deleted_at IS NULL
       ${whereClause}
-      ${orderByClause || "ORDER BY p.created_at"}
+      ${orderByClause || "ORDER BY p.permission_key"}
       ${limitClause};
     `;
 

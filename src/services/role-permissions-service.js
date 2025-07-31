@@ -23,7 +23,7 @@ export async function getRolePermissions(searchParams) {
       LEFT JOIN permissions p ON p.id = rp.permission_id AND p.deleted_at IS NULL
       WHERE rp.deleted_at IS NULL
       ${whereClause}
-      ${orderByClause || "ORDER BY rp.created_at"}
+      ${orderByClause || "ORDER BY r.role_name, p.permission_key"}
       ${limitClause};
     `;
 

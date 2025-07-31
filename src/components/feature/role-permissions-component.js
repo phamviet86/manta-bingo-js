@@ -58,6 +58,7 @@ export function RolePermissionsTransferByRole({ roleId, ...props }) {
       {...props}
       onSourceRequest={(params) => fetchList(`/api/permissions`, params)}
       onTargetRequest={(params) => fetchList(`/api/role-permissions`, params)}
+      targetParams={{ role_id: roleId }}
       onAddItem={(keys) =>
         fetchPost(`/api/roles/${roleId}/role-permissions`, {
           permissionIds: keys,
