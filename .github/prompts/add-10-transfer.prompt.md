@@ -15,8 +15,6 @@ Generate transfer CRUD code (service, API, component, page) from SQL table struc
 
 Use these exact template codes:
 
-Use these exact template codes:
-
 ### Service Code
 
 ```javascript
