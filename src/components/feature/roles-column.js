@@ -1,6 +1,6 @@
 // path: @/components/feature/roles-column.js
 
-import { convertColumns } from "@/utils/convert-util";
+import { buildColumns, fieldProps, formItemProps } from "@/utils/column-util";
 
 export function getRolesColumn(params = {}, columnMapping = []) {
   const {} = params;
@@ -11,33 +11,34 @@ export function getRolesColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      fieldProps: {
-        disabled: true,
-      },
-      formItemProps: {
-        style: { display: "none" },
-      },
+      search: false,
       hidden: true,
+      fieldProps: fieldProps({
+        disabled: true,
+      }),
+      formItemProps: formItemProps({
+        hidden: true,
+      }),
     },
     {
       key: "role_name",
       dataIndex: "role_name",
       title: "Vai trò",
       valueType: "text",
-      formItemProps: {
-        rules: [{ required: true }],
-      },
+      formItemProps: formItemProps({
+        required: true,
+      }),
     },
     {
       key: "role_path",
       dataIndex: "role_path",
       title: "Đường dẫn",
       valueType: "text",
-      formItemProps: {
-        rules: [{ required: true }],
-      },
+      formItemProps: formItemProps({
+        required: true,
+      }),
     },
   ];
 
-  return convertColumns(schema, columnMapping);
+  return buildColumns(schema, columnMapping);
 }

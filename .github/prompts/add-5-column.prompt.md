@@ -18,7 +18,7 @@ Use this exact template code:
 ```javascript
 // path: @/components/feature/{table-name}-column.js
 
-import { convertColumns } from "@/utils/convert-util";
+import { buildColumns, fieldProps, formItemProps } from "@/utils/column-util";
 
 export function get{TableName}Column(params = {}, columnMapping = []) {
   const {} = params;
@@ -29,41 +29,41 @@ export function get{TableName}Column(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      fieldProps: {
+      search: false,
+      hidden: true,
+      fieldProps: fieldProps({
         disabled: true,
-      },
-      formItemProps: {
-        style: { display: "none" },
-      },
-      hideInDescriptions: true,
-      hideInTable: true,
+      }),
+      formItemProps: formItemProps({
+        hidden: true,
+      }),
     },
     {
       key: "{field1}",
       dataIndex: "{field1}",
       title: "{Field1 Label}",
       valueType: "text",
-      formItemProps: {
-        rules: [{ required: true }],
-      },
+      formItemProps: formItemProps({
+        required: true,
+      }),
     },
     {
       key: "{field2}",
       dataIndex: "{field2}",
       title: "{Field2 Label}",
       valueType: "text",
-      formItemProps: {
-        rules: [{ required: true }],
-      },
+      formItemProps: formItemProps({
+        required: true,
+      }),
     },
     {
       key: "{field3}",
       dataIndex: "{field3}",
       title: "{Field3 Label}",
       valueType: "text",
-      formItemProps: {
-        rules: [{ required: true }],
-      },
+      formItemProps: formItemProps({
+        required: true,
+      }),
     },
     {
       key: "{optional1}",
@@ -79,7 +79,7 @@ export function get{TableName}Column(params = {}, columnMapping = []) {
     },
   ];
 
-  return convertColumns(schema, columnMapping);
+  return buildColumns(schema, columnMapping);
 }
 ```
 
@@ -118,7 +118,7 @@ Replace template placeholders with your table data:
 - ✅ **Field validation**: Add `rules: [{ required: true }]` for NOT NULL fields
 - ✅ **Field naming**: Use snake_case for database fields
 - ✅ **Vietnamese labels**: Use Vietnamese text for all user-facing labels
-- ✅ **Import path**: Use `@/utils/column-util` for convertColumns utility
+- ✅ **Import path**: Use `@/utils/column-util` for buildColumns utility
 
 ## Field Type Mapping
 
@@ -153,7 +153,7 @@ Use simplified field type configuration:
 
 - Use exact signature: `get{TableName}Column(params = {}, columnMapping = [])`
 - Use empty destructuring: `const {} = params;`
-- Return `convertColumns(schema, columnMapping)`
+- Return `buildColumns(schema, columnMapping)`
 
 ## Export to Index File
 
@@ -173,7 +173,7 @@ export * from "./{table-name}-column";
 - ✅ **File location**: `src/components/feature/{table-name}-column.js`
 - ✅ **File naming**: kebab-case convention with `-column` suffix
 - ✅ **Function**: Single `get{TableName}Column` function with correct signature
-- ✅ **Imports**: Correct import statement for `convertColumns` utility
+- ✅ **Imports**: Correct import statement for `buildColumns` utility
 - ✅ **Schema structure**: Array of column objects with all required properties
 - ✅ **ID field**: Hidden ID field with correct configuration
 - ✅ **Field validation**: Required field validation based on SQL NOT NULL constraints

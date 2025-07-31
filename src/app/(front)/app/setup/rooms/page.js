@@ -24,8 +24,6 @@ function PageContent() {
   // Context
   const { roomStatus } = usePageContext();
 
-  console.log("PageContent roomStatus:", roomStatus);
-
   // Hooks
   const useRooms = {
     table: useTable(),

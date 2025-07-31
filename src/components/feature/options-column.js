@@ -1,6 +1,6 @@
 // path: @/components/feature/options-column.js
 
-import { convertColumns } from "@/utils/convert-util";
+import { buildColumns, fieldProps, formItemProps } from "@/utils/column-util";
 
 export function getOptionsColumn(params = {}, columnMapping = []) {
   const { optionColor } = params;
@@ -11,12 +11,13 @@ export function getOptionsColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      fieldProps: {
+      search: false,
+      fieldProps: fieldProps({
         disabled: true,
-      },
-      formItemProps: {
-        style: { display: "none" },
-      },
+      }),
+      formItemProps: formItemProps({
+        hidden: true,
+      }),
       responsive: ["md"],
       width: 56,
     },
@@ -25,9 +26,9 @@ export function getOptionsColumn(params = {}, columnMapping = []) {
       dataIndex: "option_table",
       title: "Bảng",
       valueType: "text",
-      formItemProps: {
-        rules: [{ required: true }],
-      },
+      formItemProps: formItemProps({
+        required: true,
+      }),
       responsive: ["md"],
     },
     {
@@ -35,18 +36,18 @@ export function getOptionsColumn(params = {}, columnMapping = []) {
       dataIndex: "option_column",
       title: "Cột",
       valueType: "text",
-      formItemProps: {
-        rules: [{ required: true }],
-      },
+      formItemProps: formItemProps({
+        required: true,
+      }),
     },
     {
       key: "option_label",
       dataIndex: "option_label",
       title: "Nhãn",
       valueType: "text",
-      formItemProps: {
-        rules: [{ required: true }],
-      },
+      formItemProps: formItemProps({
+        required: true,
+      }),
     },
     {
       key: "option_color",
@@ -67,5 +68,5 @@ export function getOptionsColumn(params = {}, columnMapping = []) {
     },
   ];
 
-  return convertColumns(schema, columnMapping);
+  return buildColumns(schema, columnMapping);
 }
