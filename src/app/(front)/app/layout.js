@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { AntSpin, AntProvider } from "@/components/ui";
+import { MENU_CONFIG } from "@/configs";
 import { AppProvider } from "../provider";
 
 const AntLayout = dynamic(
@@ -23,7 +24,7 @@ export default function AppLayout({ children }) {
 function LayoutContent({ children }) {
   return (
     <AntProvider>
-      <AntLayout>{children}</AntLayout>
+      <AntLayout menu={MENU_CONFIG}>{children}</AntLayout>
     </AntProvider>
   );
 }
