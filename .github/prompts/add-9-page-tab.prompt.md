@@ -219,7 +219,7 @@ Replace template placeholders with your table data:
 
 ## Component Integration
 
-### Required Components:
+### Required Components
 
 - **{TableName}Table**: For data display
 - **{TableName}Info**: For viewing record details
@@ -227,13 +227,13 @@ Replace template placeholders with your table data:
 - **{TableName}Edit**: For editing records
 - **get{TableName}Column**: For table column definitions
 
-### Required Hooks:
+### Required Hooks
 
 - **useTable()**: For table state management
 - **useInfo()**: For info state management
 - **useForm()**: For form state management (used twice: create and edit)
 
-### Page Structure:
+### Page Structure
 
 - **AntPage**: Main page wrapper with breadcrumbs and tabs
 - **Card**: Content wrapper
@@ -261,13 +261,13 @@ Follow exact naming patterns from template:
 
 ## Table Column Configuration
 
-### Left Column (View):
+### Left Column (View)
 
 - Width: 56, align: "center", search: false
 - InfoCircleOutlined icon button
 - onClick: open info modal
 
-### Right Column (Edit):
+### Right Column (Edit)
 
 - Width: 56, align: "center", search: false
 - EditOutlined icon button
