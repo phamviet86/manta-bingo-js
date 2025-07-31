@@ -1,8 +1,8 @@
-// path: @/components/feature/permissions-column.js
+// path: @/components/feature/rooms-column.js
 
 import { convertColumns } from "@/utils/convert-util";
 
-export function getPermissionsColumn(params = {}, columnMapping = []) {
+export function getRoomsColumn(params = {}, columnMapping = []) {
   const {} = params;
 
   const schema = [
@@ -17,25 +17,33 @@ export function getPermissionsColumn(params = {}, columnMapping = []) {
       formItemProps: {
         style: { display: "none" },
       },
-      hidden: true,
+      hideInDescriptions: true,
+      hideInTable: true,
     },
     {
-      key: "permission_key",
-      dataIndex: "permission_key",
-      title: "Mã quyền",
+      key: "room_name",
+      dataIndex: "room_name",
+      title: "Phòng học",
       valueType: "text",
       formItemProps: {
         rules: [{ required: true }],
       },
     },
     {
-      key: "permission_desc",
-      dataIndex: "permission_desc",
+      key: "room_status_id",
+      dataIndex: "room_status_id",
+      title: "Trạng thái",
+      valueType: "text",
+      formItemProps: {
+        rules: [{ required: true }],
+      },
+    },
+    {
+      key: "room_desc",
+      dataIndex: "room_desc",
       title: "Mô tả",
-      valueType: "text",
-      formItemProps: {
-        rules: [{ required: true }],
-      },
+      valueType: "textarea",
+      fieldProps: { autoSize: { minRows: 3, maxRows: 6 } },
     },
   ];
 

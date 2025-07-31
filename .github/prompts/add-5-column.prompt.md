@@ -1,7 +1,16 @@
 ---
 mode: "agent"
 model: GPT-4.1
-tools: ["changes","codebase","editFiles","githubRepo","problems","search","searchResults"]
+tools:
+  [
+    "changes",
+    "codebase",
+    "editFiles",
+    "githubRepo",
+    "problems",
+    "search",
+    "searchResults",
+  ]
 description: "Generate frontend column file from SQL table structure using template code"
 ---
 
@@ -18,7 +27,7 @@ Use this exact template code:
 ```javascript
 // path: @/components/feature/{table-name}-column.js
 
-import { buildColumns } from "@/utils/column-util";
+import { convertColumns } from "@/utils/convert-util";
 
 export function get{TableName}Column(params = {}, columnMapping = []) {
   const {} = params;
@@ -79,7 +88,7 @@ export function get{TableName}Column(params = {}, columnMapping = []) {
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return convertColumns(schema, columnMapping);
 }
 ```
 
@@ -118,7 +127,7 @@ Replace template placeholders with your table data:
 - ✅ **Field validation**: Add `rules: [{ required: true }]` for NOT NULL fields
 - ✅ **Field naming**: Use snake_case for database fields
 - ✅ **Vietnamese labels**: Use Vietnamese text for all user-facing labels
-- ✅ **Import path**: Use `@/utils/column-util` for buildColumns utility
+- ✅ **Import path**: Use `@/utils/column-util` for convertColumns utility
 
 ## Field Type Mapping
 
@@ -153,7 +162,7 @@ Use simplified field type configuration:
 
 - Use exact signature: `get{TableName}Column(params = {}, columnMapping = [])`
 - Use empty destructuring: `const {} = params;`
-- Return `buildColumns(schema, columnMapping)`
+- Return `convertColumns(schema, columnMapping)`
 
 ## Export to Index File
 
@@ -173,7 +182,7 @@ export * from "./{table-name}-column";
 - ✅ **File location**: `src/components/feature/{table-name}-column.js`
 - ✅ **File naming**: kebab-case convention with `-column` suffix
 - ✅ **Function**: Single `get{TableName}Column` function with correct signature
-- ✅ **Imports**: Correct import statement for `buildColumns` utility
+- ✅ **Imports**: Correct import statement for `convertColumns` utility
 - ✅ **Schema structure**: Array of column objects with all required properties
 - ✅ **ID field**: Hidden ID field with correct configuration
 - ✅ **Field validation**: Required field validation based on SQL NOT NULL constraints

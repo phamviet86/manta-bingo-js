@@ -137,7 +137,7 @@ export async function fetchDelete(url, values = {}) {
 export async function fetchOption(
   url,
   params = {},
-  fieldMapping = { label: "id", value: "id" }
+  columnMapping = { label: "id", value: "id" }
 ) {
   const searchParams = buildSearchParams(params);
   const result = await performFetch(`${url}?${searchParams}`, {
@@ -147,8 +147,8 @@ export async function fetchOption(
   // Xử lý kết quả và chuyển đổi thành format option
   if (result.success && Array.isArray(result.data)) {
     return result.data.map((item) => ({
-      value: item[fieldMapping.value],
-      label: item[fieldMapping.label],
+      value: item[columnMapping.value],
+      label: item[columnMapping.label],
     }));
   }
 

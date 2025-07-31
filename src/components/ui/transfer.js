@@ -25,9 +25,9 @@ function buildSearchParams(columns, value) {
  * Converts an array of objects into a format suitable for transfer components, adding key and disabled properties.
  *
  * @param {Array<Object>} data - The input array of items to convert.
- * @param {Object} transferProps - The mapping options for keys in the output.
- * @param {string} transferProps.key - The property name to use as the unique key for each item.
- * @param {string|Array} [transferProps.disabled] - The property name or array to determine if the item is disabled.
+ * @param {Object} columnMapping - The mapping options for keys in the output.
+ * @param {string} columnMapping.key - The property name to use as the unique key for each item.
+ * @param {string|Array} [columnMapping.disabled] - The property name or array to determine if the item is disabled.
  *   - String: Field name to map directly (e.g., 'isDisabled')
  *   - Array [fieldName, inArray, notInArray]:
  *     - If both arrays are empty → treat as string mapping (!!fieldValue)
@@ -35,11 +35,11 @@ function buildSearchParams(columns, value) {
  *     - If notInArray: disabled = true if field value is NOT in notInArray
  * @returns {Array<Object>} The converted array of items with all original properties, plus key and disabled.
  */
-function convertTransferItems(data = [], transferProps = {}) {
+function buildTransferItems(data = [], columnMapping = {}) {
   if (!Array.isArray(data) || data.length === 0) return [];
 
-  const keyProp = transferProps.key;
-  const disabledProp = transferProps.disabled;
+  const keyProp = columnMapping.key;
+  const disabledProp = columnMapping.disabled;
 
   return data.map((item) => {
     const result = { ...item };
@@ -181,7 +181,7 @@ export function AntTransfer({
     try {
       const sourceResult = await onSourceRequest(sourceParams);
       const sourceData = sourceItem
-        ? convertTransferItems(sourceResult.data || [], sourceItem)
+        ? buildTransferItems(sourceResult.data || [], sourceItem)
         : sourceResult.data || [];
 
       setSourceRequestData(sourceData);
@@ -205,7 +205,7 @@ export function AntTransfer({
     try {
       const targetResult = await onTargetRequest(targetParams);
       const targetData = targetItem
-        ? convertTransferItems(targetResult.data || [], targetItem)
+        ? buildTransferItems(targetResult.data || [], targetItem)
         : targetResult.data || [];
 
       setTargetRequestData(targetData);
@@ -328,7 +328,7 @@ export function AntTransfer({
           ...searchParams,
         });
         const sourceData = sourceItem
-          ? convertTransferItems(searchResult.data || [], sourceItem)
+          ? buildTransferItems(searchResult.data || [], sourceItem)
           : searchResult.data || [];
 
         setSourceSearchKeys(sourceData.map((item) => item.key));
@@ -366,7 +366,7 @@ export function AntTransfer({
           ...searchParams,
         });
         const targetData = targetItem
-          ? convertTransferItems(searchResult.data || [], targetItem)
+          ? buildTransferItems(searchResult.data || [], targetItem)
           : searchResult.data || [];
 
         setTargetSearchKeys(targetData.map((item) => item.key));

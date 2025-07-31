@@ -1,6 +1,6 @@
 // path: @/components/feature/options-column.js
 
-import { buildColumns } from "@/utils/column-util";
+import { convertColumns } from "@/utils/convert-util";
 
 export function getOptionsColumn(params = {}, columnMapping = []) {
   const { optionColor } = params;
@@ -67,5 +67,5 @@ export function getOptionsColumn(params = {}, columnMapping = []) {
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return convertColumns(schema, columnMapping);
 }

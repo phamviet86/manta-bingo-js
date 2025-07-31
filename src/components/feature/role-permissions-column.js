@@ -1,6 +1,6 @@
 // path: @/components/feature/role-permissions-column.js
 
-import { buildColumns } from "@/utils/column-util";
+import { convertColumns } from "@/utils/convert-util";
 
 export function getRolePermissionsColumn(params = {}, columnMapping = []) {
   const {} = params;
@@ -39,5 +39,5 @@ export function getRolePermissionsColumn(params = {}, columnMapping = []) {
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return convertColumns(schema, columnMapping);
 }

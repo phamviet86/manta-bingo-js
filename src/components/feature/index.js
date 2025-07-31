@@ -8,3 +8,5 @@ export * from "./permissions-component";
 export * from "./permissions-column";
 export * from "./role-permissions-component";
 export * from "./role-permissions-column";
+export * from "./rooms-component";
+export * from "./rooms-column";
