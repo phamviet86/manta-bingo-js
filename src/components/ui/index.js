@@ -9,3 +9,4 @@ export * from "./link";
 export * from "./table";
 export * from "./info";
 export * from "./form";
+export * from "./transfer";

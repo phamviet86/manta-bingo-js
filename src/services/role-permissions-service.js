@@ -15,8 +15,12 @@ export async function getRolePermissions(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT rp.*, COUNT(*) OVER() AS total
+      SELECT rp.*, COUNT(*) OVER() AS total,
+        r.role_name,
+        p.permission_key, p.permission_desc
       FROM role_permissions rp
+      LEFT JOIN roles r ON r.id = rp.role_id AND r.deleted_at IS NULL
+      LEFT JOIN permissions p ON p.id = rp.permission_id AND p.deleted_at IS NULL
       WHERE rp.deleted_at IS NULL
       ${whereClause}
       ${orderByClause || "ORDER BY rp.created_at"}
@@ -89,6 +93,52 @@ export async function deleteRolePermission(id) {
         AND id = ${id}
       RETURNING *;
     `;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// Create multiple role permissions by role ID and permissions IDs
+export async function createRolePermissionsByRole(roleId, permissionIds) {
+  try {
+    const queryValues = [];
+    const valuePlaceholders = permissionIds
+      .map((permissionId, index) => {
+        queryValues.push(roleId, permissionId);
+        return `($${index * 2 + 1}, $${index * 2 + 2})`;
+      })
+      .join(", ");
+
+    const queryText = `
+      INSERT INTO role_permissions (role_id, permission_id)
+      VALUES ${valuePlaceholders}
+      RETURNING *;
+    `;
+
+    return await sql.query(queryText, queryValues);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// Soft-delete multiple role permissions by role ID and permission IDs
+export async function deleteRolePermissionsByRole(roleId, permissionIds) {
+  try {
+    const placeholders = permissionIds
+      .map((_, index) => `$${index + 2}`)
+      .join(", ");
+
+    const queryText = `
+      UPDATE role_permissions
+      SET deleted_at = NOW()
+      WHERE deleted_at IS NULL 
+        AND role_id = $1 
+        AND permission_id IN (${placeholders})
+      RETURNING *;
+    `;
+
+    const queryValues = [roleId, ...permissionIds];
+    return await sql.query(queryText, queryValues);
   } catch (error) {
     throw new Error(error.message);
   }
