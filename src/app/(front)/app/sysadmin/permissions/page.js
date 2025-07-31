@@ -90,7 +90,7 @@ function PageContent() {
             formHook={usePermissions.create}
             columns={usePermissions.columns}
             onSubmitSuccess={usePermissions.table.reload}
-            title="Tạo Quyền"
+            title="Tạo quyền"
             variant="drawer"
           />
           <PermissionsEdit
@@ -100,7 +100,7 @@ function PageContent() {
             onSubmitSuccess={usePermissions.table.reload}
             deleteParams={usePermissions.edit.deleteParams}
             onDeleteSuccess={usePermissions.table.reload}
-            title="Chỉnh sửa Quyền"
+            title="Chỉnh sửa quyền"
             variant="drawer"
           />
         </Card>

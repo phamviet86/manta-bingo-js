@@ -122,7 +122,7 @@ function PageContent({ params }) {
             formHook={usePermissions.create}
             columns={usePermissions.columns}
             onSubmitSuccess={useRolePermissions.transfer.reload}
-            title="Tạo Quyền"
+            title="Tạo quyền"
             variant="drawer"
           />
         </Card>
