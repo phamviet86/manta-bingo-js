@@ -129,8 +129,8 @@ function PageContent() {
   // Render
   return (
     <AntPage
-      items={[{ title: "Hệ thống" }, { title: "Tùy chọn" }]}
-      title="Danh sách"
+      items={[{ title: "Development" }, { title: "{vnTableName}" }]}
+      title="{vnTableName}"
       extra={pageButton}
       content={pageContent}
     />
@@ -228,7 +228,7 @@ export function usePageContext() {
 The page uses a standard navigation pattern:
 
 - **Breadcrumbs**: Development → {vnTableName}
-- **Page title**: Danh sách
+- **Page title**: {vnTableName}
 - **Edit functionality**: Click edit icon to modify records
 - **Create success**: Reload table data after successful creation
 - **Edit success**: Reload table data after successful editing

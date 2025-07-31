@@ -112,7 +112,7 @@ function PageContent() {
   return (
     <AntPage
       items={[{ title: "Hệ thống" }, { title: "Tùy chọn" }]}
-      title="Danh sách"
+      title="Tùy chọn"
       extra={pageButton}
       content={pageContent}
     />

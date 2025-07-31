@@ -110,8 +110,8 @@ function PageContent() {
   // Render
   return (
     <AntPage
-      items={[{ title: "Hệ thống" }, { title: "Tùy chọn" }]}
-      title="Danh sách"
+      items={[{ title: "Development" }, { title: "{vnTableName}" }]}
+      title="{vnTableName}"
       extra={pageButton}
       content={pageContent}
     />
@@ -209,7 +209,7 @@ export function usePageContext() {
 The page uses a standard navigation pattern:
 
 - **Breadcrumbs**: Development → {vnTableName}
-- **Page title**: Danh sách
+- **Page title**: {vnTableName}
 - **Detail navigation**: Click info icon to navigate to detail page
 - **Create success**: Navigate to detail page of newly created record
 
