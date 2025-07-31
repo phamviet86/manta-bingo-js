@@ -1,7 +1,6 @@
 // path: @/utils/build-util.js
-
 /**
- * Creates enum data from an array of objects, with optional filtering
+ * Creates valueEnum and options from an array of objects, with optional filtering
  *
  * @param {Array<Object>} data - Array of data to process
  * @param {Object} columnMapping - Column configuration
@@ -9,36 +8,42 @@
  * @param {string} columnMapping.label - Property name to use as display text
  * @param {string} [columnMapping.color] - Optional property name for color/status information
  * @param {Object} [filterParams={}] - Optional filter parameters (field:value pairs)
- * @returns {Object} valueEnum object
+ * @returns {Object} { valueEnum, options }
  */
 export function buildEnum(data = [], columnMapping = {}, filterParams = {}) {
   const { value: valueKey, label: labelKey, color: colorKey } = columnMapping;
-
-  if (!Array.isArray(data) || !valueKey || !labelKey) {
-    return {};
-  }
+  if (!Array.isArray(data) || !valueKey || !labelKey)
+    return { valueEnum: {}, options: [] };
 
   const filterEntries = Object.entries(filterParams);
 
-  return data.reduce((valueEnum, item) => {
-    // Skip invalid items or items that don't match filters
-    if (!item || item[valueKey] === undefined) return valueEnum;
+  const valueEnum = {};
+  const options = [];
 
+  data.forEach((item) => {
+    if (!item || item[valueKey] === undefined) return;
+
+    // Filter items
     if (
       filterEntries.length > 0 &&
       !filterEntries.every(([key, paramValue]) => item[key] === paramValue)
     ) {
-      return valueEnum;
+      return;
     }
 
-    const colorValue = colorKey ? item[colorKey] ?? null : null;
+    const colorValue = colorKey ? item[colorKey] ?? undefined : undefined;
+    const key = item[valueKey];
+    const label = item[labelKey];
 
-    valueEnum[item[valueKey]] = {
-      text: item[labelKey],
-      color: colorValue,
-      status: colorValue,
+    // valueEnum giữ nguyên đủ field
+    valueEnum[key] = {
+      text: label,
+      ...(colorValue && { color: colorValue, status: colorValue }),
     };
 
-    return valueEnum;
-  }, {});
+    // options chỉ lấy label, value
+    options.push({ label, value: key });
+  });
+
+  return { valueEnum, options };
 }

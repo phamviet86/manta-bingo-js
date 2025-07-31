@@ -5,27 +5,22 @@ export const COLOR_ENUM = {
   default: {
     text: "Default",
     status: "default",
-    color: "grey",
   },
   error: {
     text: "Error",
     status: "error",
-    color: "red",
   },
   processing: {
     text: "Processing",
     status: "processing",
-    color: "blue",
   },
   success: {
     text: "Success",
     status: "success",
-    color: "green",
   },
   warning: {
     text: "Warning",
     status: "warning",
-    color: "orange",
   },
 
   // Color group (sorted alphabetically)

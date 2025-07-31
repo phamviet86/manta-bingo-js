@@ -7,6 +7,7 @@
  * @param {boolean} [props.disabled] - Whether the field is disabled
  * @param {string} [props.placeholder] - Placeholder text for the field
  * @param {Object} [props.autoSize] - Configuration for auto-sizing text areas, e.g., { minRows: 3, maxRows: 6 }
+ * @param {Array<Object>} [props.options] - Options for select fields
  * @returns {function(Object, Object): Object} - A function that takes unused first argument and a config object,
  * and returns either the default props or an empty object if `proFieldProps` exists in config.
  *
@@ -15,6 +16,7 @@
  *   disabled: false,
  *   placeholder: "Enter value...",
  *   autoSize: { minRows: 3, maxRows: 6 },
+ *   options: [{ label: "Option 1", value: "1" }, { label: "Option 2", value: "2" }]
  * });
  */
 export function fieldProps(props) {
