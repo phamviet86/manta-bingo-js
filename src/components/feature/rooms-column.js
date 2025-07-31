@@ -1,12 +1,9 @@
 // path: @/components/feature/rooms-column.js
 
 import { buildColumns, fieldProps, formItemProps } from "@/utils/column-util";
-import { options } from "@fullcalendar/core/preact";
 
 export function getRoomsColumn(params = {}, columnMapping = []) {
   const { roomStatus } = params;
-
-  console.log("roomStatus", roomStatus);
 
   const schema = [
     {
