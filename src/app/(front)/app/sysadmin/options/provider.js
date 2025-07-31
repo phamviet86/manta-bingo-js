@@ -1,6 +1,7 @@
 // path: @/app/(front)/app/system/options/provider.js
 
 import { createContext, useContext, useMemo } from "react";
+import { useAppContext } from "@/app/(front)/provider";
 import { COLOR_ENUM } from "@/configs";
 
 const PageContext = createContext(null);

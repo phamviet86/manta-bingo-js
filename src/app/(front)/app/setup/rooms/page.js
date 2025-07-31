@@ -22,14 +22,16 @@ export default function Page(props) {
 
 function PageContent() {
   // Context
-  const {} = usePageContext();
+  const { roomStatus } = usePageContext();
+
+  console.log("PageContent roomStatus:", roomStatus);
 
   // Hooks
   const useRooms = {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: getRoomsColumn(),
+    columns: getRoomsColumn({ roomStatus }),
   };
 
   // Open edit

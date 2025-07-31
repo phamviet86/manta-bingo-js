@@ -1,16 +1,7 @@
 ---
 mode: "agent"
 model: GPT-4.1
-tools:
-  [
-    "changes",
-    "codebase",
-    "editFiles",
-    "githubRepo",
-    "problems",
-    "search",
-    "searchResults",
-  ]
+tools: ["changes","codebase","editFiles","githubRepo","problems","search","searchResults"]
 description: "Generate frontend column file from SQL table structure using template code"
 ---
 

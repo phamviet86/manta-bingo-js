@@ -3,7 +3,9 @@
 import { convertColumns } from "@/utils/convert-util";
 
 export function getRoomsColumn(params = {}, columnMapping = []) {
-  const {} = params;
+  const { roomStatus } = params;
+
+  console.log("getRoomsColumn params:", params);
 
   const schema = [
     {
@@ -33,10 +35,11 @@ export function getRoomsColumn(params = {}, columnMapping = []) {
       key: "room_status_id",
       dataIndex: "room_status_id",
       title: "Trạng thái",
-      valueType: "text",
+      valueType: "select",
       formItemProps: {
         rules: [{ required: true }],
       },
+      valueEnum: roomStatus.valueEnum || {},
     },
     {
       key: "room_desc",

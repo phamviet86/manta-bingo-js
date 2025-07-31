@@ -162,10 +162,13 @@ Create a provider file alongside the page with this exact content:
 // path: @/app/(front)/app/dev/{table-name}/provider.js
 
 import { createContext, useContext, useMemo } from "react";
+import { useAppContext } from "@/app/(front)/provider";
 
 const PageContext = createContext(null);
 
 export function PageProvider({ children }) {
+  const { } = useAppContext();
+
   const contextValue = useMemo(() => ({}), []);
 
   return (
