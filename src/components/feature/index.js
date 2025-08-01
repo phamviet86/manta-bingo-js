@@ -18,3 +18,5 @@ export * from "./rooms-column";
 export * from "./shifts-component";
 
 export * from "./shifts-column";
+
+export * from "./users-component";
