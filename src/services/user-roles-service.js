@@ -1,0 +1,95 @@
+// path: @/services/user-roles-service.js
+
+import bingoDB from "@/db/connections/neon-bingo";
+import { parseSearchParams } from "@/utils/query-util";
+
+// Database initialization
+const sql = bingoDB();
+
+// READ operations
+export async function getUserRoles(searchParams) {
+  try {
+    const ignoredSearchColumns = [];
+    const { whereClause, orderByClause, limitClause, queryValues } =
+      parseSearchParams(searchParams, ignoredSearchColumns);
+
+    const sqlValue = [...queryValues];
+    const sqlText = `
+      SELECT ur.*, COUNT(*) OVER() AS total
+      FROM user_roles ur
+      WHERE ur.deleted_at IS NULL
+      ${whereClause}
+      ${orderByClause || "ORDER BY ur.created_at"}
+      ${limitClause};
+    `;
+
+    return await sql.query(sqlText, sqlValue);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function getUserRole(id) {
+  try {
+    return await sql`
+      SELECT ur.*
+      FROM user_roles ur
+      WHERE ur.deleted_at IS NULL
+        AND ur.id = ${id};
+    `;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// CREATE operations
+export async function createUserRole(data) {
+  try {
+    const { user_id, role_id } = data;
+
+    return await sql`
+      INSERT INTO user_roles (
+        user_id, role_id
+      ) VALUES (
+        ${user_id}, ${role_id}
+      )
+      RETURNING *;
+    `;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// UPDATE operations
+export async function updateUserRole(id, data) {
+  try {
+    const { user_id, role_id } = data;
+
+    return await sql`
+      UPDATE user_roles
+      SET
+        user_id = ${user_id},
+        role_id = ${role_id}
+      WHERE deleted_at IS NULL
+        AND id = ${id}
+      RETURNING *;
+    `;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// DELETE operations
+export async function deleteUserRole(id) {
+  try {
+    return await sql`
+      UPDATE user_roles
+      SET deleted_at = NOW()
+      WHERE deleted_at IS NULL
+        AND id = ${id}
+      RETURNING *;
+    `;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

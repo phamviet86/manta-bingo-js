@@ -22,3 +22,6 @@ export * from "./shifts-column";
 export * from "./users-component";
 
 export * from "./users-column";
+
+export * from "./user-roles-component";
+export * from "./user-roles-column";
