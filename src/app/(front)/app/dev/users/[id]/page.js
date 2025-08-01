@@ -1,15 +1,18 @@
 "use client";
 
 import { use } from "react";
-import { Row, Col, Card } from "antd";
+import { Row, Col, Card, Space } from "antd";
 import { AntPage, AntButton, DiceBeerImage } from "@/components/ui";
 import {
   UsersInfo,
   UsersEdit,
   getUsersColumn,
   UsersResetPassword,
+  UserRolesTable,
+  getUserRolesColumn,
+  UserRolesTransferByUser,
 } from "@/components/feature";
-import { useInfo, useForm, useNavigate } from "@/hooks";
+import { useTable, useInfo, useForm, useNavigate, useTransfer } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
 
 export default function Page(props) {
@@ -94,6 +97,63 @@ function PageContent({ params }) {
   // Page title
   const pageTitle = useUsers.info?.dataSource?.user_name || "Chi tiết";
 
+  // USER-ROLES TAB
+
+  // Hooks
+  const useUserRoles = {
+    table: useTable(),
+    columns: getUserRolesColumn(),
+    transfer: useTransfer(),
+  };
+
+  // userRoles tab buttons
+  const userRolesButton = (
+    <Space>
+      <AntButton
+        key="reload-button"
+        label="Tải lại"
+        color="default"
+        variant="outlined"
+        onClick={() => useUserRoles.table.reload()}
+      />
+      <AntButton
+        key="add-button"
+        label="Điều chỉnh"
+        color="primary"
+        variant="solid"
+        onClick={() => useUserRoles.transfer.open()}
+      />
+    </Space>
+  );
+
+  // userRoles tab content
+  const userRolesContent = (
+    <Row gutter={[16, 16]} wrap>
+      <Col xs={24}>
+        <Card hoverable title="Danh sách" extra={userRolesButton}>
+          <UserRolesTable
+            tableHook={useUserRoles.table}
+            columns={useUserRoles.columns}
+          />
+          <UserRolesTransferByUser
+            transferHook={useUserRoles.transfer}
+            userId={userId}
+            variant="modal"
+            title="Điều chỉnh phân quyền"
+            afterClose={() => useUserRoles.table.reload()}
+          />
+        </Card>
+      </Col>
+    </Row>
+  );
+
+  // userRoles tab configuration
+  const userRolesTab = {
+    key: "user-roles",
+    label: "Phân quyền",
+    children: userRolesContent,
+  };
+
   // Render
   return (
     <AntPage
@@ -105,6 +165,7 @@ function PageContent({ params }) {
       title={pageTitle}
       extra={pageButton}
       content={pageContent}
+      tabList={[userRolesTab]}
     />
   );
 }
