@@ -1,6 +1,10 @@
 // path: @/components/feature/permissions-column.js
 
-import { buildColumns, fieldProps, formItemProps } from "@/utils/column-util";
+import {
+  buildColumns,
+  buildFieldProps,
+  buildFormItemProps,
+} from "@/utils/column-util";
 
 export function getPermissionsColumn(params = {}, columnMapping = []) {
   const {} = params;
@@ -12,10 +16,10 @@ export function getPermissionsColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       search: false,
-      fieldProps: fieldProps({
+      fieldProps: buildFieldProps({
         disabled: true,
       }),
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         hidden: true,
       }),
       responsive: ["md"],
@@ -26,10 +30,10 @@ export function getPermissionsColumn(params = {}, columnMapping = []) {
       dataIndex: "permission_key",
       title: "Mã quyền",
       valueType: "text",
-      fieldProps: fieldProps({
+      fieldProps: buildFieldProps({
         placeholder: "url.path.method",
       }),
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },
@@ -38,7 +42,7 @@ export function getPermissionsColumn(params = {}, columnMapping = []) {
       dataIndex: "permission_desc",
       title: "Mô tả",
       valueType: "text",
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },

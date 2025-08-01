@@ -7,7 +7,7 @@ export function NextLink({ children, ...props }) {
   return <Link {...props}>{children}</Link>;
 }
 
-export function DetailLink({ id, ...props }) {
+export function SubLink({ path, ...props }) {
   const pathname = usePathname();
-  return <NextLink href={`${pathname}/${id}`} {...props} />;
+  return <NextLink href={`${pathname}/${path}`} {...props} />;
 }

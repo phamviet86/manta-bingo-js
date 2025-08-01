@@ -163,11 +163,12 @@ Create a provider file alongside the page with this exact content:
 
 import { createContext, useContext, useMemo } from "react";
 import { useAppContext } from "@/app/(front)/provider";
+import { buildEnum } from "@/utils/build-util";
 
 const PageContext = createContext(null);
 
 export function PageProvider({ children }) {
-  const { } = useAppContext();
+  const { optionsData } = useAppContext();
 
   const contextValue = useMemo(() => ({}), []);
 

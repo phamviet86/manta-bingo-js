@@ -19,7 +19,7 @@
  *   options: [{ label: "Option 1", value: "1" }, { label: "Option 2", value: "2" }]
  * });
  */
-export function fieldProps(props) {
+export function buildFieldProps(props) {
   return (_, config) => {
     if (!config?.proFieldProps) return { ...props };
     return {};
@@ -47,7 +47,7 @@ export function fieldProps(props) {
  *   layout: "horizontal",
  * });
  */
-export function formItemProps(props) {
+export function buildFormItemProps(props) {
   return (_, config) => {
     if (!config?.proFieldProps) return { ...props };
     return {};

@@ -1,9 +1,14 @@
 // path: @/components/feature/users-column.js
 
-import { buildColumns, fieldProps, formItemProps } from "@/utils/column-util";
+import {
+  buildColumns,
+  buildFieldProps,
+  buildFormItemProps,
+} from "@/utils/column-util";
+import { DiceBeerAvatar, SubLink } from "@/components/ui";
 
 export function getUsersColumn(params = {}, columnMapping = []) {
-  const {} = params;
+  const { userStatus } = params;
 
   const schema = [
     {
@@ -13,53 +18,121 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       valueType: "text",
       search: false,
       hidden: true,
-      fieldProps: fieldProps({
+      fieldProps: buildFieldProps({
         disabled: true,
       }),
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         hidden: true,
       }),
+      hideInDescriptions: true,
     },
     {
       key: "user_name",
       dataIndex: "user_name",
-      title: "Tên người dùng",
+      title: "Người dùng",
       valueType: "text",
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
+    },
+    {
+      key: "user_desc",
+      dataIndex: "user_desc",
+      title: "Mô tả",
+      valueType: "text",
+      search: false,
+      colProps: { sm: 12 },
     },
     {
       key: "user_status_id",
       dataIndex: "user_status_id",
-      title: "Trạng thái người dùng",
-      valueType: "text",
-      formItemProps: formItemProps({
+      title: "Trạng thái",
+      valueType: "select",
+      valueEnum: userStatus.valueEnum || {},
+      fieldProps: buildFieldProps({
+        options: userStatus.options || [],
+      }),
+      formItemProps: buildFormItemProps({
         required: true,
       }),
+      colProps: { sm: 12 },
     },
     {
       key: "user_email",
       dataIndex: "user_email",
-      title: "Email người dùng",
+      title: "Email",
       valueType: "text",
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },
     {
       key: "user_phone",
       dataIndex: "user_phone",
-      title: "Số điện thoại",
+      title: "Phone",
       valueType: "text",
+      colProps: { sm: 12 },
     },
     {
       key: "user_parent_phone",
       dataIndex: "user_parent_phone",
-      title: "Số điện thoại phụ huynh",
+      title: "Phone 2",
       valueType: "text",
+      colProps: { sm: 12 },
+    },
+    {
+      key: "user_avatar",
+      dataIndex: "user_avatar",
+      title: "Ảnh đại diện",
+      valueType: "textarea",
+      search: false,
+      fieldProps: buildFieldProps({
+        autoSize: { minRows: 1, maxRows: 3 },
+      }),
+      hideInDescriptions: true,
+    },
+    {
+      key: "user_notes",
+      dataIndex: "user_notes",
+      title: "Ghi chú",
+      valueType: "textarea",
+      search: false,
+      fieldProps: buildFieldProps({
+        autoSize: { minRows: 3, maxRows: 6 },
+      }),
+    },
+    {
+      key: "displayAvatar",
+      width: 68,
+      align: "center",
+      search: false,
+      render: (_, record) => (
+        <SubLink path={record?.id}>
+          <DiceBeerAvatar
+            src={record?.user_avatar}
+            seed={record?.id}
+            shape="square"
+            size="large"
+            alt="Ảnh đại diện"
+          />
+        </SubLink>
+      ),
+      hideInDescriptions: true,
     },
   ];
 
   return buildColumns(schema, columnMapping);
 }
+
+export const ManagerUsersMapping = [
+  { key: "displayAvatar" },
+  { key: "id" },
+  { key: "user_name" },
+  { key: "user_desc" },
+  { key: "user_status_id" },
+  { key: "user_email" },
+  { key: "user_phone" },
+  { key: "user_parent_phone" },
+  { key: "user_avatar" },
+  { key: "user_notes" },
+];

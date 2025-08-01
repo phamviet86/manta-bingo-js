@@ -2,8 +2,13 @@
 
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Row, Col, Card } from "antd";
-import { AntPage, AntButton, PathButton } from "@/components/ui";
-import { UsersTable, UsersCreate, getUsersColumn } from "@/components/feature";
+import { AntPage, AntButton, SubPathButton } from "@/components/ui";
+import {
+  UsersTable,
+  UsersCreate,
+  getUsersColumn,
+  ManagerUsersMapping,
+} from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
@@ -17,14 +22,14 @@ export default function Page(props) {
 
 function PageContent() {
   // Context
-  const {} = usePageContext();
+  const { userStatus } = usePageContext();
   const { navDetail } = useNavigate();
 
   // Hooks
   const useUsers = {
     table: useTable(),
     create: useForm(),
-    columns: getUsersColumn(),
+    columns: getUsersColumn({ userStatus }, ManagerUsersMapping),
   };
 
   // Page action buttons
@@ -50,27 +55,7 @@ function PageContent() {
     <Row gutter={[16, 16]} wrap>
       <Col xs={24}>
         <Card hoverable>
-          <UsersTable
-            tableHook={useUsers.table}
-            columns={useUsers.columns}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => {
-                  return (
-                    <PathButton
-                      icon={<InfoCircleOutlined />}
-                      color="primary"
-                      variant="link"
-                      path={record?.id}
-                    />
-                  );
-                },
-              },
-            ]}
-          />
+          <UsersTable tableHook={useUsers.table} columns={useUsers.columns} />
           <UsersCreate
             formHook={useUsers.create}
             columns={useUsers.columns}

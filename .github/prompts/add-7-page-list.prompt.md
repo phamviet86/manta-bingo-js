@@ -1,7 +1,16 @@
 ---
 mode: "agent"
 model: GPT-4.1
-tools: ["changes","codebase","editFiles","githubRepo","problems","search","searchResults"]
+tools:
+  [
+    "changes",
+    "codebase",
+    "editFiles",
+    "githubRepo",
+    "problems",
+    "search",
+    "searchResults",
+  ]
 description: "Generate React/Next.js frontend page list component and provider from SQL table structure using template code"
 ---
 
@@ -22,7 +31,7 @@ Use this exact template code:
 
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Row, Col, Card } from "antd";
-import { AntPage, AntButton, PathButton } from "@/components/ui";
+import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import {
   {TableName}Table,
   {TableName}Create,
@@ -84,7 +93,7 @@ function PageContent() {
                 search: false,
                 render: (_, record) => {
                   return (
-                    <PathButton
+                    <SubPathButton
                       icon={<InfoCircleOutlined />}
                       color="primary"
                       variant="link"
@@ -144,11 +153,12 @@ Create a provider file alongside the page with this exact content:
 
 import { createContext, useContext, useMemo } from "react";
 import { useAppContext } from "@/app/(front)/provider";
+import { buildEnum } from "@/utils/build-util";
 
 const PageContext = createContext(null);
 
 export function PageProvider({ children }) {
-  const {} = useAppContext();
+  const { optionsData } = useAppContext();
 
   const contextValue = useMemo(() => ({}), []);
 
@@ -175,7 +185,7 @@ export function usePageContext() {
 
 - ✅ **File naming**: kebab-case folder with `page.js` and `provider.js` (e.g., `options/page.js`, `options/provider.js`)
 - ✅ **Component structure**: Exact Provider and PageContent pattern
-- ✅ **Component imports**: Import UI components from `@/components/ui` (including PathButton) and feature components from `@/components/feature`
+- ✅ **Component imports**: Import UI components from `@/components/ui` (including SubPathButton) and feature components from `@/components/feature`
 - ✅ **Hook usage**: Use exact hook patterns (useTable, useForm, useNavigate)
 - ✅ **Vietnamese text**: Use Vietnamese for all user-facing labels
 - ✅ **Template structure**: Keep all component structure unchanged
@@ -229,7 +239,7 @@ The page uses a standard navigation pattern:
 - ✅ **Form integration**: Create form with drawer variant
 - ✅ **Navigation handling**: Navigation to detail page after successful creation
 - ✅ **Provider template**: Exact provider.js content without modifications
-- ✅ **Detail functionality**: Info button with PathButton for navigation to detail page
+- ✅ **Detail functionality**: Info button with SubPathButton for navigation to detail page
 - ✅ **Grid layout**: Row/Col structure with Card wrapper
 
 ## Output Location

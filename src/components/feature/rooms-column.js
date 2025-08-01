@@ -1,6 +1,10 @@
 // path: @/components/feature/rooms-column.js
 
-import { buildColumns, fieldProps, formItemProps } from "@/utils/column-util";
+import {
+  buildColumns,
+  buildFieldProps,
+  buildFormItemProps,
+} from "@/utils/column-util";
 
 export function getRoomsColumn(params = {}, columnMapping = []) {
   const { roomStatus } = params;
@@ -13,10 +17,10 @@ export function getRoomsColumn(params = {}, columnMapping = []) {
       valueType: "text",
       search: false,
       hidden: true,
-      fieldProps: fieldProps({
+      fieldProps: buildFieldProps({
         disabled: true,
       }),
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         hidden: true,
       }),
     },
@@ -25,7 +29,7 @@ export function getRoomsColumn(params = {}, columnMapping = []) {
       dataIndex: "room_name",
       title: "Phòng học",
       valueType: "text",
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },
@@ -35,10 +39,10 @@ export function getRoomsColumn(params = {}, columnMapping = []) {
       title: "Trạng thái",
       valueType: "select",
       valueEnum: roomStatus.valueEnum,
-      fieldProps: fieldProps({
+      fieldProps: buildFieldProps({
         options: roomStatus.options,
       }),
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },
@@ -48,7 +52,7 @@ export function getRoomsColumn(params = {}, columnMapping = []) {
       title: "Mô tả",
       valueType: "textarea",
       search: false,
-      fieldProps: fieldProps({
+      fieldProps: buildFieldProps({
         autoSize: { minRows: 3, maxRows: 6 },
       }),
       responsive: ["md"],

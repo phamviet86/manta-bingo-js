@@ -1,6 +1,10 @@
 // path: @/components/feature/roles-column.js
 
-import { buildColumns, fieldProps, formItemProps } from "@/utils/column-util";
+import {
+  buildColumns,
+  buildFieldProps,
+  buildFormItemProps,
+} from "@/utils/column-util";
 
 export function getRolesColumn(params = {}, columnMapping = []) {
   const {} = params;
@@ -12,10 +16,10 @@ export function getRolesColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       search: false,
-      fieldProps: fieldProps({
+      fieldProps: buildFieldProps({
         disabled: true,
       }),
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         hidden: true,
       }),
       responsive: ["md"],
@@ -26,7 +30,7 @@ export function getRolesColumn(params = {}, columnMapping = []) {
       dataIndex: "role_name",
       title: "Vai trò",
       valueType: "text",
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },
@@ -35,7 +39,7 @@ export function getRolesColumn(params = {}, columnMapping = []) {
       dataIndex: "role_path",
       title: "Đường dẫn",
       valueType: "text",
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },

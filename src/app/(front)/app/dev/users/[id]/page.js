@@ -17,7 +17,7 @@ export default function Page(props) {
 
 function PageContent({ params }) {
   // Context
-  const {} = usePageContext();
+  const { userStatus } = usePageContext();
   const { navBack } = useNavigate();
   const { id: userId } = use(params);
 
@@ -25,7 +25,7 @@ function PageContent({ params }) {
   const useUsers = {
     info: useInfo(),
     edit: useForm(),
-    columns: getUsersColumn(),
+    columns: getUsersColumn({ userStatus }),
   };
 
   // Page action buttons

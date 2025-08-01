@@ -1,7 +1,16 @@
 ---
 mode: "agent"
 model: GPT-4.1
-tools: ["changes","codebase","editFiles","githubRepo","problems","search","searchResults"]
+tools:
+  [
+    "changes",
+    "codebase",
+    "editFiles",
+    "githubRepo",
+    "problems",
+    "search",
+    "searchResults",
+  ]
 description: "Generate frontend column file from SQL table structure using template code"
 ---
 
@@ -18,7 +27,7 @@ Use this exact template code:
 ```javascript
 // path: @/components/feature/{table-name}-column.js
 
-import { buildColumns, fieldProps, formItemProps } from "@/utils/column-util";
+import { buildColumns, buildFieldProps, buildFormItemProps } from "@/utils/column-util";
 
 export function get{TableName}Column(params = {}, columnMapping = []) {
   const {} = params;
@@ -31,10 +40,10 @@ export function get{TableName}Column(params = {}, columnMapping = []) {
       valueType: "text",
       search: false,
       hidden: true,
-      fieldProps: fieldProps({
+      fieldProps: buildFieldProps({
         disabled: true,
       }),
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         hidden: true,
       }),
     },
@@ -43,7 +52,7 @@ export function get{TableName}Column(params = {}, columnMapping = []) {
       dataIndex: "{field1}",
       title: "{Field1 Label}",
       valueType: "text",
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },
@@ -52,7 +61,7 @@ export function get{TableName}Column(params = {}, columnMapping = []) {
       dataIndex: "{field2}",
       title: "{Field2 Label}",
       valueType: "text",
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },
@@ -61,7 +70,7 @@ export function get{TableName}Column(params = {}, columnMapping = []) {
       dataIndex: "{field3}",
       title: "{Field3 Label}",
       valueType: "text",
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },
@@ -115,7 +124,7 @@ Replace template placeholders with your table data:
 - ✅ **File naming**: kebab-case with `-column` suffix (e.g., `options-column.js`)
 - ✅ **Function**: Single column function with `get{TableName}Column` naming
 - ✅ **Schema structure**: Array of column objects with required properties
-- ✅ **Field validation**: Add `formItemProps: formItemProps({ required: true })` for NOT NULL fields
+- ✅ **Field validation**: Add `formItemProps: buildFormItemProps({ required: true })` for NOT NULL fields
 - ✅ **Field naming**: Use snake_case for database fields
 - ✅ **Vietnamese labels**: Use Vietnamese text for all user-facing labels
 - ✅ **Import path**: Use `@/utils/column-util` for buildColumns, fieldProps, formItemProps utilities
@@ -125,9 +134,9 @@ Replace template placeholders with your table data:
 Use helper functions for consistent field configuration:
 
 - **All fields**: Use `valueType: "text"` for simplicity
-- **Required fields**: Add `formItemProps: formItemProps({ required: true })` for NOT NULL fields
+- **Required fields**: Add `formItemProps: buildFormItemProps({ required: true })` for NOT NULL fields
 - **Optional fields**: No validation rules needed
-- **ID fields**: Hidden with `search: false, hidden: true` and `fieldProps: fieldProps({ disabled: true })`
+- **ID fields**: Hidden with `search: false, hidden: true` and `fieldProps: buildFieldProps({ disabled: true })`
 
 ## Column Schema Patterns
 
@@ -135,12 +144,12 @@ Use helper functions for consistent field configuration:
 
 - Use exact pattern with `key: "id"`, `dataIndex: "id"`, `title: "ID"`
 - Include `search: false, hidden: true` properties
-- Include `fieldProps: fieldProps({ disabled: true })` and `formItemProps: formItemProps({ hidden: true })`
+- Include `fieldProps: buildFieldProps({ disabled: true })` and `formItemProps: buildFormItemProps({ hidden: true })`
 - Use `valueType: "text"`
 
 ### Required Fields MUST:
 
-- Include `formItemProps: formItemProps({ required: true })`
+- Include `formItemProps: buildFormItemProps({ required: true })`
 - Use `valueType: "text"`
 - Include Vietnamese `title` labels
 

@@ -4,7 +4,7 @@
 
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Row, Col, Card } from "antd";
-import { AntPage, AntButton, PathButton } from "@/components/ui";
+import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import { RolesTable, RolesCreate, getRolesColumn } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -62,7 +62,7 @@ function PageContent() {
                 search: false,
                 render: (_, record) => {
                   return (
-                    <PathButton
+                    <SubPathButton
                       icon={<InfoCircleOutlined />}
                       color="primary"
                       variant="link"

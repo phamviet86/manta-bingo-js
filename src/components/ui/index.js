@@ -10,3 +10,4 @@ export * from "./table";
 export * from "./info";
 export * from "./form";
 export * from "./transfer";
+export * from "./avatar";

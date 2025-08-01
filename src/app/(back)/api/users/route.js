@@ -1,7 +1,8 @@
 // path: @/app/(back)/api/users/route.js
 
-import { getUsers, createUser } from "@/services/users-service";
+import { getUsers, createUser, getUserByEmail } from "@/services/users-service";
 import { buildApiResponse } from "@/utils/api-util";
+import { hashPassword } from "@/utils/bcrypt-util";
 
 export async function GET(request) {
   try {
@@ -21,7 +22,6 @@ export async function POST(request) {
       user_name,
       user_status_id,
       user_email,
-      user_password,
       user_phone = null,
       user_parent_phone = null,
       user_avatar = null,
@@ -30,8 +30,19 @@ export async function POST(request) {
     } = await request.json();
 
     // Validate required fields (based on NOT NULL constraints in SQL)
-    if (!user_name || !user_status_id || !user_email || !user_password)
+    if (!user_name || !user_status_id || !user_email)
       return buildApiResponse(400, false, "Thiếu thông tin bắt buộc");
+
+    // Check if email already exists
+    const existingUser = await getUserByEmail(user_email);
+    if (existingUser && existingUser.length > 0) {
+      return buildApiResponse(409, false, "Email đã tồn tại trong hệ thống");
+    }
+
+    // Hash the default password
+    const user_password = await hashPassword(
+      process.env.DEFAULT_USER_PASSWORD || "12345678"
+    );
 
     const data = {
       user_name,

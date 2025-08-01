@@ -1,6 +1,10 @@
 // path: @/components/feature/role-permissions-column.js
 
-import { buildColumns, fieldProps, formItemProps } from "@/utils/column-util";
+import {
+  buildColumns,
+  buildFieldProps,
+  buildFormItemProps,
+} from "@/utils/column-util";
 
 export function getRolePermissionsColumn(params = {}, columnMapping = []) {
   const {} = params;
@@ -13,10 +17,10 @@ export function getRolePermissionsColumn(params = {}, columnMapping = []) {
       valueType: "text",
       search: false,
       hidden: true,
-      fieldProps: fieldProps({
+      fieldProps: buildFieldProps({
         disabled: true,
       }),
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         hidden: true,
       }),
     },
@@ -25,7 +29,7 @@ export function getRolePermissionsColumn(params = {}, columnMapping = []) {
       dataIndex: "role_id",
       title: "Vai trò",
       valueType: "text",
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },
@@ -34,7 +38,7 @@ export function getRolePermissionsColumn(params = {}, columnMapping = []) {
       dataIndex: "permission_id",
       title: "Quyền hạn",
       valueType: "text",
-      formItemProps: formItemProps({
+      formItemProps: buildFormItemProps({
         required: true,
       }),
     },

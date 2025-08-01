@@ -10,7 +10,7 @@ export function AntButton({ label, ...props }) {
   return <Button {...props}>{label}</Button>;
 }
 
-export function PathButton({ path, ...props }) {
+export function SubPathButton({ path, ...props }) {
   const pathname = usePathname();
   return (
     <Link href={`${pathname}/${path}`}>
