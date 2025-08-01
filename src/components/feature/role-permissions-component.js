@@ -80,7 +80,7 @@ export function RolePermissionsTransferByRole({ roleId, ...props }) {
         </Space>
       )}
       titles={["Quyền", "Đã gán"]}
-      operations={["Gán quyền", "Xóa quyền"]}
+      operations={["Gán quyền", "Gỡ quyền"]}
       showSearch={true}
       searchSourceColumns={["permission_key_like", "permission_desc_like"]}
       searchTargetColumns={["permission_key_like", "permission_desc_like"]}

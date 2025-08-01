@@ -1,6 +1,7 @@
 // path: @/components/feature/user-roles-component.js
 
-import { AntTable, AntInfo, AntForm } from "@/components/ui";
+import { Space, Typography } from "antd";
+import { AntTable, AntInfo, AntForm, AntTransfer } from "@/components/ui";
 import {
   fetchList,
   fetchGet,
@@ -45,6 +46,45 @@ export function UserRolesEdit(props) {
       onRequest={(params) => fetchGet(`/api/user-roles/${params?.id}`)}
       onSubmit={(values) => fetchPut(`/api/user-roles/${values?.id}`, values)}
       onDelete={(params) => fetchDelete(`/api/user-roles/${params?.id}`)}
+    />
+  );
+}
+
+export function UserRolesTransferByUser({ userId, ...props }) {
+  return (
+    <AntTransfer
+      {...props}
+      onSourceRequest={(params) => fetchList(`/api/roles`, params)}
+      onTargetRequest={(params) => fetchList(`/api/user-roles`, params)}
+      targetParams={{ user_id: userId }}
+      onAddItem={(keys) =>
+        fetchPost(`/api/users/${userId}/user-roles`, {
+          roleIds: keys,
+        })
+      }
+      onRemoveItem={(keys) =>
+        fetchDelete(`/api/users/${userId}/user-roles`, {
+          roleIds: keys,
+        })
+      }
+      sourceItem={{ key: "id" }}
+      targetItem={{ key: "role_id" }}
+      render={(record) => (
+        <Space>
+          <Typography.Text>{record?.role_name}</Typography.Text>
+          <Typography.Text type="secondary">
+            ({record?.role_path})
+          </Typography.Text>
+        </Space>
+      )}
+      titles={["Vai trò", "Đã gán"]}
+      operations={["Gán vai trò", "Gỡ vai trò"]}
+      showSearch={false}
+      locale={{
+        itemsUnit: "vai trò",
+        itemUnit: "vai trò",
+        notFoundContent: "Không tìm thấy vai trò",
+      }}
     />
   );
 }
