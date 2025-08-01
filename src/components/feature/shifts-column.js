@@ -3,7 +3,7 @@
 import { buildColumns, fieldProps, formItemProps } from "@/utils/column-util";
 
 export function getShiftsColumn(params = {}, columnMapping = []) {
-  const {} = params;
+  const { shiftStatus } = params;
 
   const schema = [
     {
@@ -23,7 +23,7 @@ export function getShiftsColumn(params = {}, columnMapping = []) {
     {
       key: "shift_name",
       dataIndex: "shift_name",
-      title: "Tên ca học",
+      title: "Ca học",
       valueType: "text",
       formItemProps: formItemProps({
         required: true,
@@ -33,8 +33,11 @@ export function getShiftsColumn(params = {}, columnMapping = []) {
       key: "shift_status_id",
       dataIndex: "shift_status_id",
       title: "Trạng thái",
-      valueType: "text",
-      search: false,
+      valueType: "select",
+      valueEnum: shiftStatus.valueEnum,
+      fieldProps: fieldProps({
+        options: shiftStatus.options,
+      }),
       formItemProps: formItemProps({
         required: true,
       }),
@@ -43,27 +46,44 @@ export function getShiftsColumn(params = {}, columnMapping = []) {
       key: "shift_start_time",
       dataIndex: "shift_start_time",
       title: "Giờ bắt đầu",
-      valueType: "text",
+      valueType: "time",
+      search: false,
+      fieldProps: fieldProps({
+        format: "HH:mm",
+        style: { width: "100%" },
+      }),
       formItemProps: formItemProps({
         required: true,
       }),
+      colProps: { xs: 12 },
+      responsive: ["md"],
     },
     {
       key: "shift_end_time",
       dataIndex: "shift_end_time",
       title: "Giờ kết thúc",
-      valueType: "text",
+      valueType: "time",
       search: false,
+      fieldProps: fieldProps({
+        format: "HH:mm",
+        style: { width: "100%" },
+      }),
       formItemProps: formItemProps({
         required: true,
       }),
+      colProps: { xs: 12 },
+      responsive: ["md"],
     },
     {
       key: "shift_desc",
       dataIndex: "shift_desc",
       title: "Mô tả",
-      valueType: "text",
+      valueType: "textarea",
       search: false,
+      fieldProps: fieldProps({
+        autoSize: { minRows: 3, maxRows: 6 },
+      }),
+      responsive: ["lg"],
     },
   ];
 

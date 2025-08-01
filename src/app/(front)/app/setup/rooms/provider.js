@@ -5,10 +5,10 @@ import { buildEnum } from "@/utils/build-util";
 const PageContext = createContext(null);
 
 export function PageProvider({ children }) {
-  const { optionData } = useAppContext();
+  const { optionsData } = useAppContext();
 
   const roomStatus = buildEnum(
-    optionData,
+    optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "rooms", option_column: "room_status_id" }
   );

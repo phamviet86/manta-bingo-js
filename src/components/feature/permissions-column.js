@@ -12,13 +12,14 @@ export function getPermissionsColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       search: false,
-      hidden: true,
       fieldProps: fieldProps({
         disabled: true,
       }),
       formItemProps: formItemProps({
         hidden: true,
       }),
+      responsive: ["md"],
+      width: 56,
     },
     {
       key: "permission_key",

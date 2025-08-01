@@ -22,14 +22,14 @@ export default function Page(props) {
 
 function PageContent() {
   // Context
-  const {} = usePageContext();
+  const { shiftStatus } = usePageContext();
 
   // Hooks
   const useShifts = {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: getShiftsColumn(),
+    columns: getShiftsColumn({ shiftStatus }),
   };
 
   // Open edit
@@ -109,8 +109,8 @@ function PageContent() {
   // Render
   return (
     <AntPage
-      items={[{ title: "Development" }, { title: "ca học" }]}
-      title="ca học"
+      items={[{ title: "Thiết lập" }, { title: "Ca học" }]}
+      title="Ca học"
       extra={pageButton}
       content={pageContent}
     />
