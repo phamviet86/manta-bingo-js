@@ -7,7 +7,7 @@ import {
   UsersTable,
   UsersCreate,
   getUsersColumn,
-  ManagerUsersMapping,
+  USERS_COLUMNS,
 } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -29,7 +29,7 @@ function PageContent() {
   const useUsers = {
     table: useTable(),
     create: useForm(),
-    columns: getUsersColumn({ userStatus }, ManagerUsersMapping),
+    columns: getUsersColumn({ userStatus }, USERS_COLUMNS),
   };
 
   // Page action buttons

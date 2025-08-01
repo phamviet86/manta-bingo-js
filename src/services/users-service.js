@@ -16,7 +16,7 @@ export async function getUsers(searchParams) {
     const sqlValue = [...queryValues];
     const sqlText = `
       SELECT u.*, COUNT(*) OVER() AS total
-      FROM users u
+      FROM users_view u
       WHERE u.deleted_at IS NULL
       ${whereClause}
       ${orderByClause || "ORDER BY u.created_at"}
@@ -33,7 +33,7 @@ export async function getUser(id) {
   try {
     return await sql`
       SELECT u.*
-      FROM users u
+      FROM users_view u
       WHERE u.deleted_at IS NULL
         AND u.id = ${id};
     `;
@@ -77,7 +77,6 @@ export async function updateUser(id, data) {
       user_name,
       user_status_id,
       user_email,
-      user_password,
       user_phone,
       user_parent_phone,
       user_avatar,
@@ -91,7 +90,6 @@ export async function updateUser(id, data) {
         user_name = ${user_name},
         user_status_id = ${user_status_id},
         user_email = ${user_email},
-        user_password = ${user_password},
         user_phone = ${user_phone},
         user_parent_phone = ${user_parent_phone},
         user_avatar = ${user_avatar},
@@ -126,7 +124,7 @@ export async function getUserByEmail(email) {
   try {
     return await sql`
       SELECT *
-      FROM users_view
+      FROM users
       WHERE deleted_at IS NULL
         AND user_email = ${email};
     `;

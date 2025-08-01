@@ -1,11 +1,12 @@
 // path: @/components/feature/users-column.js
 
+import { Space, Typography } from "antd";
+import { DiceBeerAvatar, SubLink } from "@/components/ui";
 import {
   buildColumns,
   buildFieldProps,
   buildFormItemProps,
 } from "@/utils/column-util";
-import { DiceBeerAvatar, SubLink } from "@/components/ui";
 
 export function getUsersColumn(params = {}, columnMapping = []) {
   const { userStatus } = params;
@@ -16,14 +17,14 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      search: false,
-      hidden: true,
       fieldProps: buildFieldProps({
         disabled: true,
       }),
       formItemProps: buildFormItemProps({
         hidden: true,
       }),
+      search: false,
+      hidden: true,
       hideInDescriptions: true,
     },
     {
@@ -40,7 +41,6 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_desc",
       title: "Mô tả",
       valueType: "text",
-      search: false,
       colProps: { sm: 12 },
     },
     {
@@ -85,7 +85,6 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_avatar",
       title: "Ảnh đại diện",
       valueType: "textarea",
-      search: false,
       fieldProps: buildFieldProps({
         autoSize: { minRows: 1, maxRows: 3 },
       }),
@@ -96,7 +95,6 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_notes",
       title: "Ghi chú",
       valueType: "textarea",
-      search: false,
       fieldProps: buildFieldProps({
         autoSize: { minRows: 3, maxRows: 6 },
       }),
@@ -117,6 +115,22 @@ export function getUsersColumn(params = {}, columnMapping = []) {
           />
         </SubLink>
       ),
+      hideInForm: true,
+      hideInDescriptions: true,
+    },
+    {
+      key: "displayUser",
+      title: "Người dùng",
+      search: false,
+      render: (_, record) => (
+        <Space direction="vertical" size={0}>
+          <Typography.Text strong>{record?.user_name}</Typography.Text>
+          <Typography.Text type="secondary">
+            {record?.user_desc}
+          </Typography.Text>
+        </Space>
+      ),
+      hideInForm: true,
       hideInDescriptions: true,
     },
   ];
@@ -124,15 +138,16 @@ export function getUsersColumn(params = {}, columnMapping = []) {
   return buildColumns(schema, columnMapping);
 }
 
-export const ManagerUsersMapping = [
+export const USERS_COLUMNS = [
   { key: "displayAvatar" },
+  { key: "displayUser" },
   { key: "id" },
-  { key: "user_name" },
-  { key: "user_desc" },
-  { key: "user_status_id" },
-  { key: "user_email" },
-  { key: "user_phone" },
-  { key: "user_parent_phone" },
-  { key: "user_avatar" },
-  { key: "user_notes" },
+  { key: "user_name", hidden: true },
+  { key: "user_desc", hidden: true },
+  { key: "user_status_id", responsive: ["sm"] },
+  { key: "user_email", responsive: ["md"] },
+  { key: "user_phone", hidden: true, responsive: ["lg"] },
+  { key: "user_parent_phone", hidden: true },
+  { key: "user_avatar", search: false, hidden: true },
+  { key: "user_notes", search: false, responsive: ["xl"] },
 ];

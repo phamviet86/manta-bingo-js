@@ -1,16 +1,7 @@
 ---
 mode: "agent"
 model: GPT-4.1
-tools:
-  [
-    "changes",
-    "codebase",
-    "editFiles",
-    "githubRepo",
-    "problems",
-    "search",
-    "searchResults",
-  ]
+tools: ["changes","codebase","editFiles","githubRepo","problems","search","searchResults"]
 description: "Generate frontend column file from SQL table structure using template code"
 ---
 
@@ -38,14 +29,15 @@ export function get{TableName}Column(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      search: false,
-      hidden: true,
       fieldProps: buildFieldProps({
         disabled: true,
       }),
       formItemProps: buildFormItemProps({
         hidden: true,
       }),
+      search: false,
+      hidden: true,
+      hideInDescriptions: true,
     },
     {
       key: "{field1}",
