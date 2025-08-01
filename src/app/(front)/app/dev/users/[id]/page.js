@@ -3,7 +3,12 @@
 import { use } from "react";
 import { Row, Col, Card } from "antd";
 import { AntPage, AntButton, DiceBeerImage } from "@/components/ui";
-import { UsersInfo, UsersEdit, getUsersColumn } from "@/components/feature";
+import {
+  UsersInfo,
+  UsersEdit,
+  getUsersColumn,
+  UsersResetPassword,
+} from "@/components/feature";
 import { useInfo, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
 
@@ -46,6 +51,9 @@ function PageContent({ params }) {
     />,
   ];
 
+  const cardActions = [
+    <UsersResetPassword key="reset-password" userId={userId} />,
+  ];
   // Main content
   const pageContent = (
     <Row gutter={[16, 16]} wrap="false">
@@ -59,7 +67,7 @@ function PageContent({ params }) {
         </Card>
       </Col>
       <Col xs={24} sm={24} md={24} lg={18} xl={20}>
-        <Card hoverable>
+        <Card hoverable actions={cardActions}>
           <UsersInfo
             infoHook={useUsers.info}
             requestParams={{ id: userId }}

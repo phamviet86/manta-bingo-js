@@ -1,8 +1,8 @@
 // path: @/app/(back)/api/users/[id]/reset-password/route.js
 
-import { changeUserPassword } from "@/lib/service/users-service";
-import { buildApiResponse } from "@/lib/util/api-util";
-import { hashPassword } from "@/lib/util/bcrypt-util";
+import { changeUserPassword } from "@/services/users-service";
+import { buildApiResponse } from "@/utils/api-util";
+import { hashPassword } from "@/utils/bcrypt-util";
 
 export async function PUT(_, context) {
   try {

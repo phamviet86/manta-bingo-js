@@ -12,3 +12,4 @@ export * from "./form";
 export * from "./transfer";
 export * from "./avatar";
 export * from "./image";
+export * from "./confirm";
