@@ -109,7 +109,7 @@ function PageContent() {
   // Render
   return (
     <AntPage
-      items={[{ title: "Hệ thống" }, { title: "Phòng học" }]}
+      items={[{ title: "Thiết lập" }, { title: "Phòng học" }]}
       title="Phòng học"
       extra={pageButton}
       content={pageContent}
