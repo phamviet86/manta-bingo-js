@@ -1,8 +1,7 @@
 "use client";
 
-import { InfoCircleOutlined } from "@ant-design/icons";
 import { Row, Col, Card } from "antd";
-import { AntPage, AntButton, SubPathButton } from "@/components/ui";
+import { AntPage, AntButton } from "@/components/ui";
 import {
   UsersTable,
   UsersCreate,

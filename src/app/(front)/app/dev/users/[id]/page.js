@@ -2,7 +2,7 @@
 
 import { use } from "react";
 import { Row, Col, Card } from "antd";
-import { AntPage, AntButton } from "@/components/ui";
+import { AntPage, AntButton, DiceBeerImage } from "@/components/ui";
 import { UsersInfo, UsersEdit, getUsersColumn } from "@/components/feature";
 import { useInfo, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
@@ -48,8 +48,17 @@ function PageContent({ params }) {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
+    <Row gutter={[16, 16]} wrap="false">
+      <Col xs={24} sm={24} md={24} lg={6} xl={4}>
+        <Card hoverable style={{ textAlign: "center" }}>
+          <DiceBeerImage
+            src={useUsers.info?.dataSource?.user_avatar}
+            seed={userId}
+            style={{ maxWidth: "240px", maxHeight: "240px" }}
+          />
+        </Card>
+      </Col>
+      <Col xs={24} sm={24} md={24} lg={18} xl={20}>
         <Card hoverable>
           <UsersInfo
             infoHook={useUsers.info}
@@ -58,6 +67,7 @@ function PageContent({ params }) {
               useUsers.info.setDataSource(result?.data?.[0])
             }
             columns={useUsers.columns}
+            column={{ xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 2 }}
           />
           <UsersEdit
             formHook={useUsers.edit}
