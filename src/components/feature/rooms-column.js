@@ -47,9 +47,11 @@ export function getRoomsColumn(params = {}, columnMapping = []) {
       dataIndex: "room_desc",
       title: "Mô tả",
       valueType: "textarea",
+      search: false,
       fieldProps: fieldProps({
         autoSize: { minRows: 3, maxRows: 6 },
       }),
+      responsive: ["md"],
     },
   ];
 

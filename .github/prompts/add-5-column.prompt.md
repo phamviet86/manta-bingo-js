@@ -115,31 +115,32 @@ Replace template placeholders with your table data:
 - ✅ **File naming**: kebab-case with `-column` suffix (e.g., `options-column.js`)
 - ✅ **Function**: Single column function with `get{TableName}Column` naming
 - ✅ **Schema structure**: Array of column objects with required properties
-- ✅ **Field validation**: Add `rules: [{ required: true }]` for NOT NULL fields
+- ✅ **Field validation**: Add `formItemProps: formItemProps({ required: true })` for NOT NULL fields
 - ✅ **Field naming**: Use snake_case for database fields
 - ✅ **Vietnamese labels**: Use Vietnamese text for all user-facing labels
-- ✅ **Import path**: Use `@/utils/column-util` for buildColumns utility
+- ✅ **Import path**: Use `@/utils/column-util` for buildColumns, fieldProps, formItemProps utilities
 
 ## Field Type Mapping
 
-Use simplified field type configuration:
+Use helper functions for consistent field configuration:
 
 - **All fields**: Use `valueType: "text"` for simplicity
-- **Required fields**: Add `formItemProps: { rules: [{ required: true }] }` for NOT NULL fields
+- **Required fields**: Add `formItemProps: formItemProps({ required: true })` for NOT NULL fields
 - **Optional fields**: No validation rules needed
-- **ID fields**: Hidden with `style: { display: "none" }` and `disabled: true`
+- **ID fields**: Hidden with `search: false, hidden: true` and `fieldProps: fieldProps({ disabled: true })`
 
 ## Column Schema Patterns
 
 ### ID Field MUST:
 
 - Use exact pattern with `key: "id"`, `dataIndex: "id"`, `title: "ID"`
-- Include `fieldProps: { disabled: true }` and `formItemProps: { style: { display: "none" } }`
+- Include `search: false, hidden: true` properties
+- Include `fieldProps: fieldProps({ disabled: true })` and `formItemProps: formItemProps({ hidden: true })`
 - Use `valueType: "text"`
 
 ### Required Fields MUST:
 
-- Include `formItemProps: { rules: [{ required: true }] }`
+- Include `formItemProps: formItemProps({ required: true })`
 - Use `valueType: "text"`
 - Include Vietnamese `title` labels
 
@@ -173,7 +174,7 @@ export * from "./{table-name}-column";
 - ✅ **File location**: `src/components/feature/{table-name}-column.js`
 - ✅ **File naming**: kebab-case convention with `-column` suffix
 - ✅ **Function**: Single `get{TableName}Column` function with correct signature
-- ✅ **Imports**: Correct import statement for `buildColumns` utility
+- ✅ **Imports**: Correct import statement for `buildColumns`, `fieldProps`, `formItemProps` utilities
 - ✅ **Schema structure**: Array of column objects with all required properties
 - ✅ **ID field**: Hidden ID field with correct configuration
 - ✅ **Field validation**: Required field validation based on SQL NOT NULL constraints
