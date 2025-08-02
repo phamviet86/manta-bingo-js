@@ -37,7 +37,7 @@ export function getSyllabusesColumn(params = {}, columnMapping = []) {
     {
       key: "syllabus_status_id",
       dataIndex: "syllabus_status_id",
-      title: "Trạng thái giáo trình",
+      title: "Trạng thái",
       valueType: "text",
       formItemProps: buildFormItemProps({
         required: true,
