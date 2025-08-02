@@ -15,8 +15,10 @@ export async function getUserRoles(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT ur.*, COUNT(*) OVER() AS total
+      SELECT ur.*, COUNT(*) OVER() AS total,
+        r.role_name, r.role_path
       FROM user_roles ur
+      LEFT JOIN roles r ON ur.role_id = r.id AND r.deleted_at IS NULL
       WHERE ur.deleted_at IS NULL
       ${whereClause}
       ${orderByClause || "ORDER BY ur.created_at"}

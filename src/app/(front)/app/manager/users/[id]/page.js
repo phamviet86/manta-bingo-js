@@ -134,6 +134,8 @@ function PageContent({ params }) {
           <UserRolesTable
             tableHook={useUserRoles.table}
             columns={useUserRoles.columns}
+            showSearch={false}
+            showPagination={false}
           />
           <UserRolesTransferByUser
             transferHook={useUserRoles.transfer}
@@ -159,7 +161,7 @@ function PageContent({ params }) {
     <AntPage
       items={[
         { title: "Hệ thống" },
-        { title: "người dùng" },
+        { title: "Người dùng" },
         { title: "Chi tiết" },
       ]}
       title={pageTitle}

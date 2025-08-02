@@ -26,18 +26,18 @@ export function getUserRolesColumn(params = {}, columnMapping = []) {
       hideInDescriptions: true,
     },
     {
-      key: "user_id",
-      dataIndex: "user_id",
-      title: "Người dùng",
+      key: "role_name",
+      dataIndex: "role_name",
+      title: "Vai trò",
       valueType: "text",
       formItemProps: buildFormItemProps({
         required: true,
       }),
     },
     {
-      key: "role_id",
-      dataIndex: "role_id",
-      title: "Vai trò",
+      key: "role_path",
+      dataIndex: "role_path",
+      title: "Đường dẫn",
       valueType: "text",
       formItemProps: buildFormItemProps({
         required: true,
