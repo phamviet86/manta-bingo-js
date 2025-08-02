@@ -21,7 +21,7 @@ Use this exact template code:
 "use client";
 
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { Row, Col, Card } from "antd";
+import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import {
   {TableName}Table,
@@ -71,40 +71,36 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable>
-          <{TableName}Table
-            tableHook={use{TableName}.table}
-            columns={use{TableName}.columns}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => {
-                  return (
-                    <SubPathButton
-                      icon={<InfoCircleOutlined />}
-                      color="primary"
-                      variant="link"
-                      path={record?.id}
-                    />
-                  );
-                },
-              },
-            ]}
-          />
-          <{TableName}Create
-            formHook={use{TableName}.create}
-            columns={use{TableName}.columns}
-            onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
-            title="Tạo {vnTableName}"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      <{TableName}Table
+        tableHook={use{TableName}.table}
+        columns={use{TableName}.columns}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => {
+              return (
+                <SubPathButton
+                  icon={<InfoCircleOutlined />}
+                  color="primary"
+                  variant="link"
+                  path={record?.id}
+                />
+              );
+            },
+          },
+        ]}
+      />
+      <{TableName}Create
+        formHook={use{TableName}.create}
+        columns={use{TableName}.columns}
+        onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
+        title="Tạo {vnTableName}"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // Render
@@ -208,8 +204,7 @@ export function usePageContext() {
 ### Page Structure:
 
 - **AntPage**: Main page wrapper with breadcrumbs and title
-- **Card**: Content wrapper with hover effect
-- **Row/Col**: Grid layout system
+- **ProCard**: Content wrapper with boxShadow and bordered properties
 - **PageProvider**: Context provider for page state
 - **Action buttons**: Reload and Create buttons
 - **Detail navigation**: Info button in table rows that navigates to detail page
@@ -240,7 +235,7 @@ The page uses a standard navigation pattern:
 - ✅ **Navigation handling**: Navigation to detail page after successful creation
 - ✅ **Provider template**: Exact provider.js content without modifications
 - ✅ **Detail functionality**: Info button with SubPathButton for navigation to detail page
-- ✅ **Grid layout**: Row/Col structure with Card wrapper
+- ✅ **Grid layout**: ProCard structure with boxShadow and bordered wrapper
 
 ## Output Location
 

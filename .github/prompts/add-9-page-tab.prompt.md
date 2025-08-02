@@ -21,7 +21,8 @@ Use this exact template code:
 "use client";
 
 import { InfoCircleOutlined, EditOutlined } from "@ant-design/icons";
-import { Row, Col, Card, Space } from "antd";
+import { ProCard } from "@ant-design/pro-components";
+import { Space } from "antd";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   {TableName}Table,
@@ -35,11 +36,7 @@ import { useTable, useInfo, useForm } from "@/hooks";
 export default function Page() {
   const pageButton = [];
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable />
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered />
   );
   const pageTitle = "{vnTableName} Tab";
 
@@ -89,72 +86,68 @@ export default function Page() {
 
   // {tableName} tab content
   const {tableName}Content = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable title="Danh sách" extra={{tableName}Button}>
-          <{TableName}Table
-            tableHook={use{TableName}.table}
-            columns={use{TableName}.columns}
-            leftColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => (
-                  <AntButton
-                    icon={<InfoCircleOutlined />}
-                    color="primary"
-                    variant="link"
-                    onClick={() => open{TableName}Info(record)}
-                  />
-                ),
-              },
-            ]}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => (
-                  <AntButton
-                    icon={<EditOutlined />}
-                    color="primary"
-                    variant="link"
-                    onClick={() => open{TableName}Edit(record)}
-                  />
-                ),
-              },
-            ]}
-          />
-          <{TableName}Info
-            infoHook={use{TableName}.info}
-            columns={use{TableName}.columns}
-            requestParams={use{TableName}.info.requestParams}
-            title="Thông tin {vnTableName}"
-            variant="modal"
-            column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
-            size="small"
-          />
-          <{TableName}Create
-            formHook={use{TableName}.create}
-            columns={use{TableName}.columns}
-            onSubmitSuccess={() => use{TableName}.table.reload()}
-            title="Tạo {vnTableName}"
-            variant="drawer"
-          />
-          <{TableName}Edit
-            formHook={use{TableName}.edit}
-            columns={use{TableName}.columns}
-            requestParams={use{TableName}.edit.requestParams}
-            deleteParams={use{TableName}.edit.deleteParams}
-            onSubmitSuccess={() => use{TableName}.table.reload()}
-            onDeleteSuccess={() => use{TableName}.table.reload()}
-            title="Sửa {vnTableName}"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered title="Danh sách" extra={{tableName}Button}>
+      <{TableName}Table
+        tableHook={use{TableName}.table}
+        columns={use{TableName}.columns}
+        leftColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<InfoCircleOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => open{TableName}Info(record)}
+              />
+            ),
+          },
+        ]}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<EditOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => open{TableName}Edit(record)}
+              />
+            ),
+          },
+        ]}
+      />
+      <{TableName}Info
+        infoHook={use{TableName}.info}
+        columns={use{TableName}.columns}
+        requestParams={use{TableName}.info.requestParams}
+        title="Thông tin {vnTableName}"
+        variant="modal"
+        column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
+        size="small"
+      />
+      <{TableName}Create
+        formHook={use{TableName}.create}
+        columns={use{TableName}.columns}
+        onSubmitSuccess={() => use{TableName}.table.reload()}
+        title="Tạo {vnTableName}"
+        variant="drawer"
+      />
+      <{TableName}Edit
+        formHook={use{TableName}.edit}
+        columns={use{TableName}.columns}
+        requestParams={use{TableName}.edit.requestParams}
+        deleteParams={use{TableName}.edit.deleteParams}
+        onSubmitSuccess={() => use{TableName}.table.reload()}
+        onDeleteSuccess={() => use{TableName}.table.reload()}
+        title="Sửa {vnTableName}"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // {tableName} tab configuration
@@ -236,7 +229,7 @@ Replace template placeholders with your table data:
 ### Page Structure
 
 - **AntPage**: Main page wrapper with breadcrumbs and tabs
-- **Card**: Content wrapper
+- **ProCard**: Content wrapper with boxShadow and bordered properties
 - **Tab integration**: Single tab with complete CRUD operations
 - **Action buttons**: Reload and Create buttons in tab header
 

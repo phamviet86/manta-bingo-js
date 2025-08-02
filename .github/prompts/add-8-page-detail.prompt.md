@@ -21,7 +21,7 @@ Use this exact template code:
 "use client";
 
 import { use } from "react";
-import { Row, Col, Card } from "antd";
+import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   {TableName}Info,
@@ -72,29 +72,25 @@ function PageContent({ params }) {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable>
-          <{TableName}Info
-            infoHook={use{TableName}.info}
-            requestParams={{ id: {tableName}Id }}
-            onRequestSuccess={(result) =>
-              use{TableName}.info.setDataSource(result?.data?.[0])
-            }
-            columns={use{TableName}.columns}
-          />
-          <{TableName}Edit
-            formHook={use{TableName}.edit}
-            columns={use{TableName}.columns}
-            requestParams={{ id: {tableName}Id }}
-            onSubmitSuccess={use{TableName}.info.reload}
-            onDeleteSuccess={navBack}
-            title="Chỉnh sửa {vnTableName}"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      <{TableName}Info
+        infoHook={use{TableName}.info}
+        requestParams={{ id: {tableName}Id }}
+        onRequestSuccess={(result) =>
+          use{TableName}.info.setDataSource(result?.data?.[0])
+        }
+        columns={use{TableName}.columns}
+      />
+      <{TableName}Edit
+        formHook={use{TableName}.edit}
+        columns={use{TableName}.columns}
+        requestParams={{ id: {tableName}Id }}
+        onSubmitSuccess={use{TableName}.info.reload}
+        onDeleteSuccess={navBack}
+        title="Chỉnh sửa {vnTableName}"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // Page title
@@ -133,7 +129,7 @@ Replace template placeholders with your table data:
 - Use **PascalCase** for component imports and usage
 - Use **camelCase** for ID parameters and variables
 - Use **Vietnamese** labels for all user-facing text
-- Use **Row**, **Col**, **Card** for layout instead of ProCard
+- Use **ProCard** for layout with boxShadow and bordered properties
 - Import components from `@/components/ui` and `@/components/feature`
 - Import hooks from `@/hooks`
 
@@ -175,7 +171,7 @@ Replace template placeholders with your table data:
 ### Page Structure:
 
 - **AntPage**: Main page wrapper with breadcrumbs and title
-- **Row, Col, Card**: Layout components for responsive design
+- **ProCard**: Content wrapper with boxShadow and bordered properties
 - **PageProvider**: Context provider for page state (shared with list page)
 - **Action buttons**: Back and Edit buttons
 
@@ -214,7 +210,7 @@ Choose appropriate field for `{titleField}` placeholder:
 - ✅ **Success handling**: Proper reload and navigation after operations
 - ✅ **Dynamic title**: Page title based on record data with fallback
 - ✅ **Route parameters**: Proper use of dynamic routing with use(params)
-- ✅ **Layout**: Row, Col, Card structure properly implemented
+- ✅ **Layout**: ProCard structure with boxShadow and bordered properties
 
 ## Output Location
 

@@ -21,7 +21,7 @@ Use this exact template code:
 "use client";
 
 import { EditOutlined } from "@ant-design/icons";
-import { Row, Col, Card } from "antd";
+import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   {TableName}Table,
@@ -80,50 +80,46 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable>
-          <{TableName}Table
-            tableHook={use{TableName}.table}
-            columns={use{TableName}.columns}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => {
-                  return (
-                    <AntButton
-                      icon={<EditOutlined />}
-                      color="primary"
-                      variant="link"
-                      onClick={() => open{TableName}Edit(record)}
-                    />
-                  );
-                },
-              },
-            ]}
-          />
-          <{TableName}Create
-            formHook={use{TableName}.create}
-            columns={use{TableName}.columns}
-            onSubmitSuccess={use{TableName}.table.reload}
-            title="Tạo {vnTableName}"
-            variant="drawer"
-          />
-          <{TableName}Edit
-            formHook={use{TableName}.edit}
-            columns={use{TableName}.columns}
-            requestParams={use{TableName}.edit.requestParams}
-            onSubmitSuccess={use{TableName}.table.reload}
-            deleteParams={use{TableName}.edit.deleteParams}
-            onDeleteSuccess={use{TableName}.table.reload}
-            title="Chỉnh sửa {vnTableName}"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      <{TableName}Table
+        tableHook={use{TableName}.table}
+        columns={use{TableName}.columns}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => {
+              return (
+                <AntButton
+                  icon={<EditOutlined />}
+                  color="primary"
+                  variant="link"
+                  onClick={() => open{TableName}Edit(record)}
+                />
+              );
+            },
+          },
+        ]}
+      />
+      <{TableName}Create
+        formHook={use{TableName}.create}
+        columns={use{TableName}.columns}
+        onSubmitSuccess={use{TableName}.table.reload}
+        title="Tạo {vnTableName}"
+        variant="drawer"
+      />
+      <{TableName}Edit
+        formHook={use{TableName}.edit}
+        columns={use{TableName}.columns}
+        requestParams={use{TableName}.edit.requestParams}
+        onSubmitSuccess={use{TableName}.table.reload}
+        deleteParams={use{TableName}.edit.deleteParams}
+        onDeleteSuccess={use{TableName}.table.reload}
+        title="Chỉnh sửa {vnTableName}"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // Render
@@ -227,8 +223,7 @@ export function usePageContext() {
 ### Page Structure:
 
 - **AntPage**: Main page wrapper with breadcrumbs and title
-- **Card**: Content wrapper with hover effect
-- **Row/Col**: Grid layout system
+- **ProCard**: Content wrapper with boxShadow and bordered properties
 - **PageProvider**: Context provider for page state
 - **Action buttons**: Reload and Create buttons
 - **Edit functionality**: Edit button in table rows with form handling
@@ -261,7 +256,7 @@ The page uses a standard navigation pattern:
 - ✅ **Success handling**: Table reload after successful operations
 - ✅ **Provider template**: Exact provider.js content without modifications
 - ✅ **Edit functionality**: Edit form with request/delete parameters
-- ✅ **Grid layout**: Row/Col structure with Card wrapper
+- ✅ **Grid layout**: ProCard structure with boxShadow and bordered wrapper
 
 ## Output Location
 
