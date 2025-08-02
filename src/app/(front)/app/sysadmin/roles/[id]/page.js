@@ -3,7 +3,8 @@
 "use client";
 
 import { use } from "react";
-import { Row, Col, Card, Space } from "antd";
+import { Space } from "antd";
+import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   RolesInfo,
@@ -57,29 +58,25 @@ function PageContent({ params }) {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable>
-          <RolesInfo
-            infoHook={useRoles.info}
-            columns={useRoles.columns}
-            requestParams={{ id: roleId }}
-            onRequestSuccess={(result) =>
-              useRoles.info.setDataSource(result?.data?.[0])
-            }
-          />
-          <RolesEdit
-            formHook={useRoles.edit}
-            columns={useRoles.columns}
-            requestParams={{ id: roleId }}
-            onSubmitSuccess={useRoles.info.reload}
-            onDeleteSuccess={navBack}
-            title="Chỉnh sửa vai trò"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      <RolesInfo
+        infoHook={useRoles.info}
+        columns={useRoles.columns}
+        requestParams={{ id: roleId }}
+        onRequestSuccess={(result) =>
+          useRoles.info.setDataSource(result?.data?.[0])
+        }
+      />
+      <RolesEdit
+        formHook={useRoles.edit}
+        columns={useRoles.columns}
+        requestParams={{ id: roleId }}
+        onSubmitSuccess={useRoles.info.reload}
+        onDeleteSuccess={navBack}
+        title="Chỉnh sửa vai trò"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // Page title
@@ -111,23 +108,19 @@ function PageContent({ params }) {
 
   // rolePermissions tab content
   const rolePermissionsContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable title="Gán quyền" extra={rolePermissionsButton}>
-          <RolePermissionsTransferByRole
-            transferHook={useRolePermissions.transfer}
-            roleId={roleId}
-          />
-          <PermissionsCreate
-            formHook={usePermissions.create}
-            columns={usePermissions.columns}
-            onSubmitSuccess={useRolePermissions.transfer.reload}
-            title="Tạo quyền"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered title="Gán quyền" extra={rolePermissionsButton}>
+      <RolePermissionsTransferByRole
+        transferHook={useRolePermissions.transfer}
+        roleId={roleId}
+      />
+      <PermissionsCreate
+        formHook={usePermissions.create}
+        columns={usePermissions.columns}
+        onSubmitSuccess={useRolePermissions.transfer.reload}
+        title="Tạo quyền"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // rolePermissions tab configuration

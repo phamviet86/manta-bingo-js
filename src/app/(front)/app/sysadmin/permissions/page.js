@@ -3,7 +3,7 @@
 "use client";
 
 import { EditOutlined } from "@ant-design/icons";
-import { Row, Col, Card } from "antd";
+import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   PermissionsTable,
@@ -62,50 +62,46 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable>
-          <PermissionsTable
-            tableHook={usePermissions.table}
-            columns={usePermissions.columns}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => {
-                  return (
-                    <AntButton
-                      icon={<EditOutlined />}
-                      color="primary"
-                      variant="link"
-                      onClick={() => openPermissionsEdit(record)}
-                    />
-                  );
-                },
-              },
-            ]}
-          />
-          <PermissionsCreate
-            formHook={usePermissions.create}
-            columns={usePermissions.columns}
-            onSubmitSuccess={usePermissions.table.reload}
-            title="Tạo quyền"
-            variant="drawer"
-          />
-          <PermissionsEdit
-            formHook={usePermissions.edit}
-            columns={usePermissions.columns}
-            requestParams={usePermissions.edit.requestParams}
-            onSubmitSuccess={usePermissions.table.reload}
-            deleteParams={usePermissions.edit.deleteParams}
-            onDeleteSuccess={usePermissions.table.reload}
-            title="Chỉnh sửa quyền"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      <PermissionsTable
+        tableHook={usePermissions.table}
+        columns={usePermissions.columns}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => {
+              return (
+                <AntButton
+                  icon={<EditOutlined />}
+                  color="primary"
+                  variant="link"
+                  onClick={() => openPermissionsEdit(record)}
+                />
+              );
+            },
+          },
+        ]}
+      />
+      <PermissionsCreate
+        formHook={usePermissions.create}
+        columns={usePermissions.columns}
+        onSubmitSuccess={usePermissions.table.reload}
+        title="Tạo quyền"
+        variant="drawer"
+      />
+      <PermissionsEdit
+        formHook={usePermissions.edit}
+        columns={usePermissions.columns}
+        requestParams={usePermissions.edit.requestParams}
+        onSubmitSuccess={usePermissions.table.reload}
+        deleteParams={usePermissions.edit.deleteParams}
+        onDeleteSuccess={usePermissions.table.reload}
+        title="Chỉnh sửa quyền"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // Render

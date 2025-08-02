@@ -1,7 +1,7 @@
 "use client";
 
 import { EditOutlined } from "@ant-design/icons";
-import { Row, Col, Card } from "antd";
+import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   RoomsTable,
@@ -60,50 +60,46 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable>
-          <RoomsTable
-            tableHook={useRooms.table}
-            columns={useRooms.columns}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => {
-                  return (
-                    <AntButton
-                      icon={<EditOutlined />}
-                      color="primary"
-                      variant="link"
-                      onClick={() => openRoomsEdit(record)}
-                    />
-                  );
-                },
-              },
-            ]}
-          />
-          <RoomsCreate
-            formHook={useRooms.create}
-            columns={useRooms.columns}
-            onSubmitSuccess={useRooms.table.reload}
-            title="Tạo phòng học"
-            variant="drawer"
-          />
-          <RoomsEdit
-            formHook={useRooms.edit}
-            columns={useRooms.columns}
-            requestParams={useRooms.edit.requestParams}
-            onSubmitSuccess={useRooms.table.reload}
-            deleteParams={useRooms.edit.deleteParams}
-            onDeleteSuccess={useRooms.table.reload}
-            title="Chỉnh sửa phòng học"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      <RoomsTable
+        tableHook={useRooms.table}
+        columns={useRooms.columns}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => {
+              return (
+                <AntButton
+                  icon={<EditOutlined />}
+                  color="primary"
+                  variant="link"
+                  onClick={() => openRoomsEdit(record)}
+                />
+              );
+            },
+          },
+        ]}
+      />
+      <RoomsCreate
+        formHook={useRooms.create}
+        columns={useRooms.columns}
+        onSubmitSuccess={useRooms.table.reload}
+        title="Tạo phòng học"
+        variant="drawer"
+      />
+      <RoomsEdit
+        formHook={useRooms.edit}
+        columns={useRooms.columns}
+        requestParams={useRooms.edit.requestParams}
+        onSubmitSuccess={useRooms.table.reload}
+        deleteParams={useRooms.edit.deleteParams}
+        onDeleteSuccess={useRooms.table.reload}
+        title="Chỉnh sửa phòng học"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // Render

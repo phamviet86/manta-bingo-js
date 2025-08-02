@@ -1,6 +1,6 @@
 "use client";
 
-import { Row, Col, Card } from "antd";
+import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   UsersTable,
@@ -51,20 +51,16 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable>
-          <UsersTable tableHook={useUsers.table} columns={useUsers.columns} />
-          <UsersCreate
-            formHook={useUsers.create}
-            columns={useUsers.columns}
-            onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
-            title="Tạo người dùng"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      <UsersTable tableHook={useUsers.table} columns={useUsers.columns} />
+      <UsersCreate
+        formHook={useUsers.create}
+        columns={useUsers.columns}
+        onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
+        title="Tạo người dùng"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // Render

@@ -3,7 +3,7 @@
 "use client";
 
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { Row, Col, Card } from "antd";
+import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import { RolesTable, RolesCreate, getRolesColumn } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
@@ -49,40 +49,36 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable>
-          <RolesTable
-            tableHook={useRoles.table}
-            columns={useRoles.columns}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => {
-                  return (
-                    <SubPathButton
-                      icon={<InfoCircleOutlined />}
-                      color="primary"
-                      variant="link"
-                      path={record?.id}
-                    />
-                  );
-                },
-              },
-            ]}
-          />
-          <RolesCreate
-            formHook={useRoles.create}
-            columns={useRoles.columns}
-            onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
-            title="Tạo vai trò"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      <RolesTable
+        tableHook={useRoles.table}
+        columns={useRoles.columns}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => {
+              return (
+                <SubPathButton
+                  icon={<InfoCircleOutlined />}
+                  color="primary"
+                  variant="link"
+                  path={record?.id}
+                />
+              );
+            },
+          },
+        ]}
+      />
+      <RolesCreate
+        formHook={useRoles.create}
+        columns={useRoles.columns}
+        onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
+        title="Tạo vai trò"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // Render

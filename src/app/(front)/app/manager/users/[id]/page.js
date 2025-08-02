@@ -1,6 +1,7 @@
 "use client";
 
 import { use } from "react";
+import { ProCard } from "@ant-design/pro-components";
 import { Row, Col, Card, Space } from "antd";
 import { AntPage, AntButton, DiceBeerImage } from "@/components/ui";
 import {
@@ -59,39 +60,35 @@ function PageContent({ params }) {
   ];
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap="false">
-      <Col xs={24} sm={24} md={24} lg={6} xl={4}>
-        <Card hoverable style={{ textAlign: "center" }}>
-          <DiceBeerImage
-            src={useUsers.info?.dataSource?.user_avatar}
-            seed={userId}
-            style={{ maxWidth: "240px", maxHeight: "240px" }}
-          />
-        </Card>
-      </Col>
-      <Col xs={24} sm={24} md={24} lg={18} xl={20}>
-        <Card hoverable actions={cardActions}>
-          <UsersInfo
-            infoHook={useUsers.info}
-            requestParams={{ id: userId }}
-            onRequestSuccess={(result) =>
-              useUsers.info.setDataSource(result?.data?.[0])
-            }
-            columns={useUsers.columns}
-            column={{ xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 2 }}
-          />
-          <UsersEdit
-            formHook={useUsers.edit}
-            columns={useUsers.columns}
-            requestParams={{ id: userId }}
-            onSubmitSuccess={useUsers.info.reload}
-            onDeleteSuccess={navBack}
-            title="Chỉnh sửa người dùng"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered split="horizontal" gutter={16}>
+      <ProCard boxShadow bordered colSpan="20%" style={{ textAlign: "center" }}>
+        <DiceBeerImage
+          src={useUsers.info?.dataSource?.user_avatar}
+          seed={userId}
+          style={{ maxWidth: "240px", maxHeight: "240px" }}
+        />
+      </ProCard>
+      <ProCard boxShadow bordered colSpan="80%" actions={cardActions}>
+        <UsersInfo
+          infoHook={useUsers.info}
+          requestParams={{ id: userId }}
+          onRequestSuccess={(result) =>
+            useUsers.info.setDataSource(result?.data?.[0])
+          }
+          columns={useUsers.columns}
+          column={{ xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 2 }}
+        />
+        <UsersEdit
+          formHook={useUsers.edit}
+          columns={useUsers.columns}
+          requestParams={{ id: userId }}
+          onSubmitSuccess={useUsers.info.reload}
+          onDeleteSuccess={navBack}
+          title="Chỉnh sửa người dùng"
+          variant="drawer"
+        />
+      </ProCard>
+    </ProCard>
   );
 
   // Page title
@@ -128,26 +125,22 @@ function PageContent({ params }) {
 
   // userRoles tab content
   const userRolesContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable title="Danh sách" extra={userRolesButton}>
-          <UserRolesTable
-            tableHook={useUserRoles.table}
-            columns={useUserRoles.columns}
-            requestParams={{ user_id: userId }}
-            showSearch={false}
-            showPagination={false}
-          />
-          <UserRolesTransferByUser
-            transferHook={useUserRoles.transfer}
-            userId={userId}
-            variant="modal"
-            title="Điều chỉnh phân quyền"
-            afterClose={() => useUserRoles.table.reload()}
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered title="Danh sách" extra={userRolesButton}>
+      <UserRolesTable
+        tableHook={useUserRoles.table}
+        columns={useUserRoles.columns}
+        requestParams={{ user_id: userId }}
+        showSearch={false}
+        showPagination={false}
+      />
+      <UserRolesTransferByUser
+        transferHook={useUserRoles.transfer}
+        userId={userId}
+        variant="modal"
+        title="Điều chỉnh phân quyền"
+        afterClose={() => useUserRoles.table.reload()}
+      />
+    </ProCard>
   );
 
   // userRoles tab configuration

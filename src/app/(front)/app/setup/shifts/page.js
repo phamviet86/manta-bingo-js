@@ -1,7 +1,7 @@
 "use client";
 
 import { EditOutlined } from "@ant-design/icons";
-import { Row, Col, Card } from "antd";
+import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   ShiftsTable,
@@ -60,50 +60,46 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable>
-          <ShiftsTable
-            tableHook={useShifts.table}
-            columns={useShifts.columns}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => {
-                  return (
-                    <AntButton
-                      icon={<EditOutlined />}
-                      color="primary"
-                      variant="link"
-                      onClick={() => openShiftsEdit(record)}
-                    />
-                  );
-                },
-              },
-            ]}
-          />
-          <ShiftsCreate
-            formHook={useShifts.create}
-            columns={useShifts.columns}
-            onSubmitSuccess={useShifts.table.reload}
-            title="Tạo ca học"
-            variant="drawer"
-          />
-          <ShiftsEdit
-            formHook={useShifts.edit}
-            columns={useShifts.columns}
-            requestParams={useShifts.edit.requestParams}
-            onSubmitSuccess={useShifts.table.reload}
-            deleteParams={useShifts.edit.deleteParams}
-            onDeleteSuccess={useShifts.table.reload}
-            title="Chỉnh sửa ca học"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      <ShiftsTable
+        tableHook={useShifts.table}
+        columns={useShifts.columns}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => {
+              return (
+                <AntButton
+                  icon={<EditOutlined />}
+                  color="primary"
+                  variant="link"
+                  onClick={() => openShiftsEdit(record)}
+                />
+              );
+            },
+          },
+        ]}
+      />
+      <ShiftsCreate
+        formHook={useShifts.create}
+        columns={useShifts.columns}
+        onSubmitSuccess={useShifts.table.reload}
+        title="Tạo ca học"
+        variant="drawer"
+      />
+      <ShiftsEdit
+        formHook={useShifts.edit}
+        columns={useShifts.columns}
+        requestParams={useShifts.edit.requestParams}
+        onSubmitSuccess={useShifts.table.reload}
+        deleteParams={useShifts.edit.deleteParams}
+        onDeleteSuccess={useShifts.table.reload}
+        title="Chỉnh sửa ca học"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // Render
