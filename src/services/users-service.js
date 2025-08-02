@@ -19,7 +19,7 @@ export async function getUsers(searchParams) {
       FROM users_view u
       WHERE u.deleted_at IS NULL
       ${whereClause}
-      ${orderByClause || "ORDER BY u.created_at"}
+      ${orderByClause || "ORDER BY u.user_first_name, u.user_full_name"}
       ${limitClause};
     `;
 
