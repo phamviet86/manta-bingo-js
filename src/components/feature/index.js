@@ -25,3 +25,5 @@ export * from "./user-roles-component";
 export * from "./user-roles-column";
 
 export * from "./syllabuses-column";
+export * from "./modules-component";
+export * from "./modules-column";
