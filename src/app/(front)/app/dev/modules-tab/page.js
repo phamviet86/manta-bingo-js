@@ -23,6 +23,7 @@ export default function Page() {
   );
   const pageTitle = "Học phần Tab";
 
+  // MODULES TAB
   // Hooks
   const useModules = {
     table: useTable(),

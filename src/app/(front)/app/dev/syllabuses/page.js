@@ -21,14 +21,14 @@ export default function Page(props) {
 
 function PageContent() {
   // Context
-  const {} = usePageContext();
+  const { syllabusStatus, moduleStatus, lectureStatus } = usePageContext();
   const { navDetail } = useNavigate();
 
   // Hooks
   const useSyllabuses = {
     table: useTable(),
     create: useForm(),
-    columns: getSyllabusesColumn(),
+    columns: getSyllabusesColumn({ syllabusStatus }),
   };
 
   // Page action buttons

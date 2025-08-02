@@ -158,6 +158,15 @@ export function PageProvider({ children }) {
   );
 }
 
+/* 
+  const syllabusStatus = buildEnum(
+    optionsData,
+    { value: "id", label: "option_label", color: "option_color" },
+    { option_table: "syllabuses", option_column: "syllabus_status_id" }
+  );
+  const contextValue = useMemo(() => ({ syllabusStatus }), [syllabusStatus]);
+*/
+
 export function usePageContext() {
   return useContext(PageContext);
 }

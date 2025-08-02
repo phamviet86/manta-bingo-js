@@ -7,7 +7,7 @@ import {
 } from "@/utils/column-util";
 
 export function getSyllabusesColumn(params = {}, columnMapping = []) {
-  const {} = params;
+  const { syllabusStatus } = params;
 
   const schema = [
     {
@@ -28,7 +28,7 @@ export function getSyllabusesColumn(params = {}, columnMapping = []) {
     {
       key: "syllabus_name",
       dataIndex: "syllabus_name",
-      title: "Tên giáo trình",
+      title: "Giáo trình",
       valueType: "text",
       formItemProps: buildFormItemProps({
         required: true,
@@ -38,7 +38,11 @@ export function getSyllabusesColumn(params = {}, columnMapping = []) {
       key: "syllabus_status_id",
       dataIndex: "syllabus_status_id",
       title: "Trạng thái",
-      valueType: "text",
+      valueType: "select",
+      valueEnum: syllabusStatus?.valueEnum || {},
+      fieldProps: buildFieldProps({
+        options: syllabusStatus.options || [],
+      }),
       formItemProps: buildFormItemProps({
         required: true,
       }),
