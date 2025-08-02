@@ -134,6 +134,7 @@ function PageContent({ params }) {
           <UserRolesTable
             tableHook={useUserRoles.table}
             columns={useUserRoles.columns}
+            requestParams={{ user_id: userId }}
             showSearch={false}
             showPagination={false}
           />
