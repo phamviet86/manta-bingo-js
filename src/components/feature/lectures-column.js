@@ -11,12 +11,9 @@ export function getLecturesColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({
-        disabled: true,
-        hidden: true,
-      }),
       hideInTable: true,
       hideInDescriptions: true,
+      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "module_id",

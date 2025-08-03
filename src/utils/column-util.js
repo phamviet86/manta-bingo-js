@@ -119,6 +119,7 @@ export function buildColumnProps(props) {
     "status",
     "style",
     "format",
+    "precision",
   ]);
 
   // Known form item props
@@ -149,6 +150,7 @@ export function buildColumnProps(props) {
     "validateTrigger",
     "valuePropName",
     "dependencies",
+    "locale",
   ]);
 
   const restPropNames = new Set(["hiddenInTable"]);

@@ -2,7 +2,7 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function getShiftsColumn(params = {}, columnMapping = []) {
+export function shiftsColumn(params = {}, columnMapping = []) {
   const { shiftStatus } = params;
 
   const schema = [
@@ -11,8 +11,9 @@ export function getShiftsColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
       hideInTable: true,
+      hideInDescriptions: true,
+      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "shift_name",
@@ -43,8 +44,6 @@ export function getShiftsColumn(params = {}, columnMapping = []) {
         style: { width: "100%" },
         colProps: { xs: 12 },
       }),
-      search: false,
-      responsive: ["md"],
     },
     {
       key: "shift_end_time",
@@ -57,8 +56,6 @@ export function getShiftsColumn(params = {}, columnMapping = []) {
         style: { width: "100%" },
         colProps: { xs: 12 },
       }),
-      search: false,
-      responsive: ["md"],
     },
     {
       key: "shift_desc",
@@ -66,10 +63,19 @@ export function getShiftsColumn(params = {}, columnMapping = []) {
       title: "Mô tả",
       valueType: "textarea",
       ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
-      search: false,
-      responsive: ["lg"],
     },
   ];
 
   return buildColumns(schema, columnMapping);
 }
+
+export const shiftsMapping = {
+  default: [
+    { key: "id" },
+    { key: "shift_name" },
+    { key: "shift_status_id" },
+    { key: "shift_start_time", search: false, responsive: ["md"] },
+    { key: "shift_end_time", search: false, responsive: ["md"] },
+    { key: "shift_desc", search: false, responsive: ["lg"] },
+  ],
+};

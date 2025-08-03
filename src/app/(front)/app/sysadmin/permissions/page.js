@@ -9,7 +9,7 @@ import {
   PermissionsTable,
   PermissionsCreate,
   PermissionsEdit,
-  getPermissionsColumn,
+  permissionsColumn,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -31,7 +31,7 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: getPermissionsColumn(),
+    columns: permissionsColumn(),
   };
 
   // Open edit

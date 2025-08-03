@@ -21,7 +21,7 @@ Use this exact template code:
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
 export function {tableName}Column(params = {}, columnMapping = []) {
-  const {} = params;
+  const { optionStatus } = params;
 
   const schema = [
     {
@@ -58,15 +58,39 @@ export function {tableName}Column(params = {}, columnMapping = []) {
       key: "{optional1}",
       dataIndex: "{optional1}",
       title: "{Optional1 Label}",
-      valueType: "text",
-      ...buildColumnProps({}),
+      valueType: "select",
+      ...buildColumnProps({
+        options: optionStatus.options,
+        valueEnum: optionStatus.valueEnum,
+      }),
     },
     {
       key: "{optional2}",
       dataIndex: "{optional2}",
       title: "{Optional2 Label}",
-      valueType: "text",
-      ...buildColumnProps({}),
+      valueType: "textarea",
+      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+    },
+    {
+      key: "{optional3}",
+      dataIndex: "{optional3}",
+      title: "{Optional3 Label}",
+      valueType: "time",
+      ...buildColumnProps({ format: "HH:mm", style: { width: "100%" } }),
+    },
+    {
+      key: "{optional4}",
+      dataIndex: "{optional4}",
+      title: "{Optional4 Label}",
+      valueType: "date",
+      ...buildColumnProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
+    },
+    {
+      key: "{optional5}",
+      dataIndex: "{optional5}",
+      title: "{Optional5 Label}",
+      valueType: "money",
+      ...buildColumnProps({ locale: "vi-VN", precision: 0, style: { width: "100%" } }),
     },
   ];
 
@@ -74,7 +98,7 @@ export function {tableName}Column(params = {}, columnMapping = []) {
 }
 
 export const {tableName}Mapping = {
-  default: [],
+  default: [{key: "id"}, {key: "{field1}"}, {key: "{field2}"}, {key: "{field3}"}, {key: "{optional1}"}, {key: "{optional2}"}, {key: "{optional3}"}, {key: "{optional4}"}, {key: "{optional5}"}],
 };
 ```
 
@@ -91,9 +115,9 @@ Replace template placeholders with your table data:
 ### Field Placeholders
 
 - **{field1}, {field2}, {field3}**: Required database fields in snake_case (minimum 3 if available)
-- **{optional1}, {optional2}**: Optional database fields in snake_case
+- **{optional1}, {optional2}, {optional3}, {optional4}, {optional5}**: Optional database fields in snake_case
 - **{Field1 Label}, {Field2 Label}, {Field3 Label}**: Vietnamese labels for required fields
-- **{Optional1 Label}, {Optional2 Label}**: Vietnamese labels for optional fields
+- **{Optional1 Label}, {Optional2 Label}, {Optional3 Label}, {Optional4 Label}, {Optional5 Label}**: Vietnamese labels for optional fields
 - Use **snake_case** for database field names (do NOT convert to camelCase)
 - Skip system columns: `id`, `created_at`, `updated_at`, `deleted_at`
 
@@ -118,40 +142,55 @@ Replace template placeholders with your table data:
 
 ## Field Type Mapping
 
-Use helper functions for consistent field configuration:
+Use specific valueTypes and configurations for different field types:
 
-- **All fields**: Use `valueType: "text"` for simplicity
-- **Required fields**: Use `...buildColumnProps({ required: true })` for NOT NULL fields
-- **Optional fields**: Use `...buildColumnProps({})` with empty configuration
+- **Required fields**: Use `valueType: "text"` with `...buildColumnProps({ required: true })`
+- **Select fields**: Use `valueType: "select"` with options configuration
+- **Textarea fields**: Use `valueType: "textarea"` with autoSize configuration
+- **Time fields**: Use `valueType: "time"` with time format configuration
+- **Date fields**: Use `valueType: "date"` with date format configuration
+- **Money fields**: Use `valueType: "money"` with locale and precision configuration
 - **ID fields**: Hidden with `hideInTable: true, hideInDescriptions: true` plus `...buildColumnProps({ disabled: true, hidden: true })`
 
 ## Column Schema Patterns
 
-### ID Field MUST:
+### ID Field MUST
 
 - Use exact pattern with `key: "id"`, `dataIndex: "id"`, `title: "ID"`
 - Include `hideInTable: true, hideInDescriptions: true` properties
 - Include `...buildColumnProps({ disabled: true, hidden: true })`
 - Use `valueType: "text"`
 
-### Required Fields MUST:
+### Required Fields MUST
 
 - Include `...buildColumnProps({ required: true })`
 - Use `valueType: "text"`
 - Include Vietnamese `title` labels
 
-### Optional Fields MUST:
+### Optional Fields MUST
 
-- Use `valueType: "text"`
-- Include `...buildColumnProps({})` with empty configuration
+- Use specific `valueType` based on field purpose:
+  - `"select"` for dropdown fields with `options` and `valueEnum` configuration
+  - `"textarea"` for multi-line text with `autoSize` configuration
+  - `"time"` for time fields with format configuration
+  - `"date"` for date fields with format configuration
+  - `"money"` for currency fields with locale and precision configuration
 - Include Vietnamese `title` labels
+- Use appropriate `buildColumnProps` configuration for each field type
 
-### Function Structure MUST:
+### Function Structure MUST
 
 - Use exact signature: `{tableName}Column(params = {}, columnMapping = [])`
-- Use empty destructuring: `const {} = params;`
+- Use destructuring for params: `const { optionStatus } = params;`
 - Return `buildColumns(schema, columnMapping)`
-- Export additional `{tableName}Mapping` object with default configuration
+- Export additional `{tableName}Mapping` object with default column configuration including all field keys
+
+### Mapping Configuration MUST
+
+- Include `default` property with array of all column keys
+- Each column key should be in format: `{key: "field_name"}`
+- Include all fields: `id`, required fields (`{field1}`, `{field2}`, `{field3}`), and optional fields (`{optional1}` through `{optional5}`)
+- Use snake_case for field names in the mapping keys (matching database field names)
 
 ## Export to Index File
 
@@ -177,10 +216,11 @@ export * from "./{table-name}-column";
 - ✅ **Field validation**: Required field validation using `buildColumnProps({ required: true })`
 - ✅ **Vietnamese labels**: Proper Vietnamese labels for all columns
 - ✅ **Field naming**: snake_case for database fields (NOT camelCase)
-- ✅ **ValueType mapping**: Use `valueType: "text"` for all fields
-- ✅ **buildColumnProps usage**: Use spread operator with `buildColumnProps()` for all field configurations
-- ✅ **Dynamic params**: Use empty destructuring `const {} = params;`
-- ✅ **Mapping export**: Include `{tableName}Mapping` export with default configuration
+- ✅ **ValueType mapping**: Use specific `valueType` values for different field purposes (text, select, textarea, time, date, money)
+- ✅ **buildColumnProps usage**: Use spread operator with `buildColumnProps()` for all field configurations with appropriate options
+- ✅ **Dynamic params**: Use destructuring `const { optionStatus } = params;` for accessing options configuration
+- ✅ **Mapping export**: Include `{tableName}Mapping` export with default column configuration containing all field keys
+- ✅ **Mapping structure**: Default array includes all 9 column keys (id + 3 required + 5 optional fields) in `{key: "field_name"}` format
 - ✅ **Index export**: Added column export to `src/components/feature/index.js`
 
 ## Output Location

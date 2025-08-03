@@ -9,9 +9,9 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   RolesInfo,
   RolesEdit,
-  getRolesColumn,
+  rolesColumn,
   PermissionsCreate,
-  getPermissionsColumn,
+  permissionsColumn,
   RolePermissionsTransferByRole,
 } from "@/components/feature";
 import { useInfo, useForm, useNavigate, useTransfer } from "@/hooks";
@@ -35,7 +35,7 @@ function PageContent({ params }) {
   const useRoles = {
     info: useInfo(),
     edit: useForm(),
-    columns: getRolesColumn(),
+    columns: rolesColumn(),
   };
 
   // Page action buttons
@@ -86,7 +86,7 @@ function PageContent({ params }) {
   // Hooks
   const usePermissions = {
     create: useForm(),
-    columns: getPermissionsColumn(),
+    columns: permissionsColumn(),
   };
 
   const useRolePermissions = {

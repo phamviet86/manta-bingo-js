@@ -7,7 +7,8 @@ import {
   RoomsTable,
   RoomsCreate,
   RoomsEdit,
-  getRoomsColumn,
+  roomsColumn,
+  roomsMapping,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -29,7 +30,7 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: getRoomsColumn({ roomStatus }),
+    columns: roomsColumn({ roomStatus }, roomsMapping.default),
   };
 
   // Open edit

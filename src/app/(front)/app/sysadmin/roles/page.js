@@ -5,7 +5,7 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton, SubPathButton } from "@/components/ui";
-import { RolesTable, RolesCreate, getRolesColumn } from "@/components/feature";
+import { RolesTable, RolesCreate, rolesColumn } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
@@ -26,7 +26,7 @@ function PageContent() {
   const useRoles = {
     table: useTable(),
     create: useForm(),
-    columns: getRolesColumn(),
+    columns: rolesColumn(),
   };
 
   // Page action buttons
