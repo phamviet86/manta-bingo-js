@@ -60,9 +60,6 @@ function PageContent({ params }) {
     />,
   ];
 
-  const cardActions = [
-    <UsersResetPassword key="reset-password" userId={userId} />,
-  ];
   // Main content
   const pageContent = (
     <ResponsiveCard
