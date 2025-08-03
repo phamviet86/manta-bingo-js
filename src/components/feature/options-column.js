@@ -1,12 +1,8 @@
 // path: @/components/feature/options-column.js
 
-import {
-  buildColumns,
-  buildFieldProps,
-  buildFormItemProps,
-} from "@/utils/column-util";
+import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function getOptionsColumn(params = {}, columnMapping = []) {
+export function optionsColumn(params = {}, columnMapping = []) {
   const { optionColor } = params;
 
   const schema = [
@@ -15,62 +11,60 @@ export function getOptionsColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      search: false,
-      fieldProps: buildFieldProps({
+      ...buildColumnProps({
         disabled: true,
-      }),
-      formItemProps: buildFormItemProps({
         hidden: true,
+        search: false,
+        width: 56,
       }),
-      responsive: ["md"],
-      width: 56,
     },
     {
       key: "option_table",
       dataIndex: "option_table",
       title: "Bảng",
       valueType: "text",
-      formItemProps: buildFormItemProps({
-        required: true,
-      }),
-      responsive: ["md"],
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "option_column",
       dataIndex: "option_column",
       title: "Cột",
       valueType: "text",
-      formItemProps: buildFormItemProps({
-        required: true,
-      }),
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "option_label",
       dataIndex: "option_label",
       title: "Nhãn",
       valueType: "text",
-      formItemProps: buildFormItemProps({
-        required: true,
-      }),
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "option_color",
       dataIndex: "option_color",
       title: "Màu Sắc",
       valueType: "select",
-      valueEnum: optionColor || {},
-      responsive: ["lg"],
-      search: false,
+      ...buildColumnProps({ valueEnum: optionColor }),
     },
     {
       key: "option_group",
       dataIndex: "option_group",
       title: "Nhóm",
       valueType: "text",
-      responsive: ["xl"],
-      search: false,
+      ...buildColumnProps({}),
     },
   ];
 
   return buildColumns(schema, columnMapping);
 }
+
+export const optionsMapping = {
+  default: [
+    { key: "id", responsive: ["md"] },
+    { key: "option_table", responsive: ["md"] },
+    { key: "option_column" },
+    { key: "option_label" },
+    { key: "option_color", search: false, responsive: ["lg"] },
+    { key: "option_group", search: false, responsive: ["xl"] },
+  ],
+};

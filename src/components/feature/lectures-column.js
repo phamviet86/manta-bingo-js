@@ -1,10 +1,6 @@
 // path: @/components/feature/lectures-column.js
 
-import {
-  buildColumns,
-  buildFieldProps,
-  buildFormItemProps,
-} from "@/utils/column-util";
+import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
 export function getLecturesColumn(params = {}, columnMapping = []) {
   const {} = params;
@@ -15,14 +11,11 @@ export function getLecturesColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      fieldProps: buildFieldProps({
+      ...buildColumnProps({
         disabled: true,
-      }),
-      formItemProps: buildFormItemProps({
         hidden: true,
       }),
-      search: false,
-      hidden: true,
+      hideInTable: true,
       hideInDescriptions: true,
     },
     {
@@ -30,27 +23,21 @@ export function getLecturesColumn(params = {}, columnMapping = []) {
       dataIndex: "module_id",
       title: "Mã học phần",
       valueType: "text",
-      formItemProps: buildFormItemProps({
-        required: true,
-      }),
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "lecture_name",
       dataIndex: "lecture_name",
       title: "Tên bài giảng",
       valueType: "text",
-      formItemProps: buildFormItemProps({
-        required: true,
-      }),
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "lecture_status_id",
       dataIndex: "lecture_status_id",
       title: "Trạng thái bài giảng",
       valueType: "text",
-      formItemProps: buildFormItemProps({
-        required: true,
-      }),
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "lecture_no",
@@ -68,3 +55,7 @@ export function getLecturesColumn(params = {}, columnMapping = []) {
 
   return buildColumns(schema, columnMapping);
 }
+
+export const lecturesMapping = {
+  default: [],
+};

@@ -39,9 +39,9 @@ export function getSyllabusesColumn(params = {}, columnMapping = []) {
       dataIndex: "syllabus_status_id",
       title: "Trạng thái",
       valueType: "select",
-      valueEnum: syllabusStatus?.valueEnum || {},
+      valueEnum: syllabusStatus?.valueEnum,
       fieldProps: buildFieldProps({
-        options: syllabusStatus.options || [],
+        options: syllabusStatus.options,
       }),
       formItemProps: buildFormItemProps({
         required: true,

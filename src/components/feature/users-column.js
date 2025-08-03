@@ -2,11 +2,7 @@
 
 import { Space, Typography } from "antd";
 import { DiceBeerAvatar, SubLink } from "@/components/ui";
-import {
-  buildColumns,
-  buildFieldProps,
-  buildFormItemProps,
-} from "@/utils/column-util";
+import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
 export function getUsersColumn(params = {}, columnMapping = []) {
   const { userStatus } = params;
@@ -17,14 +13,11 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      fieldProps: buildFieldProps({
+      ...buildColumnProps({
         disabled: true,
-      }),
-      formItemProps: buildFormItemProps({
         hidden: true,
       }),
-      search: false,
-      hidden: true,
+      hideInTable: true,
       hideInDescriptions: true,
     },
     {
@@ -32,7 +25,7 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_name",
       title: "Người dùng",
       valueType: "text",
-      formItemProps: buildFormItemProps({
+      ...buildColumnProps({
         required: true,
       }),
     },
@@ -41,28 +34,28 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_desc",
       title: "Mô tả",
       valueType: "text",
-      colProps: { sm: 12 },
+      ...buildColumnProps({
+        colProps: { sm: 12 },
+      }),
     },
     {
       key: "user_status_id",
       dataIndex: "user_status_id",
       title: "Trạng thái",
       valueType: "select",
-      valueEnum: userStatus.valueEnum || {},
-      fieldProps: buildFieldProps({
-        options: userStatus.options || [],
-      }),
-      formItemProps: buildFormItemProps({
+      ...buildColumnProps({
+        valueEnum: userStatus.valueEnum,
+        options: userStatus.options,
         required: true,
+        colProps: { sm: 12 },
       }),
-      colProps: { sm: 12 },
     },
     {
       key: "user_email",
       dataIndex: "user_email",
       title: "Email",
       valueType: "text",
-      formItemProps: buildFormItemProps({
+      ...buildColumnProps({
         required: true,
       }),
     },
@@ -85,7 +78,7 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_avatar",
       title: "Ảnh đại diện",
       valueType: "textarea",
-      fieldProps: buildFieldProps({
+      ...buildColumnProps({
         autoSize: { minRows: 1, maxRows: 3 },
       }),
       hideInDescriptions: true,
@@ -95,7 +88,7 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_notes",
       title: "Ghi chú",
       valueType: "textarea",
-      fieldProps: buildFieldProps({
+      ...buildColumnProps({
         autoSize: { minRows: 3, maxRows: 6 },
       }),
     },

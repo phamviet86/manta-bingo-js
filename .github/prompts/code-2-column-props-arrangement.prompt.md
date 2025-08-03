@@ -1,7 +1,16 @@
 ---
 mode: "agent"
 model: GPT-4.1
-tools: ["changes","codebase","editFiles","githubRepo","problems","search","searchResults"]
+tools:
+  [
+    "changes",
+    "codebase",
+    "editFiles",
+    "githubRepo",
+    "problems",
+    "search",
+    "searchResults",
+  ]
 description: "Arrange column object properties in consistent order for better code readability and maintenance"
 ---
 
@@ -112,9 +121,9 @@ export function get{TableName}Column(params = {}, columnMapping = []) {
       dataIndex: "select_field",
       title: "Select Field",
       valueType: "select",
-      valueEnum: enumObject.valueEnum || {},
+      valueEnum: enumObject.valueEnum,
       fieldProps: buildFieldProps({
-        options: enumObject.options || [],
+        options: enumObject.options,
       }),
       formItemProps: buildFormItemProps({
         required: true,
@@ -240,9 +249,9 @@ export const {TABLE_NAME}_COLUMNS = [
   dataIndex: "status_field",
   title: "Status",
   valueType: "select",
-  valueEnum: statusEnum.valueEnum || {},
+  valueEnum: statusEnum.valueEnum,
   fieldProps: buildFieldProps({
-    options: statusEnum.options || [],
+    options: statusEnum.options,
   }),
   formItemProps: buildFormItemProps({
     required: true,

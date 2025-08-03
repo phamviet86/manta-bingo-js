@@ -1,10 +1,6 @@
 // path: @/components/feature/shifts-column.js
 
-import {
-  buildColumns,
-  buildFieldProps,
-  buildFormItemProps,
-} from "@/utils/column-util";
+import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
 export function getShiftsColumn(params = {}, columnMapping = []) {
   const { shiftStatus } = params;
@@ -15,35 +11,25 @@ export function getShiftsColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      search: false,
-      hidden: true,
-      fieldProps: buildFieldProps({
-        disabled: true,
-      }),
-      formItemProps: buildFormItemProps({
-        hidden: true,
-      }),
+      ...buildColumnProps({ disabled: true, hidden: true }),
+      hideInTable: true,
     },
     {
       key: "shift_name",
       dataIndex: "shift_name",
       title: "Ca học",
       valueType: "text",
-      formItemProps: buildFormItemProps({
-        required: true,
-      }),
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "shift_status_id",
       dataIndex: "shift_status_id",
       title: "Trạng thái",
       valueType: "select",
-      valueEnum: shiftStatus.valueEnum || {},
-      fieldProps: buildFieldProps({
-        options: shiftStatus.options || [],
-      }),
-      formItemProps: buildFormItemProps({
+      ...buildColumnProps({
         required: true,
+        options: shiftStatus.options,
+        valueEnum: shiftStatus.valueEnum,
       }),
     },
     {
@@ -51,15 +37,13 @@ export function getShiftsColumn(params = {}, columnMapping = []) {
       dataIndex: "shift_start_time",
       title: "Giờ bắt đầu",
       valueType: "time",
-      search: false,
-      fieldProps: buildFieldProps({
+      ...buildColumnProps({
+        required: true,
         format: "HH:mm",
         style: { width: "100%" },
+        colProps: { xs: 12 },
       }),
-      formItemProps: buildFormItemProps({
-        required: true,
-      }),
-      colProps: { xs: 12 },
+      search: false,
       responsive: ["md"],
     },
     {
@@ -67,15 +51,13 @@ export function getShiftsColumn(params = {}, columnMapping = []) {
       dataIndex: "shift_end_time",
       title: "Giờ kết thúc",
       valueType: "time",
-      search: false,
-      fieldProps: buildFieldProps({
+      ...buildColumnProps({
+        required: true,
         format: "HH:mm",
         style: { width: "100%" },
+        colProps: { xs: 12 },
       }),
-      formItemProps: buildFormItemProps({
-        required: true,
-      }),
-      colProps: { xs: 12 },
+      search: false,
       responsive: ["md"],
     },
     {
@@ -83,10 +65,8 @@ export function getShiftsColumn(params = {}, columnMapping = []) {
       dataIndex: "shift_desc",
       title: "Mô tả",
       valueType: "textarea",
+      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
       search: false,
-      fieldProps: buildFieldProps({
-        autoSize: { minRows: 3, maxRows: 6 },
-      }),
       responsive: ["lg"],
     },
   ];

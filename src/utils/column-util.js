@@ -78,3 +78,114 @@ export function buildColumns(schema, columnMapping) {
   }
   return schema;
 }
+
+/**
+ * Separates the provided props into field props, form item props, and rest props based on known prop names.
+ * This function is used for form fields only and does not affect table display.
+ *
+ * @param {Object} props - The props object containing various properties for fields and form items.
+ * @returns {Object} An object containing three functions:
+ *   - fieldProps: Returns the separated field props.
+ *   - formItemProps: Returns the separated form item props.
+ *   - restProps: Returns the rest props that don't belong to field or form item props.
+ */
+export function buildColumnProps(props) {
+  // Known field props (for input components)
+  const fieldPropNames = new Set([
+    "disabled",
+    "placeholder",
+    "autoSize",
+    "options",
+    "allowClear",
+    "showSearch",
+    "mode",
+    "size",
+    "variant",
+    "maxLength",
+    "minLength",
+    "rows",
+    "cols",
+    "readOnly",
+    "defaultValue",
+    "value",
+    "onChange",
+    "onBlur",
+    "onFocus",
+    "prefix",
+    "suffix",
+    "addonBefore",
+    "addonAfter",
+    "showCount",
+    "status",
+    "style",
+    "format",
+  ]);
+
+  // Known form item props
+  const formItemPropNames = new Set([
+    "required",
+    "rules",
+    "label",
+    "layout",
+    "labelCol",
+    "wrapperCol",
+    "colon",
+    "extra",
+    "hasFeedback",
+    "help",
+    "hidden",
+    "htmlFor",
+    "labelAlign",
+    "messageVariables",
+    "name",
+    "normalize",
+    "noStyle",
+    "preserve",
+    "shouldUpdate",
+    "tooltip",
+    "trigger",
+    "validateFirst",
+    "validateStatus",
+    "validateTrigger",
+    "valuePropName",
+    "dependencies",
+  ]);
+
+  const restPropNames = new Set(["hiddenInTable"]);
+
+  const customName = {
+    hiddenInTable: "hidden",
+  };
+
+  // Separate props based on their names
+  const fieldProps = {};
+  const formItemProps = {};
+  const restProps = {};
+
+  for (const [key, value] of Object.entries(props)) {
+    const mappedKey = customName[key] || key;
+
+    if (fieldPropNames.has(key)) {
+      fieldProps[mappedKey] = value;
+    } else if (formItemPropNames.has(key)) {
+      formItemProps[mappedKey] = value;
+    } else if (restPropNames.has(key)) {
+      restProps[mappedKey] = value;
+    } else {
+      // Props that don't belong to field or form item props
+      restProps[key] = value;
+    }
+  }
+
+  return {
+    fieldProps: (_, config) => {
+      if (!config?.proFieldProps) return { ...fieldProps };
+      return {};
+    },
+    formItemProps: (config) => {
+      if (!config?.proFieldProps) return { ...formItemProps };
+      return {};
+    },
+    ...restProps,
+  };
+}
