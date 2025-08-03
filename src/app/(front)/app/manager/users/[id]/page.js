@@ -2,8 +2,13 @@
 
 import { use } from "react";
 import { ProCard } from "@ant-design/pro-components";
-import { Row, Col, Card, Space } from "antd";
-import { AntPage, AntButton, DiceBeerImage } from "@/components/ui";
+import { Space } from "antd";
+import {
+  AntPage,
+  AntButton,
+  ResponsiveCard,
+  DiceBeerImage,
+} from "@/components/ui";
 import {
   UsersInfo,
   UsersEdit,
@@ -60,15 +65,20 @@ function PageContent({ params }) {
   ];
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered split="horizontal" gutter={16}>
-      <ProCard boxShadow bordered colSpan="20%" style={{ textAlign: "center" }}>
+    <ResponsiveCard
+      boxShadow
+      bordered
+      splitAt="md"
+      actions={<UsersResetPassword userId={userId} />}
+    >
+      <ProCard colSpan={{ sm: 24, md: "240px" }} layout="center">
         <DiceBeerImage
           src={useUsers.info?.dataSource?.user_avatar}
           seed={userId}
           style={{ maxWidth: "240px", maxHeight: "240px" }}
         />
       </ProCard>
-      <ProCard boxShadow bordered colSpan="80%" actions={cardActions}>
+      <ProCard>
         <UsersInfo
           infoHook={useUsers.info}
           requestParams={{ id: userId }}
@@ -88,7 +98,7 @@ function PageContent({ params }) {
           variant="drawer"
         />
       </ProCard>
-    </ProCard>
+    </ResponsiveCard>
   );
 
   // Page title
