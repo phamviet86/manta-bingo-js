@@ -43,8 +43,8 @@ export const MENU_CONFIG = [
     path: "/app/manager",
     icon: <BankOutlined />,
     routes: [
-      { path: "/app/setup/syllabuses", name: "Giáo trình" },
       { path: "/app/manager/users", name: "Người dùng" },
+      { path: "/app/setup/syllabuses", name: "Giáo trình" },
       { path: "/app/setup/courses", name: "Khóa học" },
       { path: "/app/manager/classes", name: "Lớp học" },
       { path: "/app/manager/schedules", name: "Lịch học" },
