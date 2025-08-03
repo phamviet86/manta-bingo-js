@@ -162,7 +162,7 @@ function PageContent({ params }) {
   return (
     <AntPage
       items={[
-        { title: "Hệ thống" },
+        { title: "Quản lý" },
         { title: "Người dùng" },
         { title: "Chi tiết" },
       ]}

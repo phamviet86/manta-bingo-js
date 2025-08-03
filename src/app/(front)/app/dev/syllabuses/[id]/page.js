@@ -217,7 +217,7 @@ function PageContent({ params }) {
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
-    columns: lecturesColumn(),
+    columns: lecturesColumn({ lectureStatus }),
   };
 
   // Open info modal
@@ -332,7 +332,7 @@ function PageContent({ params }) {
   return (
     <AntPage
       items={[
-        { title: "Hệ thống" },
+        { title: "Quản lý" },
         { title: "Giáo trình" },
         { title: "Chi tiết" },
       ]}
