@@ -1,7 +1,8 @@
 "use client";
 
 import { InfoCircleOutlined, EditOutlined } from "@ant-design/icons";
-import { Row, Col, Card, Space } from "antd";
+import { ProCard } from "@ant-design/pro-components";
+import { Space } from "antd";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   LecturesTable,
@@ -15,11 +16,9 @@ import { useTable, useInfo, useForm } from "@/hooks";
 export default function Page() {
   const pageButton = [];
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable />
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      {/* ...existing content or children if needed */}
+    </ProCard>
   );
   const pageTitle = "Bài giảng Tab";
 
@@ -69,72 +68,68 @@ export default function Page() {
 
   // lectures tab content
   const lecturesContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable title="Danh sách" extra={lecturesButton}>
-          <LecturesTable
-            tableHook={useLectures.table}
-            columns={useLectures.columns}
-            leftColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => (
-                  <AntButton
-                    icon={<InfoCircleOutlined />}
-                    color="primary"
-                    variant="link"
-                    onClick={() => openLecturesInfo(record)}
-                  />
-                ),
-              },
-            ]}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => (
-                  <AntButton
-                    icon={<EditOutlined />}
-                    color="primary"
-                    variant="link"
-                    onClick={() => openLecturesEdit(record)}
-                  />
-                ),
-              },
-            ]}
-          />
-          <LecturesInfo
-            infoHook={useLectures.info}
-            columns={useLectures.columns}
-            requestParams={useLectures.info.requestParams}
-            title="Thông tin Bài giảng"
-            variant="modal"
-            column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
-            size="small"
-          />
-          <LecturesCreate
-            formHook={useLectures.create}
-            columns={useLectures.columns}
-            onSubmitSuccess={() => useLectures.table.reload()}
-            title="Tạo Bài giảng"
-            variant="drawer"
-          />
-          <LecturesEdit
-            formHook={useLectures.edit}
-            columns={useLectures.columns}
-            requestParams={useLectures.edit.requestParams}
-            deleteParams={useLectures.edit.deleteParams}
-            onSubmitSuccess={() => useLectures.table.reload()}
-            onDeleteSuccess={() => useLectures.table.reload()}
-            title="Sửa Bài giảng"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered title="Danh sách" extra={lecturesButton}>
+      <LecturesTable
+        tableHook={useLectures.table}
+        columns={useLectures.columns}
+        leftColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<InfoCircleOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => openLecturesInfo(record)}
+              />
+            ),
+          },
+        ]}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<EditOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => openLecturesEdit(record)}
+              />
+            ),
+          },
+        ]}
+      />
+      <LecturesInfo
+        infoHook={useLectures.info}
+        columns={useLectures.columns}
+        requestParams={useLectures.info.requestParams}
+        title="Thông tin Bài giảng"
+        variant="modal"
+        column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
+        size="small"
+      />
+      <LecturesCreate
+        formHook={useLectures.create}
+        columns={useLectures.columns}
+        onSubmitSuccess={() => useLectures.table.reload()}
+        title="Tạo Bài giảng"
+        variant="drawer"
+      />
+      <LecturesEdit
+        formHook={useLectures.edit}
+        columns={useLectures.columns}
+        requestParams={useLectures.edit.requestParams}
+        deleteParams={useLectures.edit.deleteParams}
+        onSubmitSuccess={() => useLectures.table.reload()}
+        onDeleteSuccess={() => useLectures.table.reload()}
+        title="Sửa Bài giảng"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // lectures tab configuration

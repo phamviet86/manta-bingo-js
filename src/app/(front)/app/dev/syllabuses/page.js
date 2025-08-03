@@ -1,7 +1,7 @@
 "use client";
 
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { Row, Col, Card } from "antd";
+import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import {
   SyllabusesTable,
@@ -51,40 +51,36 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable>
-          <SyllabusesTable
-            tableHook={useSyllabuses.table}
-            columns={useSyllabuses.columns}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => {
-                  return (
-                    <SubPathButton
-                      icon={<InfoCircleOutlined />}
-                      color="primary"
-                      variant="link"
-                      path={record?.id}
-                    />
-                  );
-                },
-              },
-            ]}
-          />
-          <SyllabusesCreate
-            formHook={useSyllabuses.create}
-            columns={useSyllabuses.columns}
-            onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
-            title="Tạo giáo trình"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      <SyllabusesTable
+        tableHook={useSyllabuses.table}
+        columns={useSyllabuses.columns}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => {
+              return (
+                <SubPathButton
+                  icon={<InfoCircleOutlined />}
+                  color="primary"
+                  variant="link"
+                  path={record?.id}
+                />
+              );
+            },
+          },
+        ]}
+      />
+      <SyllabusesCreate
+        formHook={useSyllabuses.create}
+        columns={useSyllabuses.columns}
+        onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
+        title="Tạo giáo trình"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // Render

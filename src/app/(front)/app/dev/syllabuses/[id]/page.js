@@ -2,7 +2,8 @@
 
 import { use } from "react";
 import { InfoCircleOutlined, EditOutlined } from "@ant-design/icons";
-import { Row, Col, Card, Space } from "antd";
+import { ProCard } from "@ant-design/pro-components";
+import { Space } from "antd";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   SyllabusesInfo,
@@ -58,29 +59,25 @@ function PageContent({ params }) {
 
   // Main content
   const pageContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable>
-          <SyllabusesInfo
-            infoHook={useSyllabuses.info}
-            requestParams={{ id: syllabusId }}
-            onRequestSuccess={(result) =>
-              useSyllabuses.info.setDataSource(result?.data?.[0])
-            }
-            columns={useSyllabuses.columns}
-          />
-          <SyllabusesEdit
-            formHook={useSyllabuses.edit}
-            columns={useSyllabuses.columns}
-            requestParams={{ id: syllabusId }}
-            onSubmitSuccess={useSyllabuses.info.reload}
-            onDeleteSuccess={navBack}
-            title="Chỉnh sửa giáo trình"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered>
+      <SyllabusesInfo
+        infoHook={useSyllabuses.info}
+        requestParams={{ id: syllabusId }}
+        onRequestSuccess={(result) =>
+          useSyllabuses.info.setDataSource(result?.data?.[0])
+        }
+        columns={useSyllabuses.columns}
+      />
+      <SyllabusesEdit
+        formHook={useSyllabuses.edit}
+        columns={useSyllabuses.columns}
+        requestParams={{ id: syllabusId }}
+        onSubmitSuccess={useSyllabuses.info.reload}
+        onDeleteSuccess={navBack}
+        title="Chỉnh sửa giáo trình"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // Page title
@@ -133,72 +130,68 @@ function PageContent({ params }) {
 
   // modules tab content
   const modulesContent = (
-    <Row gutter={[16, 16]} wrap>
-      <Col xs={24}>
-        <Card hoverable title="Danh sách" extra={modulesButton}>
-          <ModulesTable
-            tableHook={useModules.table}
-            columns={useModules.columns}
-            leftColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => (
-                  <AntButton
-                    icon={<InfoCircleOutlined />}
-                    color="primary"
-                    variant="link"
-                    onClick={() => openModulesInfo(record)}
-                  />
-                ),
-              },
-            ]}
-            rightColumns={[
-              {
-                width: 56,
-                align: "center",
-                search: false,
-                render: (_, record) => (
-                  <AntButton
-                    icon={<EditOutlined />}
-                    color="primary"
-                    variant="link"
-                    onClick={() => openModulesEdit(record)}
-                  />
-                ),
-              },
-            ]}
-          />
-          <ModulesInfo
-            infoHook={useModules.info}
-            columns={useModules.columns}
-            requestParams={useModules.info.requestParams}
-            title="Thông tin học phần"
-            variant="modal"
-            column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
-            size="small"
-          />
-          <ModulesCreate
-            formHook={useModules.create}
-            columns={useModules.columns}
-            onSubmitSuccess={() => useModules.table.reload()}
-            title="Tạo học phần"
-            variant="drawer"
-          />
-          <ModulesEdit
-            formHook={useModules.edit}
-            columns={useModules.columns}
-            requestParams={useModules.edit.requestParams}
-            deleteParams={useModules.edit.deleteParams}
-            onSubmitSuccess={() => useModules.table.reload()}
-            onDeleteSuccess={() => useModules.table.reload()}
-            title="Sửa học phần"
-            variant="drawer"
-          />
-        </Card>
-      </Col>
-    </Row>
+    <ProCard boxShadow bordered title="Danh sách" extra={modulesButton}>
+      <ModulesTable
+        tableHook={useModules.table}
+        columns={useModules.columns}
+        leftColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<InfoCircleOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => openModulesInfo(record)}
+              />
+            ),
+          },
+        ]}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<EditOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => openModulesEdit(record)}
+              />
+            ),
+          },
+        ]}
+      />
+      <ModulesInfo
+        infoHook={useModules.info}
+        columns={useModules.columns}
+        requestParams={useModules.info.requestParams}
+        title="Thông tin học phần"
+        variant="modal"
+        column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
+        size="small"
+      />
+      <ModulesCreate
+        formHook={useModules.create}
+        columns={useModules.columns}
+        onSubmitSuccess={() => useModules.table.reload()}
+        title="Tạo học phần"
+        variant="drawer"
+      />
+      <ModulesEdit
+        formHook={useModules.edit}
+        columns={useModules.columns}
+        requestParams={useModules.edit.requestParams}
+        deleteParams={useModules.edit.deleteParams}
+        onSubmitSuccess={() => useModules.table.reload()}
+        onDeleteSuccess={() => useModules.table.reload()}
+        title="Sửa học phần"
+        variant="drawer"
+      />
+    </ProCard>
   );
 
   // modules tab configuration
