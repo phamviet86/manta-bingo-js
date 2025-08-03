@@ -13,30 +13,23 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({
-        disabled: true,
-        hidden: true,
-      }),
       hideInTable: true,
       hideInDescriptions: true,
+      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "user_name",
       dataIndex: "user_name",
       title: "Người dùng",
       valueType: "text",
-      ...buildColumnProps({
-        required: true,
-      }),
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "user_desc",
       dataIndex: "user_desc",
       title: "Mô tả",
       valueType: "text",
-      ...buildColumnProps({
-        colProps: { sm: 12 },
-      }),
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "user_status_id",
@@ -44,9 +37,9 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       title: "Trạng thái",
       valueType: "select",
       ...buildColumnProps({
+        required: true,
         valueEnum: userStatus.valueEnum,
         options: userStatus.options,
-        required: true,
         colProps: { sm: 12 },
       }),
     },
@@ -55,42 +48,36 @@ export function getUsersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_email",
       title: "Email",
       valueType: "text",
-      ...buildColumnProps({
-        required: true,
-      }),
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "user_phone",
       dataIndex: "user_phone",
       title: "Phone",
       valueType: "text",
-      colProps: { sm: 12 },
+      ...buildColumnProps({ colProps: { sm: 12 } }),
     },
     {
       key: "user_parent_phone",
       dataIndex: "user_parent_phone",
       title: "Phone 2",
       valueType: "text",
-      colProps: { sm: 12 },
+      ...buildColumnProps({ colProps: { sm: 12 } }),
     },
     {
       key: "user_avatar",
       dataIndex: "user_avatar",
       title: "Ảnh đại diện",
       valueType: "textarea",
-      ...buildColumnProps({
-        autoSize: { minRows: 1, maxRows: 3 },
-      }),
       hideInDescriptions: true,
+      ...buildColumnProps({ autoSize: { minRows: 1, maxRows: 3 } }),
     },
     {
       key: "user_notes",
       dataIndex: "user_notes",
       title: "Ghi chú",
       valueType: "textarea",
-      ...buildColumnProps({
-        autoSize: { minRows: 3, maxRows: 6 },
-      }),
+      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
     },
     {
       key: "displayAvatar",
