@@ -2,8 +2,8 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function getLecturesColumn(params = {}, columnMapping = []) {
-  const {} = params;
+export function lecturesColumn(params = {}, columnMapping = []) {
+  const { lectureStatus } = params;
 
   const schema = [
     {
@@ -18,35 +18,42 @@ export function getLecturesColumn(params = {}, columnMapping = []) {
     {
       key: "module_id",
       dataIndex: "module_id",
-      title: "Mã học phần",
+      title: "ID Học phần",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      hideInTable: true,
+      hideInDescriptions: true,
+      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "lecture_name",
       dataIndex: "lecture_name",
-      title: "Tên bài giảng",
+      title: "Bài giảng",
       valueType: "text",
       ...buildColumnProps({ required: true }),
     },
     {
       key: "lecture_status_id",
       dataIndex: "lecture_status_id",
-      title: "Trạng thái bài giảng",
+      title: "Trạng thái",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({
+        required: true,
+        valueEnum: lectureStatus?.valueEnum,
+        options: lectureStatus.options,
+      }),
     },
     {
       key: "lecture_no",
       dataIndex: "lecture_no",
-      title: "Số thứ tự bài giảng",
-      valueType: "text",
+      title: "Số thứ tự",
+      valueType: "digit",
     },
     {
       key: "lecture_desc",
       dataIndex: "lecture_desc",
-      title: "Mô tả bài giảng",
-      valueType: "text",
+      title: "Mô tả",
+      valueType: "textarea",
+      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
     },
   ];
 
