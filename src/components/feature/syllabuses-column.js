@@ -1,13 +1,8 @@
 // path: @/components/feature/syllabuses-column.js
 
-import {
-  buildColumns,
-  buildColumnProps,
-  buildFieldProps,
-  buildFormItemProps,
-} from "@/utils/column-util";
+import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function getSyllabusesColumn(params = {}, columnMapping = []) {
+export function syllabusesColumn(params = {}, columnMapping = []) {
   const { syllabusStatus } = params;
 
   const schema = [
@@ -42,3 +37,7 @@ export function getSyllabusesColumn(params = {}, columnMapping = []) {
 
   return buildColumns(schema, columnMapping);
 }
+
+export const syllabusesMapping = {
+  default: [],
+};

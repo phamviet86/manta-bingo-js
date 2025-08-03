@@ -8,7 +8,8 @@ import {
   ModulesCreate,
   ModulesInfo,
   ModulesEdit,
-  getModulesColumn,
+  modulesColumn,
+  modulesMapping,
 } from "@/components/feature";
 import { useTable, useInfo, useForm } from "@/hooks";
 
@@ -24,7 +25,7 @@ export default function Page() {
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
-    columns: getModulesColumn(),
+    columns: modulesColumn(),
   };
 
   // Open info modal

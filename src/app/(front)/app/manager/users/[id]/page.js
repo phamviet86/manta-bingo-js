@@ -16,7 +16,7 @@ import {
   usersMapping,
   UsersResetPassword,
   UserRolesTable,
-  getUserRolesColumn,
+  userRolesColumn,
   UserRolesTransferByUser,
 } from "@/components/feature";
 import { useTable, useInfo, useForm, useNavigate, useTransfer } from "@/hooks";
@@ -107,7 +107,7 @@ function PageContent({ params }) {
   // Hooks
   const useUserRoles = {
     table: useTable(),
-    columns: getUserRolesColumn(),
+    columns: userRolesColumn(),
     transfer: useTransfer(),
   };
 

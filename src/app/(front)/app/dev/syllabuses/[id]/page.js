@@ -8,12 +8,13 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   SyllabusesInfo,
   SyllabusesEdit,
-  getSyllabusesColumn,
+  syllabusesColumn,
   ModulesTable,
   ModulesCreate,
   ModulesInfo,
   ModulesEdit,
-  getModulesColumn,
+  modulesColumn,
+  modulesMapping,
 } from "@/components/feature";
 import { useTable, useInfo, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
@@ -36,7 +37,7 @@ function PageContent({ params }) {
   const useSyllabuses = {
     info: useInfo(),
     edit: useForm(),
-    columns: getSyllabusesColumn({ syllabusStatus }),
+    columns: syllabusesColumn({ syllabusStatus }),
   };
 
   // Page action buttons
@@ -90,7 +91,7 @@ function PageContent({ params }) {
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
-    columns: getModulesColumn({ moduleStatus }),
+    columns: modulesColumn({ moduleStatus }, modulesMapping.default),
   };
 
   // Open info modal
@@ -164,6 +165,7 @@ function PageContent({ params }) {
             ),
           },
         ]}
+        requestParams={{ syllabus_id: syllabusId }}
       />
       <ModulesInfo
         infoHook={useModules.info}
@@ -178,6 +180,7 @@ function PageContent({ params }) {
         formHook={useModules.create}
         columns={useModules.columns}
         onSubmitSuccess={() => useModules.table.reload()}
+        initialValues={{ syllabus_id: syllabusId }}
         title="Tạo học phần"
         variant="drawer"
       />

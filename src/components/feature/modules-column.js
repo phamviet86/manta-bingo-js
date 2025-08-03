@@ -2,8 +2,8 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function getModulesColumn(params = {}, columnMapping = []) {
-  const {} = params;
+export function modulesColumn(params = {}, columnMapping = []) {
+  const { moduleStatus } = params;
 
   const schema = [
     {
@@ -11,41 +11,35 @@ export function getModulesColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({
-        hideInTable: true,
-        hideInDescriptions: true,
-        disabled: true,
-        hidden: true,
-      }),
+      hideInTable: true,
+      hideInDescriptions: true,
+      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "syllabus_id",
       dataIndex: "syllabus_id",
       title: "ID Giáo trình",
       valueType: "text",
-      ...buildColumnProps({
-        hideInTable: true,
-        hideInDescriptions: true,
-        disabled: true,
-        hidden: true,
-      }),
+      hideInTable: true,
+      hideInDescriptions: true,
+      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "module_name",
       dataIndex: "module_name",
       title: "Học phần",
       valueType: "text",
-      ...buildColumnProps({
-        required: true,
-      }),
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "module_status_id",
       dataIndex: "module_status_id",
       title: "Trạng thái",
-      valueType: "text",
+      valueType: "select",
       ...buildColumnProps({
         required: true,
+        valueEnum: moduleStatus?.valueEnum,
+        options: moduleStatus.options,
       }),
     },
     {
@@ -53,11 +47,19 @@ export function getModulesColumn(params = {}, columnMapping = []) {
       dataIndex: "module_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({
-        autoSize: { minRows: 3, maxRows: 6 },
-      }),
+      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
     },
   ];
 
   return buildColumns(schema, columnMapping);
 }
+
+export const modulesMapping = {
+  default: [
+    { key: "id" },
+    { key: "syllabus_id" },
+    { key: "module_name" },
+    { key: "module_status_id" },
+    { key: "module_desc", search: false, responsive: ["md"] },
+  ],
+};

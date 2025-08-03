@@ -6,7 +6,7 @@ import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import {
   SyllabusesTable,
   SyllabusesCreate,
-  getSyllabusesColumn,
+  syllabusesColumn,
 } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -28,7 +28,7 @@ function PageContent() {
   const useSyllabuses = {
     table: useTable(),
     create: useForm(),
-    columns: getSyllabusesColumn({ syllabusStatus }),
+    columns: syllabusesColumn({ syllabusStatus }),
   };
 
   // Page action buttons
