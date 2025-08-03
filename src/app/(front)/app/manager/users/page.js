@@ -5,8 +5,8 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   UsersTable,
   UsersCreate,
-  getUsersColumn,
-  USERS_COLUMNS,
+  usersColumn,
+  usersMapping,
 } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -28,7 +28,7 @@ function PageContent() {
   const useUsers = {
     table: useTable(),
     create: useForm(),
-    columns: getUsersColumn({ userStatus }, USERS_COLUMNS),
+    columns: usersColumn({ userStatus }, usersMapping.default),
   };
 
   // Page action buttons

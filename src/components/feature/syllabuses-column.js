@@ -2,6 +2,7 @@
 
 import {
   buildColumns,
+  buildColumnProps,
   buildFieldProps,
   buildFormItemProps,
 } from "@/utils/column-util";
@@ -15,36 +16,26 @@ export function getSyllabusesColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      fieldProps: buildFieldProps({
-        disabled: true,
-      }),
-      formItemProps: buildFormItemProps({
-        hidden: true,
-      }),
-      search: false,
-      hidden: true,
+      hideInTable: true,
       hideInDescriptions: true,
+      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "syllabus_name",
       dataIndex: "syllabus_name",
       title: "Giáo trình",
       valueType: "text",
-      formItemProps: buildFormItemProps({
-        required: true,
-      }),
+      ...buildColumnProps({ required: true }),
     },
     {
       key: "syllabus_status_id",
       dataIndex: "syllabus_status_id",
       title: "Trạng thái",
       valueType: "select",
-      valueEnum: syllabusStatus?.valueEnum,
-      fieldProps: buildFieldProps({
-        options: syllabusStatus.options,
-      }),
-      formItemProps: buildFormItemProps({
+      ...buildColumnProps({
         required: true,
+        valueEnum: syllabusStatus?.valueEnum,
+        options: syllabusStatus.options,
       }),
     },
   ];

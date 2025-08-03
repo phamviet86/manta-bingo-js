@@ -12,7 +12,8 @@ import {
 import {
   UsersInfo,
   UsersEdit,
-  getUsersColumn,
+  usersColumn,
+  usersMapping,
   UsersResetPassword,
   UserRolesTable,
   getUserRolesColumn,
@@ -39,7 +40,7 @@ function PageContent({ params }) {
   const useUsers = {
     info: useInfo(),
     edit: useForm(),
-    columns: getUsersColumn({ userStatus }),
+    columns: usersColumn({ userStatus }, usersMapping.default),
   };
 
   // Page action buttons

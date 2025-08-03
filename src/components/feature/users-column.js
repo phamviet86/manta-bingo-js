@@ -4,7 +4,7 @@ import { Space, Typography } from "antd";
 import { DiceBeerAvatar, SubLink } from "@/components/ui";
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function getUsersColumn(params = {}, columnMapping = []) {
+export function usersColumn(params = {}, columnMapping = []) {
   const { userStatus } = params;
 
   const schema = [
@@ -118,16 +118,18 @@ export function getUsersColumn(params = {}, columnMapping = []) {
   return buildColumns(schema, columnMapping);
 }
 
-export const USERS_COLUMNS = [
-  { key: "displayAvatar" },
-  { key: "displayUser" },
-  { key: "id" },
-  { key: "user_name", hidden: true },
-  { key: "user_desc", hidden: true },
-  { key: "user_status_id", responsive: ["sm"] },
-  { key: "user_email", responsive: ["md"] },
-  { key: "user_phone", hidden: true, responsive: ["lg"] },
-  { key: "user_parent_phone", hidden: true },
-  { key: "user_avatar", search: false, hidden: true },
-  { key: "user_notes", search: false, responsive: ["xl"] },
-];
+export const usersMapping = {
+  default: [
+    { key: "displayAvatar" },
+    { key: "displayUser" },
+    { key: "id" },
+    { key: "user_name", hidden: true },
+    { key: "user_desc", hidden: true },
+    { key: "user_status_id", responsive: ["sm"] },
+    { key: "user_email", responsive: ["md"] },
+    { key: "user_phone", hidden: true, responsive: ["lg"] },
+    { key: "user_parent_phone", hidden: true },
+    { key: "user_avatar", search: false, hidden: true },
+    { key: "user_notes", search: false, responsive: ["xl"] },
+  ],
+};
