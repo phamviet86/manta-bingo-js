@@ -8,7 +8,6 @@ import {
   ShiftsCreate,
   ShiftsEdit,
   shiftsColumn,
-  shiftsMapping,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -30,7 +29,7 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: shiftsColumn({ shiftStatus }, shiftsMapping.default),
+    columns: shiftsColumn({ shiftStatus }),
   };
 
   // Open edit

@@ -43,7 +43,9 @@ export function shiftsColumn(params = {}, columnMapping = []) {
         format: "HH:mm",
         style: { width: "100%" },
         colProps: { xs: 12 },
+        search: false,
       }),
+      responsive: ["md"],
     },
     {
       key: "shift_end_time",
@@ -55,14 +57,20 @@ export function shiftsColumn(params = {}, columnMapping = []) {
         format: "HH:mm",
         style: { width: "100%" },
         colProps: { xs: 12 },
+        search: false,
       }),
+      responsive: ["md"],
     },
     {
       key: "shift_desc",
       dataIndex: "shift_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+      ...buildColumnProps({
+        autoSize: { minRows: 3, maxRows: 6 },
+        search: false,
+      }),
+      responsive: ["lg"],
     },
   ];
 
@@ -70,12 +78,5 @@ export function shiftsColumn(params = {}, columnMapping = []) {
 }
 
 export const shiftsMapping = {
-  default: [
-    { key: "id" },
-    { key: "shift_name" },
-    { key: "shift_status_id" },
-    { key: "shift_start_time", search: false, responsive: ["md"] },
-    { key: "shift_end_time", search: false, responsive: ["md"] },
-    { key: "shift_desc", search: false, responsive: ["lg"] },
-  ],
+  default: [],
 };
