@@ -22,9 +22,6 @@ export function lecturesColumn(params = {}, columnMapping = []) {
       dataIndex: "module_id",
       title: "Học phần",
       valueType: "select",
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
       ...buildColumnProps({
         required: true,
         request: async (params) =>
@@ -32,7 +29,7 @@ export function lecturesColumn(params = {}, columnMapping = []) {
             value: "id",
             label: "module_name",
           }),
-        params: { syllabus_id: syllabusId }, // 11 = Active
+        params: { syllabus_id: syllabusId },
       }),
     },
     {
@@ -73,14 +70,12 @@ export function lecturesColumn(params = {}, columnMapping = []) {
       dataIndex: "syllabus_name",
       title: "Giáo trình",
       valueType: "text",
-      hideInForm: true,
     },
     {
       key: "module_name",
       dataIndex: "module_name",
       title: "Học phần",
       valueType: "text",
-      hideInForm: true,
     },
     {
       key: "displayLecture",
@@ -105,8 +100,13 @@ export function lecturesColumn(params = {}, columnMapping = []) {
 export const lecturesMapping = {
   default: [
     { key: "id" },
-    { key: "module_name" },
-    { key: "module_id" },
+    { key: "module_name", hideInForm: true },
+    {
+      key: "module_id",
+      search: false,
+      hideInTable: true,
+      hideInDescriptions: true,
+    },
     { key: "displayLecture" },
     { key: "lecture_name", hidden: true },
     { key: "lecture_status_id", responsive: ["md"] },
