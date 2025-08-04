@@ -126,8 +126,8 @@ function PageContent() {
   // Render
   return (
     <AntPage
-      items={[{ title: "Development" }, { title: "{vnTableName}" }]}
-      title="{vnTableName}"
+      items={[{ title: "Development" }, { title: "{VnTableName}" }]}
+      title="{VnTableName}"
       extra={pageButton}
       content={pageContent}
     />
@@ -143,6 +143,7 @@ Replace template placeholders with your table data:
 
 - **{TableName}**: PascalCase table name (e.g., `Options`, `UserRoles`)
 - **{vnTableName}**: Vietnamese table description (e.g., `tùy chọn`, `vai trò người dùng`)
+- **{VnTableName}**: Vietnamese table description (e.g., `Tùy chọn`, `Vai trò người dùng`)
 - **{table-name}**: kebab-case table name for file paths (e.g., `options`, `user-roles`)
 - **{tableName}**: camelCase table name (e.g., `options`, `userRoles`)
 

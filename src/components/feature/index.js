@@ -35,3 +35,6 @@ export * from "./lectures-column";
 
 export * from "./courses-component";
 export * from "./courses-column";
+
+export * from "./classes-component";
+export * from "./classes-column";

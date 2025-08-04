@@ -101,7 +101,7 @@ function PageContent({ params }) {
     <AntPage
       items={[
         { title: "Hệ thống" },
-        { title: "{vnTableName}" },
+        { title: "{VnTableName}" },
         { title: "Chi tiết" },
       ]}
       title={pageTitle}
@@ -122,6 +122,7 @@ Replace template placeholders with your table data:
 - **{TableName}**: PascalCase table name (e.g., `Options`, `UserRoles`)
 - **{tableName}**: camelCase table name for ID param (e.g., `option`, `userRole`)
 - **{vnTableName}**: Vietnamese table description (e.g., `Tùy chọn`, `Vai trò người dùng`)
+- **{VnTableName}**: Vietnamese table description (e.g., `Tùy chọn`, `Vai trò người dùng`)
 - **{titleField}**: field for page title display (e.g., `option_column`, `user_name`)
 
 ### Template Structure

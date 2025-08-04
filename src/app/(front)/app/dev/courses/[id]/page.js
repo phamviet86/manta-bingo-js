@@ -1,10 +1,21 @@
 "use client";
 
 import { use } from "react";
+import { InfoCircleOutlined, EditOutlined } from "@ant-design/icons";
+import { Space } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton } from "@/components/ui";
-import { CoursesInfo, CoursesEdit, coursesColumn } from "@/components/feature";
-import { useInfo, useForm, useNavigate } from "@/hooks";
+import {
+  CoursesInfo,
+  CoursesEdit,
+  coursesColumn,
+  ClassesTable,
+  ClassesCreate,
+  ClassesInfo,
+  ClassesEdit,
+  classesColumn,
+} from "@/components/feature";
+import { useTable, useInfo, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
 
 export default function Page(props) {
@@ -72,17 +83,137 @@ function PageContent({ params }) {
   // Page title
   const pageTitle = useCourses.info?.dataSource?.course_name || "Chi tiết";
 
+  // CLASSES TAB
+
+  // Hooks
+  const useClasses = {
+    table: useTable(),
+    info: useInfo(),
+    create: useForm(),
+    edit: useForm(),
+    columns: classesColumn(),
+  };
+
+  // Open info modal
+  const openClassesInfo = (record) => {
+    const { id } = record || {};
+    useClasses.info.setRequestParams({ id });
+    useClasses.info.open();
+  };
+
+  // Open edit form
+  const openClassesEdit = (record) => {
+    const { id } = record || {};
+    useClasses.edit.setRequestParams({ id });
+    useClasses.edit.setDeleteParams({ id });
+    useClasses.edit.open();
+  };
+
+  // classes tab buttons
+  const classesButton = (
+    <Space>
+      <AntButton
+        key="reload-button"
+        label="Tải lại"
+        color="default"
+        variant="outlined"
+        onClick={() => useClasses.table.reload()}
+      />
+      <AntButton
+        key="create-button"
+        label="Tạo mới"
+        color="primary"
+        variant="solid"
+        onClick={() => useClasses.create.open()}
+      />
+    </Space>
+  );
+
+  // classes tab content
+  const classesContent = (
+    <ProCard boxShadow bordered title="Danh sách" extra={classesButton}>
+      <ClassesTable
+        tableHook={useClasses.table}
+        columns={useClasses.columns}
+        leftColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<InfoCircleOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => openClassesInfo(record)}
+              />
+            ),
+          },
+        ]}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<EditOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => openClassesEdit(record)}
+              />
+            ),
+          },
+        ]}
+      />
+      <ClassesInfo
+        infoHook={useClasses.info}
+        columns={useClasses.columns}
+        requestParams={useClasses.info.requestParams}
+        title="Thông tin lớp học"
+        variant="modal"
+        column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
+        size="small"
+      />
+      <ClassesCreate
+        formHook={useClasses.create}
+        columns={useClasses.columns}
+        onSubmitSuccess={() => useClasses.table.reload()}
+        title="Tạo lớp học"
+        variant="drawer"
+      />
+      <ClassesEdit
+        formHook={useClasses.edit}
+        columns={useClasses.columns}
+        requestParams={useClasses.edit.requestParams}
+        deleteParams={useClasses.edit.deleteParams}
+        onSubmitSuccess={() => useClasses.table.reload()}
+        onDeleteSuccess={() => useClasses.table.reload()}
+        title="Sửa lớp học"
+        variant="drawer"
+      />
+    </ProCard>
+  );
+
+  // classes tab configuration
+  const classesTab = {
+    key: "classes",
+    label: "Lớp học",
+    children: classesContent,
+  };
+
   // Render
   return (
     <AntPage
       items={[
         { title: "Hệ thống" },
-        { title: "khóa học" },
+        { title: "Khóa học" },
         { title: "Chi tiết" },
       ]}
       title={pageTitle}
       extra={pageButton}
       content={pageContent}
+      tabList={[classesTab]}
     />
   );
 }

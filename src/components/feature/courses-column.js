@@ -3,7 +3,7 @@
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
 export function coursesColumn(params = {}, columnMapping = []) {
-  const { optionStatus } = params;
+  const {} = params;
 
   const schema = [
     {
