@@ -136,7 +136,7 @@ function PageContent({ params }) {
 
   // modules tab content
   const modulesContent = (
-    <ProCard boxShadow bordered title="Danh sách" extra={modulesButton}>
+    <ProCard boxShadow bordered extra={modulesButton}>
       <ModulesTable
         tableHook={useModules.table}
         columns={useModules.columns}
@@ -171,6 +171,8 @@ function PageContent({ params }) {
           },
         ]}
         requestParams={{ syllabus_id: syllabusId }}
+        showSearch={false}
+        showPagination={false}
       />
       <ModulesInfo
         infoHook={useModules.info}

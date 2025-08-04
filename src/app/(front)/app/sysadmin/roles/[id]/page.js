@@ -108,7 +108,7 @@ function PageContent({ params }) {
 
   // rolePermissions tab content
   const rolePermissionsContent = (
-    <ProCard boxShadow bordered title="Gán quyền" extra={rolePermissionsButton}>
+    <ProCard boxShadow bordered extra={rolePermissionsButton}>
       <RolePermissionsTransferByRole
         transferHook={useRolePermissions.transfer}
         roleId={roleId}

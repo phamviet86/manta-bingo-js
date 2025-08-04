@@ -133,7 +133,7 @@ function PageContent({ params }) {
 
   // userRoles tab content
   const userRolesContent = (
-    <ProCard boxShadow bordered title="Danh sách" extra={userRolesButton}>
+    <ProCard boxShadow bordered extra={userRolesButton}>
       <UserRolesTable
         tableHook={useUserRoles.table}
         columns={useUserRoles.columns}

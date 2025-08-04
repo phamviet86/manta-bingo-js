@@ -22,8 +22,11 @@ export function lecturesColumn(params = {}, columnMapping = []) {
       dataIndex: "module_id",
       title: "Học phần",
       valueType: "select",
+      hideInTable: true,
+      hideInDescriptions: true,
       ...buildColumnProps({
         required: true,
+        search: false,
         request: async (params) =>
           fetchOption("/api/modules", params, {
             value: "id",
@@ -43,7 +46,7 @@ export function lecturesColumn(params = {}, columnMapping = []) {
       key: "lecture_status_id",
       dataIndex: "lecture_status_id",
       title: "Trạng thái",
-      valueType: "text",
+      valueType: "select",
       ...buildColumnProps({
         required: true,
         valueEnum: lectureStatus?.valueEnum,
@@ -56,26 +59,35 @@ export function lecturesColumn(params = {}, columnMapping = []) {
       dataIndex: "lecture_no",
       title: "Số thứ tự",
       valueType: "digit",
-      ...buildColumnProps({ style: { width: "100%" }, colProps: { sm: 12 } }),
+      ...buildColumnProps({
+        style: { width: "100%" },
+        colProps: { sm: 12 },
+        search: false,
+      }),
     },
     {
       key: "lecture_desc",
       dataIndex: "lecture_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+      ...buildColumnProps({
+        autoSize: { minRows: 3, maxRows: 6 },
+        search: false,
+      }),
     },
     {
       key: "syllabus_name",
       dataIndex: "syllabus_name",
       title: "Giáo trình",
       valueType: "text",
+      hideInForm: true,
     },
     {
       key: "module_name",
       dataIndex: "module_name",
       title: "Học phần",
       valueType: "text",
+      hideInForm: true,
     },
     {
       key: "displayLecture",
@@ -100,17 +112,12 @@ export function lecturesColumn(params = {}, columnMapping = []) {
 export const lecturesMapping = {
   default: [
     { key: "id" },
-    { key: "module_name", hideInForm: true },
-    {
-      key: "module_id",
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
-    },
+    { key: "module_id" },
+    { key: "module_name" },
     { key: "displayLecture" },
     { key: "lecture_name", hidden: true },
     { key: "lecture_status_id", responsive: ["md"] },
-    { key: "lecture_no", search: false, hidden: true, responsive: ["lg"] },
-    { key: "lecture_desc", search: false, responsive: ["xl"] },
+    { key: "lecture_no", hidden: true, responsive: ["lg"] },
+    { key: "lecture_desc", responsive: ["xl"] },
   ],
 };
