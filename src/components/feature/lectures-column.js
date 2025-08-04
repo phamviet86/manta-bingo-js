@@ -13,20 +13,17 @@ export function lecturesColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
+      ...buildColumnProps({ disabled: true, hidden: true }),
       hideInTable: true,
       hideInDescriptions: true,
-      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "module_id",
       dataIndex: "module_id",
       title: "Học phần",
       valueType: "select",
-      hideInTable: true,
-      hideInDescriptions: true,
       ...buildColumnProps({
         required: true,
-        search: false,
         request: async (params) =>
           fetchOption("/api/modules", params, {
             value: "id",
@@ -34,6 +31,9 @@ export function lecturesColumn(params = {}, columnMapping = []) {
           }),
         params: { syllabus_id: syllabusId },
       }),
+      search: false,
+      hideInTable: true,
+      hideInDescriptions: true,
     },
     {
       key: "lecture_name",
@@ -59,21 +59,14 @@ export function lecturesColumn(params = {}, columnMapping = []) {
       dataIndex: "lecture_no",
       title: "Số thứ tự",
       valueType: "digit",
-      ...buildColumnProps({
-        style: { width: "100%" },
-        colProps: { sm: 12 },
-        search: false,
-      }),
+      ...buildColumnProps({ style: { width: "100%" }, colProps: { sm: 12 } }),
     },
     {
       key: "lecture_desc",
       dataIndex: "lecture_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({
-        autoSize: { minRows: 3, maxRows: 6 },
-        search: false,
-      }),
+      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
     },
     {
       key: "syllabus_name",
@@ -92,9 +85,6 @@ export function lecturesColumn(params = {}, columnMapping = []) {
     {
       key: "displayLecture",
       title: "Bài giảng",
-      search: false,
-      hideInForm: true,
-      hideInDescriptions: true,
       render: (_, record) => (
         <Space wrap>
           <Typography.Text type="secondary">
@@ -103,6 +93,9 @@ export function lecturesColumn(params = {}, columnMapping = []) {
           <Typography.Text strong>{record?.lecture_name}</Typography.Text>
         </Space>
       ),
+      search: false,
+      hideInForm: true,
+      hideInDescriptions: true,
     },
   ];
 
@@ -113,11 +106,12 @@ export const lecturesMapping = {
   default: [
     { key: "id" },
     { key: "module_id" },
+    { key: "syllabus_name" },
     { key: "module_name" },
     { key: "displayLecture" },
     { key: "lecture_name", hidden: true },
     { key: "lecture_status_id", responsive: ["md"] },
-    { key: "lecture_no", hidden: true, responsive: ["lg"] },
-    { key: "lecture_desc", responsive: ["xl"] },
+    { key: "lecture_no", hidden: true, search: false, responsive: ["lg"] },
+    { key: "lecture_desc", search: false, responsive: ["xl"] },
   ],
 };

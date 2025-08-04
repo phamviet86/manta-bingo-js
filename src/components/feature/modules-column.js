@@ -11,18 +11,18 @@ export function modulesColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
+      ...buildColumnProps({ disabled: true, hidden: true }),
       hideInTable: true,
       hideInDescriptions: true,
-      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "syllabus_id",
       dataIndex: "syllabus_id",
       title: "ID Giáo trình",
       valueType: "text",
+      ...buildColumnProps({ disabled: true, hidden: true }),
       hideInTable: true,
       hideInDescriptions: true,
-      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "module_name",
@@ -47,10 +47,8 @@ export function modulesColumn(params = {}, columnMapping = []) {
       dataIndex: "module_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({
-        autoSize: { minRows: 3, maxRows: 6 },
-        search: false,
-      }),
+      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+      search: false,
       responsive: ["md"],
     },
   ];

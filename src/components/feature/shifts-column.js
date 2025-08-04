@@ -11,9 +11,9 @@ export function shiftsColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
+      ...buildColumnProps({ disabled: true, hidden: true }),
       hideInTable: true,
       hideInDescriptions: true,
-      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "shift_name",
@@ -43,8 +43,8 @@ export function shiftsColumn(params = {}, columnMapping = []) {
         format: "HH:mm",
         style: { width: "100%" },
         colProps: { xs: 12 },
-        search: false,
       }),
+      search: false,
       responsive: ["md"],
     },
     {
@@ -57,8 +57,8 @@ export function shiftsColumn(params = {}, columnMapping = []) {
         format: "HH:mm",
         style: { width: "100%" },
         colProps: { xs: 12 },
-        search: false,
       }),
+      search: false,
       responsive: ["md"],
     },
     {
@@ -66,10 +66,8 @@ export function shiftsColumn(params = {}, columnMapping = []) {
       dataIndex: "shift_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({
-        autoSize: { minRows: 3, maxRows: 9 },
-        search: false,
-      }),
+      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 9 } }),
+      search: false,
       responsive: ["lg"],
     },
   ];

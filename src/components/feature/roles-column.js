@@ -14,9 +14,9 @@ export function rolesColumn(params = {}, columnMapping = []) {
       ...buildColumnProps({
         disabled: true,
         hidden: true,
-        search: false,
         width: 56,
       }),
+      search: false,
     },
     {
       key: "role_name",

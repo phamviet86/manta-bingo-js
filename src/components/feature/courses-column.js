@@ -11,9 +11,9 @@ export function coursesColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
+      ...buildColumnProps({ disabled: true, hidden: true }),
       hideInTable: true,
       hideInDescriptions: true,
-      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "course_name",

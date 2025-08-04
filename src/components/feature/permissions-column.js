@@ -14,9 +14,9 @@ export function permissionsColumn(params = {}, columnMapping = []) {
       ...buildColumnProps({
         disabled: true,
         hidden: true,
-        search: false,
         width: 56,
       }),
+      search: false,
     },
     {
       key: "permission_key",

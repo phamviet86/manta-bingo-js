@@ -14,9 +14,9 @@ export function optionsColumn(params = {}, columnMapping = []) {
       ...buildColumnProps({
         disabled: true,
         hidden: true,
-        search: false,
         width: 56,
       }),
+      search: false,
       responsive: ["md"],
     },
     {
@@ -46,7 +46,8 @@ export function optionsColumn(params = {}, columnMapping = []) {
       dataIndex: "option_color",
       title: "Màu Sắc",
       valueType: "select",
-      ...buildColumnProps({ valueEnum: optionColor, search: false }),
+      ...buildColumnProps({ valueEnum: optionColor }),
+      search: false,
       responsive: ["lg"],
     },
     {

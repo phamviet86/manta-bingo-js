@@ -13,9 +13,9 @@ export function usersColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
+      ...buildColumnProps({ disabled: true, hidden: true }),
       hideInTable: true,
       hideInDescriptions: true,
-      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "user_name",
@@ -69,29 +69,22 @@ export function usersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_avatar",
       title: "Ảnh đại diện",
       valueType: "textarea",
+      ...buildColumnProps({ autoSize: { minRows: 1, maxRows: 6 } }),
+      search: false,
       hideInDescriptions: true,
-      ...buildColumnProps({
-        autoSize: { minRows: 1, maxRows: 6 },
-        search: false,
-      }),
     },
     {
       key: "user_notes",
       dataIndex: "user_notes",
       title: "Ghi chú",
       valueType: "textarea",
-      ...buildColumnProps({
-        autoSize: { minRows: 3, maxRows: 9 },
-        search: false,
-      }),
+      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 9 } }),
+      search: false,
     },
     {
       key: "displayAvatar",
       width: 68,
       align: "center",
-      search: false,
-      hideInForm: true,
-      hideInDescriptions: true,
       render: (_, record) => (
         <SubLink path={record?.id}>
           <DiceBeerAvatar
@@ -103,6 +96,9 @@ export function usersColumn(params = {}, columnMapping = []) {
           />
         </SubLink>
       ),
+      search: false,
+      hideInForm: true,
+      hideInDescriptions: true,
     },
     {
       key: "displayUser",

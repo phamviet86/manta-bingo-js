@@ -11,9 +11,9 @@ export function roomsColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
+      ...buildColumnProps({ disabled: true, hidden: true }),
       hideInTable: true,
       hideInDescriptions: true,
-      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "room_name",
@@ -38,11 +38,9 @@ export function roomsColumn(params = {}, columnMapping = []) {
       dataIndex: "room_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({
-        autoSize: { minRows: 3, maxRows: 9 },
-        search: false,
-        responsive: ["md"],
-      }),
+      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 9 } }),
+      search: false,
+      responsive: ["md"],
     },
   ];
 
