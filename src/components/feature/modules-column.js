@@ -1,6 +1,7 @@
 // path: @/components/feature/modules-column.js
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { s } from "@fullcalendar/core/internal-common";
 
 export function modulesColumn(params = {}, columnMapping = []) {
   const { moduleStatus } = params;
@@ -47,7 +48,8 @@ export function modulesColumn(params = {}, columnMapping = []) {
       dataIndex: "module_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 }, s }),
+      responsive: ["md"],
     },
   ];
 
@@ -55,11 +57,5 @@ export function modulesColumn(params = {}, columnMapping = []) {
 }
 
 export const modulesMapping = {
-  default: [
-    { key: "id" },
-    { key: "syllabus_id" },
-    { key: "module_name" },
-    { key: "module_status_id" },
-    { key: "module_desc", search: false, responsive: ["md"] },
-  ],
+  default: [],
 };

@@ -14,7 +14,6 @@ import {
   ModulesInfo,
   ModulesEdit,
   modulesColumn,
-  modulesMapping,
   LecturesTable,
   LecturesCreate,
   LecturesInfo,
@@ -97,7 +96,7 @@ function PageContent({ params }) {
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
-    columns: modulesColumn({ moduleStatus }, modulesMapping.default),
+    columns: modulesColumn({ moduleStatus }),
   };
 
   // Open info modal
