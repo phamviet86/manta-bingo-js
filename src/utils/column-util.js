@@ -15,7 +15,7 @@
  * const fieldPropsConfig = fieldProps({
  *   disabled: false,
  *   placeholder: "Enter value...",
- *   autoSize: { minRows: 3, maxRows: 6 },
+ *   autoSize: { minRows: 3, maxRows: 9 },
  *   options: [{ label: "Option 1", value: "1" }, { label: "Option 2", value: "2" }]
  * });
  */

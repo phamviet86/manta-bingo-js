@@ -29,7 +29,7 @@ export function usersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_desc",
       title: "Mô tả",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ required: true, colProps: { sm: 12 } }),
     },
     {
       key: "user_status_id",
@@ -70,14 +70,20 @@ export function usersColumn(params = {}, columnMapping = []) {
       title: "Ảnh đại diện",
       valueType: "textarea",
       hideInDescriptions: true,
-      ...buildColumnProps({ autoSize: { minRows: 1, maxRows: 3 } }),
+      ...buildColumnProps({
+        autoSize: { minRows: 1, maxRows: 6 },
+        search: false,
+      }),
     },
     {
       key: "user_notes",
       dataIndex: "user_notes",
       title: "Ghi chú",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+      ...buildColumnProps({
+        autoSize: { minRows: 3, maxRows: 9 },
+        search: false,
+      }),
     },
     {
       key: "displayAvatar",
@@ -129,7 +135,7 @@ export const usersMapping = {
     { key: "user_email", responsive: ["md"] },
     { key: "user_phone", hidden: true, responsive: ["lg"] },
     { key: "user_parent_phone", hidden: true },
-    { key: "user_avatar", search: false, hidden: true },
-    { key: "user_notes", search: false, responsive: ["xl"] },
+    { key: "user_avatar", hidden: true },
+    { key: "user_notes", responsive: ["xl"] },
   ],
 };

@@ -67,7 +67,7 @@ export function shiftsColumn(params = {}, columnMapping = []) {
       title: "Mô tả",
       valueType: "textarea",
       ...buildColumnProps({
-        autoSize: { minRows: 3, maxRows: 6 },
+        autoSize: { minRows: 3, maxRows: 9 },
         search: false,
       }),
       responsive: ["lg"],
