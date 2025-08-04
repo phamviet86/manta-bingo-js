@@ -40,14 +40,12 @@ export async function PUT(request, context) {
 
     // Validate date range if both dates are provided
     if (class_start_date && class_end_date) {
-      const startDate = new Date(class_start_date);
-      const endDate = new Date(class_end_date);
-
-      if (startDate > endDate) {
+      // compare as string if format is "YYYY-MM-DD"
+      if (class_start_date >= class_end_date) {
         return buildApiResponse(
           400,
           false,
-          "Ngày bắt đầu không được lớn hơn ngày kết thúc"
+          "Ngày bắt đầu không được lớn hơn hoặc bằng ngày kết thúc"
         );
       }
     }
