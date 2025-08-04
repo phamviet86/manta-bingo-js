@@ -27,13 +27,22 @@ export async function POST(request) {
     } = await request.json();
 
     // Validate required fields (based on NOT NULL constraints in SQL)
-    if (
-      !course_id ||
-      !module_id ||
-      class_fee === undefined ||
-      class_total_fee === undefined
-    )
+    if (!course_id || !module_id || class_fee || class_total_fee)
       return buildApiResponse(400, false, "Thiếu thông tin bắt buộc");
+
+    // Validate date range if both dates are provided
+    if (class_start_date && class_end_date) {
+      const startDate = new Date(class_start_date);
+      const endDate = new Date(class_end_date);
+
+      if (startDate > endDate) {
+        return buildApiResponse(
+          400,
+          false,
+          "Ngày bắt đầu không được lớn hơn ngày kết thúc"
+        );
+      }
+    }
 
     const data = {
       course_id,

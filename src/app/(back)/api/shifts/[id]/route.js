@@ -37,6 +37,18 @@ export async function PUT(request, context) {
     if (!shift_name || !shift_start_time || !shift_end_time || !shift_status_id)
       return buildApiResponse(400, false, "Thiếu thông tin bắt buộc");
 
+    // validate time range
+    if (shift_start_time && shift_end_time) {
+      // Compare as strings if format is "HH:mm:ss"
+      if (shift_start_time >= shift_end_time) {
+        return buildApiResponse(
+          400,
+          false,
+          "Thời gian bắt đầu không được lớn hơn hoặc bằng thời gian kết thúc"
+        );
+      }
+    }
+
     const data = {
       shift_name,
       shift_start_time,
