@@ -10,7 +10,6 @@ import {
   OptionsCreate,
   OptionsEdit,
   optionsColumn,
-  optionsMapping,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -32,7 +31,7 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: optionsColumn({ optionColor }, optionsMapping.default),
+    columns: optionsColumn({ optionColor }),
   };
 
   // Open edit form

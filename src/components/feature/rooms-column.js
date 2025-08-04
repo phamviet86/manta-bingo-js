@@ -38,7 +38,11 @@ export function roomsColumn(params = {}, columnMapping = []) {
       dataIndex: "room_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+      ...buildColumnProps({
+        autoSize: { minRows: 3, maxRows: 6 },
+        search: false,
+        responsive: ["md"],
+      }),
     },
   ];
 
@@ -46,10 +50,5 @@ export function roomsColumn(params = {}, columnMapping = []) {
 }
 
 export const roomsMapping = {
-  default: [
-    { key: "id" },
-    { key: "room_name" },
-    { key: "room_status_id" },
-    { key: "room_desc", search: false, responsive: ["md"] },
-  ],
+  default: [],
 };
