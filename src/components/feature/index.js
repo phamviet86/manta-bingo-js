@@ -32,3 +32,6 @@ export * from "./modules-column";
 
 export * from "./lectures-component";
 export * from "./lectures-column";
+
+export * from "./courses-component";
+export * from "./courses-column";

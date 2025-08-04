@@ -27,7 +27,8 @@ import {
   {TableName}Table,
   {TableName}Create,
   {TableName}Edit,
-  get{TableName}Column,
+  {tableName}Column,
+  {tableName}Mapping,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -49,7 +50,7 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: get{TableName}Column(),
+    columns: {tableName}Column({}, {tableName}Mapping.default),
   };
 
   // Open edit
@@ -143,6 +144,7 @@ Replace template placeholders with your table data:
 - **{TableName}**: PascalCase table name (e.g., `Options`, `UserRoles`)
 - **{vnTableName}**: Vietnamese table description (e.g., `tùy chọn`, `vai trò người dùng`)
 - **{table-name}**: kebab-case table name for file paths (e.g., `options`, `user-roles`)
+- **{tableName}**: camelCase table name (e.g., `options`, `userRoles`)
 
 ### Template Structure
 
