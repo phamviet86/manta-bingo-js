@@ -80,6 +80,27 @@ export function classesColumn(params = {}, columnMapping = []) {
         valueEnum: classStatus.valueEnum,
       }),
     },
+    {
+      key: "syllabus_name",
+      dataIndex: "syllabus_name",
+      title: "Giáo trình",
+      valueType: "text",
+      ...buildColumnProps({ disabled: true, hidden: true }),
+    },
+    {
+      key: "module_name",
+      dataIndex: "module_name",
+      title: "Học phần",
+      valueType: "text",
+      ...buildColumnProps({ disabled: true, hidden: true }),
+    },
+    {
+      key: "course_name",
+      dataIndex: "course_name",
+      title: "Khóa học",
+      valueType: "text",
+      ...buildColumnProps({ disabled: true, hidden: true }),
+    },
   ];
 
   return buildColumns(schema, columnMapping);
@@ -88,11 +109,14 @@ export function classesColumn(params = {}, columnMapping = []) {
 export const classesMapping = {
   default: [
     { key: "id" },
+    { key: "syllabus_name" },
+    { key: "module_name" },
+    { key: "class_status_id" },
     { key: "course_id" },
     { key: "module_id" },
-    { key: "class_fee" },
-    { key: "class_total_fee" },
-    { key: "class_start_date" },
-    { key: "class_end_date" },
+    { key: "class_start_date", search: false },
+    { key: "class_end_date", search: false },
+    { key: "class_fee", search: false },
+    { key: "class_total_fee", search: false },
   ],
 };

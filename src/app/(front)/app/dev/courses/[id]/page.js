@@ -13,6 +13,7 @@ import {
   ClassesInfo,
   ClassesEdit,
   classesColumn,
+  classesMapping,
   ClassesTransferByCourse,
 } from "@/components/feature";
 import { useTable, useInfo, useForm, useNavigate, useTransfer } from "@/hooks";
@@ -90,7 +91,7 @@ function PageContent({ params }) {
     table: useTable(),
     info: useInfo(),
     edit: useForm(),
-    columns: classesColumn({ classStatus }),
+    columns: classesColumn({ classStatus }, classesMapping.default),
     transfer: useTransfer(),
   };
 
