@@ -36,7 +36,7 @@ export async function getLectures(searchParams) {
 export async function getLecture(id) {
   try {
     return await sql`
-      SELECT l.*, COUNT(*) OVER() AS total,
+      SELECT l.*,
         m.module_name,
         s.syllabus_name
       FROM lectures l

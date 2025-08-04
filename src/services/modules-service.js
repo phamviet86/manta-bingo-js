@@ -15,8 +15,10 @@ export async function getModules(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT m.*, COUNT(*) OVER() AS total
+      SELECT m.*, COUNT(*) OVER() AS total,
+        s.syllabus_name
       FROM modules m
+      LEFT JOIN syllabuses s ON m.syllabus_id = s.id AND s.deleted_at IS NULL
       WHERE m.deleted_at IS NULL
       ${whereClause}
       ${orderByClause || "ORDER BY m.created_at"}
@@ -32,8 +34,10 @@ export async function getModules(searchParams) {
 export async function getModule(id) {
   try {
     return await sql`
-      SELECT m.*
+      SELECT m.*,
+        s.syllabus_name
       FROM modules m
+      LEFT JOIN syllabuses s ON m.syllabus_id = s.id AND s.deleted_at IS NULL
       WHERE m.deleted_at IS NULL
         AND m.id = ${id};
     `;

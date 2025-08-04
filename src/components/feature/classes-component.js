@@ -1,6 +1,7 @@
 // path: @/components/feature/classes-component.js
 
-import { AntTable, AntInfo, AntForm } from "@/components/ui";
+import { AntTable, AntInfo, AntForm, AntTransfer } from "@/components/ui";
+import { Space, Typography } from "antd";
 import {
   fetchList,
   fetchGet,
@@ -45,6 +46,49 @@ export function ClassesEdit(props) {
       onRequest={(params) => fetchGet(`/api/classes/${params?.id}`)}
       onSubmit={(values) => fetchPut(`/api/classes/${values?.id}`, values)}
       onDelete={(params) => fetchDelete(`/api/classes/${params?.id}`)}
+    />
+  );
+}
+
+export function ClassesTransferByCourse({ courseId, ...props }) {
+  return (
+    <AntTransfer
+      {...props}
+      onSourceRequest={(params) => fetchList(`/api/modules`, params)}
+      onTargetRequest={(params) => fetchList(`/api/classes`, params)}
+      targetParams={{ course_id: courseId }}
+      onAddItem={(keys) =>
+        fetchPost(`/api/courses/${courseId}/classes`, {
+          moduleIds: keys,
+        })
+      }
+      onRemoveItem={(keys) =>
+        fetchDelete(`/api/courses/${courseId}/classes`, {
+          moduleIds: keys,
+        })
+      }
+      sourceItem={{ key: "id" }}
+      targetItem={{ key: "module_id" }}
+      render={(record) => (
+        <Space>
+          <Typography.Text>{record?.module_name}</Typography.Text>
+          <Typography.Text type="secondary">
+            ({record?.syllabus_name})
+          </Typography.Text>
+        </Space>
+      )}
+      titles={["Module", "Đã tạo lớp"]}
+      operations={["Tạo lớp học", "Xóa lớp học"]}
+      // search functionality
+      showSearch={true}
+      searchSourceColumns={["syllabus_name_like", "module_name_like"]}
+      searchTargetColumns={["syllabus_name_like", "module_name_like"]}
+      locale={{
+        searchPlaceholder: "Tìm kiếm...",
+        itemsUnit: "học phần",
+        itemUnit: "học phần",
+        notFoundContent: "Không tìm thấy học phần",
+      }}
     />
   );
 }

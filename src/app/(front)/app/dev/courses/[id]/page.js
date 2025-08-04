@@ -10,12 +10,12 @@ import {
   CoursesEdit,
   coursesColumn,
   ClassesTable,
-  ClassesCreate,
   ClassesInfo,
   ClassesEdit,
   classesColumn,
+  ClassesTransferByCourse,
 } from "@/components/feature";
-import { useTable, useInfo, useForm, useNavigate } from "@/hooks";
+import { useTable, useInfo, useForm, useNavigate, useTransfer } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
 
 export default function Page(props) {
@@ -28,7 +28,7 @@ export default function Page(props) {
 
 function PageContent({ params }) {
   // Context
-  const {} = usePageContext();
+  const { classStatus } = usePageContext();
   const { navBack } = useNavigate();
   const { id: courseId } = use(params);
 
@@ -89,9 +89,9 @@ function PageContent({ params }) {
   const useClasses = {
     table: useTable(),
     info: useInfo(),
-    create: useForm(),
     edit: useForm(),
-    columns: classesColumn(),
+    columns: classesColumn({ classStatus }),
+    transfer: useTransfer(),
   };
 
   // Open info modal
@@ -120,12 +120,13 @@ function PageContent({ params }) {
         onClick={() => useClasses.table.reload()}
       />
       <AntButton
-        key="create-button"
-        label="Tạo mới"
+        key="edit-button"
+        label="Thêm lớp"
         color="primary"
         variant="solid"
-        onClick={() => useClasses.create.open()}
+        onClick={() => useClasses.transfer.open()}
       />
+      ,
     </Space>
   );
 
@@ -166,6 +167,13 @@ function PageContent({ params }) {
           },
         ]}
       />
+      <ClassesTransferByCourse
+        transferHook={useClasses.transfer}
+        courseId={courseId}
+        variant="modal"
+        title="Thêm lớp"
+        afterClose={() => useClasses.table.reload()}
+      />
       <ClassesInfo
         infoHook={useClasses.info}
         columns={useClasses.columns}
@@ -174,13 +182,6 @@ function PageContent({ params }) {
         variant="modal"
         column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
         size="small"
-      />
-      <ClassesCreate
-        formHook={useClasses.create}
-        columns={useClasses.columns}
-        onSubmitSuccess={() => useClasses.table.reload()}
-        title="Tạo lớp học"
-        variant="drawer"
       />
       <ClassesEdit
         formHook={useClasses.edit}

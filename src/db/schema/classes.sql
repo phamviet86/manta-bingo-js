@@ -26,29 +26,29 @@ CREATE OR REPLACE VIEW classes_view AS
 SELECT
   *,
   CASE
-    -- 19: 'Chưa có lịch'
-    WHEN class_start_date IS NULL AND class_end_date IS NULL THEN 19
+    -- 15: 'Chưa có lịch'
+    WHEN class_start_date IS NULL AND class_end_date IS NULL THEN 15
 
-    -- 20: 'Nhập sai ngày'
-    WHEN class_start_date > class_end_date AND class_end_date IS NOT NULL THEN 20
+    -- 16: 'Nhập sai ngày'
+    WHEN class_start_date > class_end_date AND class_end_date IS NOT NULL THEN 16
 
-    -- 21: 'Chờ'
+    -- 17: 'Chờ'
     WHEN class_start_date IS NOT NULL 
-         AND DATE(class_start_date AT TIME ZONE 'Asia/Ho_Chi_Minh') > (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::DATE THEN 21
+         AND DATE(class_start_date AT TIME ZONE 'Asia/Ho_Chi_Minh') > (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::DATE THEN 17
 
-    -- 22: 'Đang học'
+    -- 18: 'Đang học'
     WHEN class_start_date IS NOT NULL 
          AND DATE(class_start_date AT TIME ZONE 'Asia/Ho_Chi_Minh') <= (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::DATE
          AND (
            class_end_date IS NULL 
            OR DATE(class_end_date AT TIME ZONE 'Asia/Ho_Chi_Minh') > (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::DATE
-         ) THEN 22
+         ) THEN 18
 
-    -- 23: 'Đã học xong'
+    -- 19: 'Đã học xong'
     WHEN class_end_date IS NOT NULL 
-         AND DATE(class_end_date AT TIME ZONE 'Asia/Ho_Chi_Minh') <= (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::DATE THEN 23
+         AND DATE(class_end_date AT TIME ZONE 'Asia/Ho_Chi_Minh') <= (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::DATE THEN 19
 
-    -- 19: fallback
-    ELSE 19
+    -- 15: fallback
+    ELSE 15
   END AS class_status_id
 FROM classes;

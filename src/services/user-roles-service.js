@@ -34,8 +34,10 @@ export async function getUserRoles(searchParams) {
 export async function getUserRole(id) {
   try {
     return await sql`
-      SELECT ur.*
+      SELECT ur.*, 
+        r.role_name, r.role_path
       FROM user_roles ur
+      LEFT JOIN roles r ON ur.role_id = r.id AND r.deleted_at IS NULL
       WHERE ur.deleted_at IS NULL
         AND ur.id = ${id};
     `;

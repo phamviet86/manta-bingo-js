@@ -7,7 +7,13 @@ const PageContext = createContext(null);
 export function PageProvider({ children }) {
   const { optionsData } = useAppContext();
 
-  const contextValue = useMemo(() => ({}), []);
+  const classStatus = buildEnum(
+    optionsData,
+    { value: "id", label: "option_label", color: "option_color" },
+    { option_table: "classes", option_column: "class_status_id" }
+  );
+
+  const contextValue = useMemo(() => ({ classStatus }), [classStatus]);
 
   return (
     <PageContext.Provider value={contextValue}>{children}</PageContext.Provider>

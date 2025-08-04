@@ -1,6 +1,6 @@
 # Generate Transfer Code from SQL Table
 
-## Service SampleCode
+## Service Sample Code
 
 ```javascript
 // path: @/services/{tableName}-service.js
@@ -187,14 +187,22 @@ export function RolePermissionsTransferByRole({ roleId, ...props }) {
 ## Page Sample Code
 
 ```javascript
-// ...
+// ... Import
 import { UserRolesTransferByUser } from "@/components/feature";
 import { useTransfer } from "@/hooks";
-// ...
+// ... Page hooks
 const useUserRoles = {
   transfer: useTransfer(),
 };
-// ...
+// ... Page actions
+<AntButton
+  key="edit-button"
+  label="Chỉnh sửa"
+  color="primary"
+  variant="solid"
+  onClick={() => useRoles.edit.open()}
+/>,
+// ... Transfer component
 <UserRolesTransferByUser
   transferHook={useUserRoles.transfer}
   userId={userId}

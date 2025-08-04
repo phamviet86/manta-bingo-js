@@ -36,8 +36,12 @@ export async function getRolePermissions(searchParams) {
 export async function getRolePermission(id) {
   try {
     return await sql`
-      SELECT rp.*
+      SELECT rp.*, 
+        r.role_name,
+        p.permission_key, p.permission_desc
       FROM role_permissions rp
+      LEFT JOIN roles r ON r.id = rp.role_id AND r.deleted_at IS NULL
+      LEFT JOIN permissions p ON p.id = rp.permission_id AND p.deleted_at IS NULL
       WHERE rp.deleted_at IS NULL
         AND rp.id = ${id};
     `;

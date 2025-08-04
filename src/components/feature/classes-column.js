@@ -3,7 +3,7 @@
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
 export function classesColumn(params = {}, columnMapping = []) {
-  const { optionStatus } = params;
+  const { classStatus } = params;
 
   const schema = [
     {
@@ -20,14 +20,18 @@ export function classesColumn(params = {}, columnMapping = []) {
       dataIndex: "course_id",
       title: "Khóa học",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      hideInTable: true,
+      hideInDescriptions: true,
+      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "module_id",
       dataIndex: "module_id",
       title: "Học phần",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      hideInTable: true,
+      hideInDescriptions: true,
+      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "class_fee",
@@ -65,6 +69,16 @@ export function classesColumn(params = {}, columnMapping = []) {
       title: "Ngày kết thúc",
       valueType: "date",
       ...buildColumnProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
+    },
+    {
+      key: "class_status_id",
+      dataIndex: "class_status_id",
+      title: "Trạng thái",
+      valueType: "select",
+      ...buildColumnProps({
+        options: classStatus.options,
+        valueEnum: classStatus.valueEnum,
+      }),
     },
   ];
 
