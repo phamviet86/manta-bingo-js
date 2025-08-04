@@ -43,6 +43,7 @@ export function classesColumn(params = {}, columnMapping = []) {
         locale: "vi-VN",
         precision: 0,
         style: { width: "100%" },
+        colProps: { sm: 12 },
       }),
     },
     {
@@ -54,6 +55,7 @@ export function classesColumn(params = {}, columnMapping = []) {
         locale: "vi-VN",
         precision: 0,
         style: { width: "100%" },
+        colProps: { sm: 12 },
       }),
     },
     {
@@ -61,14 +63,22 @@ export function classesColumn(params = {}, columnMapping = []) {
       dataIndex: "class_start_date",
       title: "Ngày bắt đầu",
       valueType: "date",
-      ...buildColumnProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
+      ...buildColumnProps({
+        format: "YYYY-MM-DD",
+        style: { width: "100%" },
+        colProps: { sm: 12 },
+      }),
     },
     {
       key: "class_end_date",
       dataIndex: "class_end_date",
       title: "Ngày kết thúc",
       valueType: "date",
-      ...buildColumnProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
+      ...buildColumnProps({
+        format: "YYYY-MM-DD",
+        style: { width: "100%" },
+        colProps: { sm: 12 },
+      }),
     },
     {
       key: "class_status_id",
@@ -78,7 +88,7 @@ export function classesColumn(params = {}, columnMapping = []) {
       ...buildColumnProps({
         options: classStatus.options,
         valueEnum: classStatus.valueEnum,
-        colProps: { sm: 12 },
+        colProps: { xs: 12 },
         disabled: true,
       }),
     },
@@ -87,21 +97,21 @@ export function classesColumn(params = {}, columnMapping = []) {
       dataIndex: "syllabus_name",
       title: "Giáo trình",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, colProps: { sm: 12 } }),
+      ...buildColumnProps({ disabled: true, colProps: { xs: 12 } }),
     },
     {
       key: "module_name",
       dataIndex: "module_name",
       title: "Học phần",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, colProps: { sm: 12 } }),
+      ...buildColumnProps({ disabled: true, colProps: { xs: 12 } }),
     },
     {
       key: "course_name",
       dataIndex: "course_name",
       title: "Khóa học",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, colProps: { sm: 12 } }),
+      ...buildColumnProps({ disabled: true, colProps: { xs: 12 } }),
     },
   ];
 
@@ -111,15 +121,15 @@ export function classesColumn(params = {}, columnMapping = []) {
 export const classesMapping = {
   default: [
     { key: "id" },
-    { key: "syllabus_name" },
+    { key: "syllabus_name", responsive: ["md"] },
     { key: "module_name" },
-    { key: "course_name", hideInTable: true, search: false },
+    { key: "course_name", search: false, hideInTable: true },
     { key: "class_status_id" },
     { key: "course_id" },
     { key: "module_id" },
-    { key: "class_start_date", search: false },
-    { key: "class_end_date", search: false },
-    { key: "class_fee", search: false },
-    { key: "class_total_fee", search: false },
+    { key: "class_start_date", search: false, responsive: ["lg"] },
+    { key: "class_end_date", search: false, responsive: ["lg"] },
+    { key: "class_fee", search: false, responsive: ["xl"] },
+    { key: "class_total_fee", search: false, responsive: ["xl"] },
   ],
 };
