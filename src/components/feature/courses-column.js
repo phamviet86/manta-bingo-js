@@ -29,12 +29,11 @@ export function coursesColumn(params = {}, columnMapping = []) {
       valueType: "text",
       ...buildColumnProps({ required: true }),
     },
-    // Optional fields (not present in courses table, so left empty)
   ];
 
   return buildColumns(schema, columnMapping);
 }
 
 export const coursesMapping = {
-  default: [{ key: "id" }, { key: "course_name" }, { key: "course_code" }],
+  default: [],
 };

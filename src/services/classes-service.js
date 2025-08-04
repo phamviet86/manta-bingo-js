@@ -19,7 +19,7 @@ export async function getClasses(searchParams) {
         co.course_name, co.course_code,
         m.module_name, 
         s.syllabus_name
-      FROM classes c
+      FROM classes_view c
       LEFT JOIN courses co ON c.course_id = co.id AND co.deleted_at IS NULL
       LEFT JOIN modules m ON c.module_id = m.id AND m.deleted_at IS NULL
       LEFT JOIN syllabuses s ON m.syllabus_id = s.id AND s.deleted_at IS NULL
@@ -42,7 +42,7 @@ export async function getClass(id) {
         co.course_name, co.course_code,
         m.module_name, 
         s.syllabus_name
-      FROM classes c
+      FROM classes_view c
       LEFT JOIN courses co ON c.course_id = co.id AND co.deleted_at IS NULL
       LEFT JOIN modules m ON c.module_id = m.id AND m.deleted_at IS NULL
       LEFT JOIN syllabuses s ON m.syllabus_id = s.id AND s.deleted_at IS NULL

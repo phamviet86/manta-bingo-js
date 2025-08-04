@@ -153,10 +153,10 @@ export function buildColumnProps(props) {
     "locale",
   ]);
 
-  const restPropNames = new Set(["hiddenInTable"]);
+  const restPropNames = new Set([""]);
 
   const customName = {
-    hiddenInTable: "hidden",
+    customName: "customName",
   };
 
   // Separate props based on their names

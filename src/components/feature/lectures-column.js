@@ -109,9 +109,9 @@ export const lecturesMapping = {
     { key: "syllabus_name" },
     { key: "module_name" },
     { key: "displayLecture" },
-    { key: "lecture_name", hidden: true },
+    { key: "lecture_name", hideInTable: true },
     { key: "lecture_status_id", responsive: ["md"] },
-    { key: "lecture_no", hidden: true, search: false, responsive: ["lg"] },
+    { key: "lecture_no", hideInTable: true, search: false, responsive: ["lg"] },
     { key: "lecture_desc", search: false, responsive: ["xl"] },
   ],
 };

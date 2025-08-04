@@ -11,11 +11,8 @@ export function optionsColumn(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({
-        disabled: true,
-        hidden: true,
-        width: 56,
-      }),
+      ...buildColumnProps({ disabled: true, hidden: true }),
+      width: 56,
       search: false,
       responsive: ["md"],
     },
