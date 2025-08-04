@@ -20,6 +20,7 @@ import {
   LecturesInfo,
   LecturesEdit,
   lecturesColumn,
+  lecturesMapping,
 } from "@/components/feature";
 import { useTable, useInfo, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
@@ -217,7 +218,10 @@ function PageContent({ params }) {
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
-    columns: lecturesColumn({ lectureStatus }),
+    columns: lecturesColumn(
+      { lectureStatus, syllabusId },
+      lecturesMapping.default
+    ),
   };
 
   // Open info modal
@@ -291,6 +295,7 @@ function PageContent({ params }) {
             ),
           },
         ]}
+        requestParams={{ syllabus_id: syllabusId }}
       />
       <LecturesInfo
         infoHook={useLectures.info}
@@ -305,7 +310,7 @@ function PageContent({ params }) {
         formHook={useLectures.create}
         columns={useLectures.columns}
         onSubmitSuccess={() => useLectures.table.reload()}
-        title="Tạo Bài giảng"
+        title="Tạo bài giảng"
         variant="drawer"
       />
       <LecturesEdit
@@ -315,7 +320,7 @@ function PageContent({ params }) {
         deleteParams={useLectures.edit.deleteParams}
         onSubmitSuccess={() => useLectures.table.reload()}
         onDeleteSuccess={() => useLectures.table.reload()}
-        title="Sửa Bài giảng"
+        title="Sửa bài giảng"
         variant="drawer"
       />
     </ProCard>
