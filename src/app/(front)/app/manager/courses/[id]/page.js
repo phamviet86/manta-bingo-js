@@ -91,7 +91,7 @@ function PageContent({ params }) {
     table: useTable(),
     info: useInfo(),
     edit: useForm(),
-    columns: classesColumn({ classStatus }, classesMapping.default),
+    columns: classesColumn({ classStatus }, classesMapping.courses),
     transfer: useTransfer(),
   };
 

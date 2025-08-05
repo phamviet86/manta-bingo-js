@@ -26,7 +26,8 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   {TableName}Info,
   {TableName}Edit,
-  get{TableName}Column,
+  {tableName}Column,
+  {tableName}Mapping,
 } from "@/components/feature";
 import { useInfo, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
@@ -49,7 +50,7 @@ function PageContent({ params }) {
   const use{TableName} = {
     info: useInfo(),
     edit: useForm(),
-    columns: get{TableName}Column(),
+    columns: {tableName}Column({}, {tableName}Mapping.default),
   };
 
   // Page action buttons

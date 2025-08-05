@@ -26,7 +26,8 @@ import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import {
   {TableName}Table,
   {TableName}Create,
-  get{TableName}Column,
+  {tableName}Column,
+  {tableName}Mapping,
 } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -48,7 +49,7 @@ function PageContent() {
   const use{TableName} = {
     table: useTable(),
     create: useForm(),
-    columns: get{TableName}Column(),
+    columns: {tableName}Column({}, {tableName}Mapping.default),
   };
 
   // Page action buttons
@@ -125,6 +126,7 @@ Replace template placeholders with your table data:
 - **{vnTableName}**: Vietnamese table description (e.g., `tùy chọn`, `vai trò người dùng`)
 - **{VnTableName}**: Vietnamese table description (e.g., `Tùy chọn`, `Vai trò người dùng`)
 - **{table-name}**: kebab-case table name for file paths (e.g., `options`, `user-roles`)
+- **{tableName}**: camelCase table name (e.g., `options`, `userRoles`)
 
 ### Template Structure
 

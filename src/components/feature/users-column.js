@@ -85,6 +85,9 @@ export function usersColumn(params = {}, columnMapping = []) {
       key: "displayAvatar",
       width: 68,
       align: "center",
+      search: false,
+      hideInForm: true,
+      hideInDescriptions: true,
       render: (_, record) => (
         <SubLink path={record?.id}>
           <DiceBeerAvatar
@@ -96,9 +99,6 @@ export function usersColumn(params = {}, columnMapping = []) {
           />
         </SubLink>
       ),
-      search: false,
-      hideInForm: true,
-      hideInDescriptions: true,
     },
     {
       key: "displayUser",

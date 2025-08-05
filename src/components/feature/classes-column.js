@@ -1,5 +1,6 @@
 // path: @/components/feature/classes-column.js
 
+import { Space, Typography } from "antd";
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
 export function classesColumn(params = {}, columnMapping = []) {
@@ -113,16 +114,77 @@ export function classesColumn(params = {}, columnMapping = []) {
       valueType: "text",
       ...buildColumnProps({ disabled: true, colProps: { xs: 12 } }),
     },
+    {
+      key: "displayClass",
+      title: "Lớp học",
+      search: false,
+      hideInForm: true,
+      hideInDescriptions: true,
+      render: (_, record) => {
+        return (
+          <Space direction="vertical" size={0}>
+            <Space wrap>
+              <Typography.Text strong>{record?.course_name}</Typography.Text>
+              <Typography.Text type="secondary">
+                {record?.module_name}
+              </Typography.Text>
+            </Space>
+
+            <Typography.Text type="secondary">
+              {record?.syllabus_name}
+            </Typography.Text>
+          </Space>
+        );
+      },
+    },
+    {
+      key: "displayModule",
+      title: "Học phần",
+      search: false,
+      hideInForm: true,
+      hideInDescriptions: true,
+      render: (_, record) => {
+        return (
+          <Space direction="vertical" size={0}>
+            <Space wrap>
+              <Typography.Text strong>{record?.course_name}</Typography.Text>
+              <Typography.Text type="secondary">
+                {record?.module_name}
+              </Typography.Text>
+            </Space>
+
+            <Typography.Text type="secondary">
+              {record?.syllabus_name}
+            </Typography.Text>
+          </Space>
+        );
+      },
+    },
   ];
 
   return buildColumns(schema, columnMapping);
 }
 
 export const classesMapping = {
+  courses: [
+    { key: "id" },
+    { key: "displayModule" },
+    { key: "syllabus_name", hideInTable: true },
+    { key: "module_name", hideInTable: true },
+    { key: "course_name", hideInTable: true },
+    { key: "class_status_id" },
+    { key: "course_id" },
+    { key: "module_id" },
+    { key: "class_start_date", search: false, responsive: ["lg"] },
+    { key: "class_end_date", search: false, responsive: ["lg"] },
+    { key: "class_fee", search: false, responsive: ["xl"] },
+    { key: "class_total_fee", search: false, responsive: ["xl"] },
+  ],
   default: [
     { key: "id" },
-    { key: "syllabus_name", responsive: ["md"] },
-    { key: "module_name" },
+    { key: "displayClass" },
+    { key: "syllabus_name", hideInTable: true },
+    { key: "module_name", hideInTable: true },
     { key: "course_name", search: false, hideInTable: true },
     { key: "class_status_id" },
     { key: "course_id" },
