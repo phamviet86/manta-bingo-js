@@ -120,9 +120,6 @@ export function classesColumn(params = {}, columnMapping = []) {
     {
       key: "displayClass",
       title: "Lớp học",
-      search: false,
-      hideInForm: true,
-      hideInDescriptions: true,
       render: (_, record) => {
         return (
           <Space direction="vertical" size={0}>
@@ -137,13 +134,13 @@ export function classesColumn(params = {}, columnMapping = []) {
           </Space>
         );
       },
+      search: false,
+      hideInForm: true,
+      hideInDescriptions: true,
     },
     {
       key: "displayModule",
       title: "Học phần",
-      search: false,
-      hideInForm: true,
-      hideInDescriptions: true,
       render: (_, record) => {
         return (
           <Space wrap>
@@ -154,6 +151,9 @@ export function classesColumn(params = {}, columnMapping = []) {
           </Space>
         );
       },
+      search: false,
+      hideInForm: true,
+      hideInDescriptions: true,
     },
   ];
 

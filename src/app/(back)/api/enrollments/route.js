@@ -28,10 +28,8 @@ export async function POST(request) {
       class_id = null,
       enrollment_payment_type_id = null,
       enrollment_payment_amount = null,
-      enrollment_payment_discount = null,
       enrollment_start_date = null,
       enrollment_end_date = null,
-      enrollment_discount_notes = null,
       enrollment_desc = null,
     } = await request.json();
 
@@ -46,10 +44,8 @@ export async function POST(request) {
       class_id,
       enrollment_payment_type_id,
       enrollment_payment_amount,
-      enrollment_payment_discount,
       enrollment_start_date,
       enrollment_end_date,
-      enrollment_discount_notes,
       enrollment_desc,
     };
 

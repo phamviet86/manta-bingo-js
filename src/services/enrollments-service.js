@@ -15,8 +15,17 @@ export async function getEnrollments(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT e.*, COUNT(*) OVER() AS total
-      FROM enrollments e
+      SELECT e.*, COUNT(*) OVER() AS total,
+        u.user_name,
+        co.course_name,
+        m.module_name,
+        s.syllabus_name
+      FROM enrollments_view e
+      LEFT JOIN users_view u ON e.user_id = u.id AND u.deleted_at IS NULL
+      LEFT JOIN classes_view c ON e.class_id = c.id AND c.deleted_at IS NULL
+      LEFT JOIN courses co ON c.course_id = co.id AND co.deleted_at IS NULL
+      LEFT JOIN modules m ON c.module_id = m.id AND m.deleted_at IS NULL
+      LEFT JOIN syllabuses s ON m.syllabus_id = s.id AND s.deleted_at IS NULL
       WHERE e.deleted_at IS NULL
       ${whereClause}
       ${orderByClause || "ORDER BY e.created_at"}
@@ -32,8 +41,17 @@ export async function getEnrollments(searchParams) {
 export async function getEnrollment(id) {
   try {
     return await sql`
-      SELECT e.*
-      FROM enrollments e
+      SELECT e.*,
+        u.user_name,
+        co.course_name,
+        m.module_name,
+        s.syllabus_name
+      FROM enrollments_view e
+      LEFT JOIN users_view u ON e.user_id = u.id AND u.deleted_at IS NULL
+      LEFT JOIN classes_view c ON e.class_id = c.id AND c.deleted_at IS NULL
+      LEFT JOIN courses co ON c.course_id = co.id AND co.deleted_at IS NULL
+      LEFT JOIN modules m ON c.module_id = m.id AND m.deleted_at IS NULL
+      LEFT JOIN syllabuses s ON m.syllabus_id = s.id AND s.deleted_at IS NULL
       WHERE e.deleted_at IS NULL
         AND e.id = ${id};
     `;
@@ -52,18 +70,16 @@ export async function createEnrollment(data) {
       enrollment_type_id,
       enrollment_payment_type_id,
       enrollment_payment_amount,
-      enrollment_payment_discount,
       enrollment_start_date,
       enrollment_end_date,
-      enrollment_discount_notes,
       enrollment_desc,
     } = data;
 
     return await sql`
       INSERT INTO enrollments (
-        user_id, module_id, class_id, enrollment_type_id, enrollment_payment_type_id, enrollment_payment_amount, enrollment_payment_discount, enrollment_start_date, enrollment_end_date, enrollment_discount_notes, enrollment_desc
+        user_id, module_id, class_id, enrollment_type_id, enrollment_payment_type_id, enrollment_payment_amount, enrollment_start_date, enrollment_end_date, enrollment_desc
       ) VALUES (
-        ${user_id}, ${module_id}, ${class_id}, ${enrollment_type_id}, ${enrollment_payment_type_id}, ${enrollment_payment_amount}, ${enrollment_payment_discount}, ${enrollment_start_date}, ${enrollment_end_date}, ${enrollment_discount_notes}, ${enrollment_desc}
+        ${user_id}, ${module_id}, ${class_id}, ${enrollment_type_id}, ${enrollment_payment_type_id}, ${enrollment_payment_amount}, ${enrollment_start_date}, ${enrollment_end_date}, ${enrollment_desc}
       )
       RETURNING *;
     `;
@@ -82,10 +98,8 @@ export async function updateEnrollment(id, data) {
       enrollment_type_id,
       enrollment_payment_type_id,
       enrollment_payment_amount,
-      enrollment_payment_discount,
       enrollment_start_date,
       enrollment_end_date,
-      enrollment_discount_notes,
       enrollment_desc,
     } = data;
 
@@ -98,10 +112,8 @@ export async function updateEnrollment(id, data) {
         enrollment_type_id = ${enrollment_type_id},
         enrollment_payment_type_id = ${enrollment_payment_type_id},
         enrollment_payment_amount = ${enrollment_payment_amount},
-        enrollment_payment_discount = ${enrollment_payment_discount},
         enrollment_start_date = ${enrollment_start_date},
         enrollment_end_date = ${enrollment_end_date},
-        enrollment_discount_notes = ${enrollment_discount_notes},
         enrollment_desc = ${enrollment_desc}
       WHERE deleted_at IS NULL
         AND id = ${id}

@@ -29,7 +29,7 @@ function PageContent() {
   const useEnrollments = {
     table: useTable(),
     create: useForm(),
-    columns: enrollmentsColumn({}, enrollmentsMapping.default),
+    columns: enrollmentsColumn({}, enrollmentsMapping.classPage),
   };
 
   // Page action buttons

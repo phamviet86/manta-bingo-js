@@ -30,7 +30,7 @@ function PageContent({ params }) {
   const useEnrollments = {
     info: useInfo(),
     edit: useForm(),
-    columns: enrollmentsColumn({}, enrollmentsMapping.default),
+    columns: enrollmentsColumn({}, enrollmentsMapping.classPage),
   };
 
   // Page action buttons

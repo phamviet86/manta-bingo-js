@@ -36,11 +36,11 @@ export function PageProvider({ children }) {
   const contextValue = useMemo(
     () => ({
       classStatus,
-      enrollmentType,
       enrollmentStatus,
+      enrollmentType,
       enrollmentPaymentType,
     }),
-    [classStatus, enrollmentType, enrollmentStatus, enrollmentPaymentType]
+    [classStatus, enrollmentStatus, enrollmentType, enrollmentPaymentType]
   );
 
   return (

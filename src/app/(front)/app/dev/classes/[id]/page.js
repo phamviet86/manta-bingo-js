@@ -17,6 +17,7 @@ import {
   EnrollmentsInfo,
   EnrollmentsEdit,
   enrollmentsColumn,
+  enrollmentsMapping,
 } from "@/components/feature";
 import { useInfo, useForm, useNavigate, useTable } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
@@ -92,14 +93,20 @@ function PageContent({ params }) {
   const pageTitle = useClasses.info?.dataSource?.classStartDate || "Chi tiết";
 
   // ENROLLMENTS TAB
-
   // Hooks
   const useEnrollments = {
     table: useTable(),
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
-    columns: enrollmentsColumn(),
+    columns: enrollmentsColumn(
+      {
+        enrollmentType,
+        enrollmentStatus,
+        enrollmentPaymentType,
+      },
+      enrollmentsMapping.classPage
+    ),
   };
 
   // Open info modal

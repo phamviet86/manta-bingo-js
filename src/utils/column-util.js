@@ -66,6 +66,7 @@ export function buildColumnProps(props) {
     "style",
     "format",
     "precision",
+    "formatter",
   ]);
 
   // Known form item props
