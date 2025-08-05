@@ -2,6 +2,7 @@
 
 import { getClasses, createClass } from "@/services/classes-service";
 import { buildApiResponse } from "@/utils/api-util";
+import { compareDates } from "@/utils/compare-util";
 
 export async function GET(request) {
   try {
@@ -32,14 +33,12 @@ export async function POST(request) {
 
     // Validate date range if both dates are provided
     if (class_start_date && class_end_date) {
-      // compare as string if format is "YYYY-MM-DD"
-      if (class_start_date >= class_end_date) {
+      if (!compareDates(class_start_date, class_end_date))
         return buildApiResponse(
           400,
           false,
-          "Ngày bắt đầu không được lớn hơn hoặc bằng ngày kết thúc"
+          "Ngày bắt đầu không được lớn hơn ngày kết thúc"
         );
-      }
     }
 
     const data = {

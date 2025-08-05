@@ -2,6 +2,7 @@
 
 import { getShifts, createShift } from "@/services/shifts-service";
 import { buildApiResponse } from "@/utils/api-util";
+import { compareTimes } from "@/utils/compare-util";
 
 export async function GET(request) {
   try {
@@ -31,14 +32,12 @@ export async function POST(request) {
 
     // validate time range
     if (shift_start_time && shift_end_time) {
-      // Compare as strings if format is "HH:mm:ss"
-      if (shift_start_time >= shift_end_time) {
+      if (!compareTimes(shift_start_time, shift_end_time))
         return buildApiResponse(
           400,
           false,
-          "Thời gian bắt đầu không được lớn hơn hoặc bằng thời gian kết thúc"
+          "Thời gian bắt đầu không được lớn hơn thời gian kết thúc"
         );
-      }
     }
 
     const data = {
