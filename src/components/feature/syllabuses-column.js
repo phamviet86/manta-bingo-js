@@ -20,7 +20,7 @@ export function syllabusesColumn(params = {}, columnMapping = []) {
       dataIndex: "syllabus_name",
       title: "Giáo trình",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "syllabus_status_id",
@@ -28,7 +28,7 @@ export function syllabusesColumn(params = {}, columnMapping = []) {
       title: "Trạng thái",
       valueType: "select",
       ...buildColumnProps({
-        required: true,
+        rules: [{ required: true }],
         valueEnum: syllabusStatus?.valueEnum,
         options: syllabusStatus.options,
       }),

@@ -1,60 +1,6 @@
 // path: @/utils/column-util.js
 
 /**
- * Returns a function that generates field properties based on the provided props and config.
- *
- * @param {Object} props - The default properties to be used.
- * @param {boolean} [props.disabled] - Whether the field is disabled
- * @param {string} [props.placeholder] - Placeholder text for the field
- * @param {Object} [props.autoSize] - Configuration for auto-sizing text areas, e.g., { minRows: 3, maxRows: 6 }
- * @param {Array<Object>} [props.options] - Options for select fields
- * @returns {function(Object, Object): Object} - A function that takes unused first argument and a config object,
- * and returns either the default props or an empty object if `proFieldProps` exists in config.
- *
- * @example
- * const fieldPropsConfig = fieldProps({
- *   disabled: false,
- *   placeholder: "Enter value...",
- *   autoSize: { minRows: 3, maxRows: 9 },
- *   options: [{ label: "Option 1", value: "1" }, { label: "Option 2", value: "2" }]
- * });
- */
-export function buildFieldProps(props) {
-  return (_, config) => {
-    if (!config?.proFieldProps) return { ...props };
-    return {};
-  };
-}
-
-/**
- * Generates props for a form item, optionally based on provided configuration.
- * Configuration passed to Form.Item.
- * See: https://ant.design/components/form#formitem
- *
- * @param {Object} props - The initial props to be used for the form item.
- * @param {boolean} [props.required] - Whether the form item is required
- * @param {Object} [props.rules] - Validation rules for the form item
- * @param {string} [props.label] - Label text for the form item
- * @param {string} [props.layout] - Layout configuration for label column
- * @returns {function(Object, Object): Object} - A function that takes unused first argument and a config object,
- * and returns either the original props or an empty object depending on the presence of `proFieldProps` in config.
- *
- * @example
- * const formItemConfig = formItemProps({
- *   required: true,
- *   rules: [{ required: true, message: "Please enter username" }],
- *   label: "Username",
- *   layout: "horizontal",
- * });
- */
-export function buildFormItemProps(props) {
-  return (_, config) => {
-    if (!config?.proFieldProps) return { ...props };
-    return {};
-  };
-}
-
-/**
  * Converts and maps columns from a schema based on a provided column mapping.
  *
  * If a valid columnMapping array is provided, it returns a new array where each item

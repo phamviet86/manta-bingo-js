@@ -29,7 +29,7 @@ export function modulesColumn(params = {}, columnMapping = []) {
       dataIndex: "module_name",
       title: "Học phần",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "module_status_id",
@@ -37,7 +37,7 @@ export function modulesColumn(params = {}, columnMapping = []) {
       title: "Trạng thái",
       valueType: "select",
       ...buildColumnProps({
-        required: true,
+        rules: [{ required: true }],
         valueEnum: moduleStatus?.valueEnum,
         options: moduleStatus.options,
       }),

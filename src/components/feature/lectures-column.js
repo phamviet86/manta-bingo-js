@@ -23,7 +23,7 @@ export function lecturesColumn(params = {}, columnMapping = []) {
       title: "Học phần",
       valueType: "select",
       ...buildColumnProps({
-        required: true,
+        rules: [{ required: true }],
         request: async (params) =>
           fetchOption("/api/modules", params, {
             value: "id",
@@ -40,7 +40,7 @@ export function lecturesColumn(params = {}, columnMapping = []) {
       dataIndex: "lecture_name",
       title: "Bài giảng",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "lecture_status_id",
@@ -48,7 +48,7 @@ export function lecturesColumn(params = {}, columnMapping = []) {
       title: "Trạng thái",
       valueType: "select",
       ...buildColumnProps({
-        required: true,
+        rules: [{ required: true }],
         valueEnum: lectureStatus?.valueEnum,
         options: lectureStatus.options,
         colProps: { sm: 12 },

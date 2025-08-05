@@ -22,14 +22,17 @@ export function usersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_name",
       title: "Người dùng",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "user_desc",
       dataIndex: "user_desc",
       title: "Mô tả",
       valueType: "text",
-      ...buildColumnProps({ required: true, colProps: { sm: 12 } }),
+      ...buildColumnProps({
+        rules: [{ required: true }],
+        colProps: { sm: 12 },
+      }),
     },
     {
       key: "user_status_id",
@@ -37,7 +40,7 @@ export function usersColumn(params = {}, columnMapping = []) {
       title: "Trạng thái",
       valueType: "select",
       ...buildColumnProps({
-        required: true,
+        rules: [{ required: true }],
         valueEnum: userStatus.valueEnum,
         options: userStatus.options,
         colProps: { sm: 12 },
@@ -48,7 +51,7 @@ export function usersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_email",
       title: "Email",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "user_phone",

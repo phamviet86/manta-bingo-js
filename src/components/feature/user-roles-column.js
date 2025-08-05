@@ -20,14 +20,14 @@ export function userRolesColumn(params = {}, columnMapping = []) {
       dataIndex: "role_name",
       title: "Vai trò",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "role_path",
       dataIndex: "role_path",
       title: "Đường dẫn",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
   ];
 

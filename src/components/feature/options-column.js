@@ -21,7 +21,7 @@ export function optionsColumn(params = {}, columnMapping = []) {
       dataIndex: "option_table",
       title: "Bảng",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
       responsive: ["md"],
     },
     {
@@ -29,14 +29,14 @@ export function optionsColumn(params = {}, columnMapping = []) {
       dataIndex: "option_column",
       title: "Cột",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "option_label",
       dataIndex: "option_label",
       title: "Nhãn",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "option_color",

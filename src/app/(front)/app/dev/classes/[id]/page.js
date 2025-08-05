@@ -8,7 +8,8 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   ClassesInfo,
   ClassesEdit,
-  getClassesColumn,
+  classesColumn,
+  classesMapping,
 } from "@/components/feature";
 import { useInfo, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
@@ -23,7 +24,7 @@ export default function Page(props) {
 
 function PageContent({ params }) {
   // Context
-  const {} = usePageContext();
+  const { classStatus } = usePageContext();
   const { navBack } = useNavigate();
   const { id: classesId } = use(params);
 
@@ -31,7 +32,7 @@ function PageContent({ params }) {
   const useClasses = {
     info: useInfo(),
     edit: useForm(),
-    columns: getClassesColumn(),
+    columns: classesColumn({ classStatus }, classesMapping.default),
   };
 
   // Page action buttons

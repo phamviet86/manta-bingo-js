@@ -20,14 +20,14 @@ export function coursesColumn(params = {}, columnMapping = []) {
       dataIndex: "course_name",
       title: "Khóa học",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "course_code",
       dataIndex: "course_code",
       title: "Mã khóa học",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
   ];
 

@@ -20,14 +20,17 @@ export function permissionsColumn(params = {}, columnMapping = []) {
       dataIndex: "permission_key",
       title: "Mã quyền",
       valueType: "text",
-      ...buildColumnProps({ placeholder: "url.path.method", required: true }),
+      ...buildColumnProps({
+        placeholder: "url.path.method",
+        rules: [{ required: true }],
+      }),
     },
     {
       key: "permission_desc",
       dataIndex: "permission_desc",
       title: "Mô tả",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
   ];
 

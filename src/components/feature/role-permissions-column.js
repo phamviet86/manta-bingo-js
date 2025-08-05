@@ -20,14 +20,14 @@ export function rolePermissionsColumn(params = {}, columnMapping = []) {
       dataIndex: "role_id",
       title: "Vai trò",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "permission_id",
       dataIndex: "permission_id",
       title: "Quyền hạn",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
   ];
 

@@ -40,7 +40,7 @@ export function classesColumn(params = {}, columnMapping = []) {
       title: "Học phí lớp",
       valueType: "money",
       ...buildColumnProps({
-        required: true,
+        rules: [{ required: true }],
         locale: "vi-VN",
         precision: 0,
         style: { width: "100%" },
@@ -125,9 +125,7 @@ export function classesColumn(params = {}, columnMapping = []) {
           <Space direction="vertical" size={0}>
             <Space wrap>
               <Typography.Text strong>{record?.course_name}</Typography.Text>
-              <Typography.Text type="secondary">
-                {record?.module_name}
-              </Typography.Text>
+              <Typography.Text>{record?.module_name}</Typography.Text>
             </Space>
 
             <Typography.Text type="secondary">
@@ -145,16 +143,10 @@ export function classesColumn(params = {}, columnMapping = []) {
       hideInDescriptions: true,
       render: (_, record) => {
         return (
-          <Space direction="vertical" size={0}>
-            <Space wrap>
-              <Typography.Text strong>{record?.course_name}</Typography.Text>
-              <Typography.Text type="secondary">
-                {record?.module_name}
-              </Typography.Text>
-            </Space>
-
+          <Space wrap>
+            <Typography.Text strong>{record?.syllabus_name}</Typography.Text>
             <Typography.Text type="secondary">
-              {record?.syllabus_name}
+              {record?.module_name}
             </Typography.Text>
           </Space>
         );
@@ -166,9 +158,9 @@ export function classesColumn(params = {}, columnMapping = []) {
 }
 
 export const classesMapping = {
-  courses: [
+  default: [
     { key: "id" },
-    { key: "displayModule" },
+    { key: "displayClass" },
     { key: "syllabus_name", hideInTable: true },
     { key: "module_name", hideInTable: true },
     { key: "course_name", hideInTable: true },
@@ -180,9 +172,9 @@ export const classesMapping = {
     { key: "class_fee", search: false, responsive: ["xl"] },
     { key: "class_total_fee", search: false, responsive: ["xl"] },
   ],
-  default: [
+  courses: [
     { key: "id" },
-    { key: "displayClass" },
+    { key: "displayModule" },
     { key: "syllabus_name", hideInTable: true },
     { key: "module_name", hideInTable: true },
     { key: "course_name", search: false, hideInTable: true },

@@ -20,7 +20,7 @@ export function shiftsColumn(params = {}, columnMapping = []) {
       dataIndex: "shift_name",
       title: "Ca học",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "shift_status_id",
@@ -28,7 +28,7 @@ export function shiftsColumn(params = {}, columnMapping = []) {
       title: "Trạng thái",
       valueType: "select",
       ...buildColumnProps({
-        required: true,
+        rules: [{ required: true }],
         options: shiftStatus.options,
         valueEnum: shiftStatus.valueEnum,
       }),
@@ -39,7 +39,7 @@ export function shiftsColumn(params = {}, columnMapping = []) {
       title: "Giờ bắt đầu",
       valueType: "time",
       ...buildColumnProps({
-        required: true,
+        rules: [{ required: true }],
         format: "HH:mm",
         style: { width: "100%" },
         colProps: { xs: 12 },
@@ -53,7 +53,7 @@ export function shiftsColumn(params = {}, columnMapping = []) {
       title: "Giờ kết thúc",
       valueType: "time",
       ...buildColumnProps({
-        required: true,
+        rules: [{ required: true }],
         format: "HH:mm",
         style: { width: "100%" },
         colProps: { xs: 12 },

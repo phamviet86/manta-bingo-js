@@ -20,7 +20,7 @@ export function roomsColumn(params = {}, columnMapping = []) {
       dataIndex: "room_name",
       title: "Phòng học",
       valueType: "text",
-      ...buildColumnProps({ required: true }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "room_status_id",
@@ -28,7 +28,7 @@ export function roomsColumn(params = {}, columnMapping = []) {
       title: "Trạng thái",
       valueType: "select",
       ...buildColumnProps({
-        required: true,
+        rules: [{ required: true }],
         valueEnum: roomStatus.valueEnum,
         options: roomStatus.options,
       }),
