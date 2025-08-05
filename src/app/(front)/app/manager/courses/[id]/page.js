@@ -208,7 +208,7 @@ function PageContent({ params }) {
   return (
     <AntPage
       items={[
-        { title: "Hệ thống" },
+        { title: "Quản lý" },
         { title: "Khóa học" },
         { title: "Chi tiết" },
       ]}

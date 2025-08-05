@@ -7,11 +7,10 @@ import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import {
   ClassesTable,
-  ClassesCreate,
   classesColumn,
   classesMapping,
 } from "@/components/feature";
-import { useTable, useForm, useNavigate } from "@/hooks";
+import { useTable } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -25,12 +24,10 @@ export default function Page(props) {
 function PageContent() {
   // Context
   const { classStatus } = usePageContext();
-  const { navDetail } = useNavigate();
 
   // Hooks
   const useClasses = {
     table: useTable(),
-    create: useForm(),
     columns: classesColumn({ classStatus }, classesMapping.default),
   };
 
@@ -42,13 +39,6 @@ function PageContent() {
       color="default"
       variant="outlined"
       onClick={() => useClasses.table.reload()}
-    />,
-    <AntButton
-      key="create-button"
-      label="Tạo mới"
-      color="primary"
-      variant="solid"
-      onClick={() => useClasses.create.open()}
     />,
   ];
 
@@ -76,20 +66,13 @@ function PageContent() {
           },
         ]}
       />
-      <ClassesCreate
-        formHook={useClasses.create}
-        columns={useClasses.columns}
-        onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
-        title="Tạo lớp học"
-        variant="drawer"
-      />
     </ProCard>
   );
 
   // Render
   return (
     <AntPage
-      items={[{ title: "Development" }, { title: "Lớp học" }]}
+      items={[{ title: "Quản lý" }, { title: "Lớp học" }]}
       title="Lớp học"
       extra={pageButton}
       content={pageContent}
