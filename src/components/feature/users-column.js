@@ -14,6 +14,7 @@ export function usersColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
+      search: false,
       hideInTable: true,
       hideInDescriptions: true,
     },
@@ -88,9 +89,6 @@ export function usersColumn(params = {}, columnMapping = []) {
       key: "displayAvatar",
       width: 68,
       align: "center",
-      search: false,
-      hideInForm: true,
-      hideInDescriptions: true,
       render: (_, record) => (
         <SubLink path={record?.id}>
           <DiceBeerAvatar
@@ -102,13 +100,13 @@ export function usersColumn(params = {}, columnMapping = []) {
           />
         </SubLink>
       ),
+      search: false,
+      hideInForm: true,
+      hideInDescriptions: true,
     },
     {
       key: "displayUser",
       title: "Người dùng",
-      search: false,
-      hideInForm: true,
-      hideInDescriptions: true,
       render: (_, record) => (
         <Space direction="vertical" size={0}>
           <Typography.Text strong>{record?.user_name}</Typography.Text>
@@ -117,6 +115,9 @@ export function usersColumn(params = {}, columnMapping = []) {
           </Typography.Text>
         </Space>
       ),
+      search: false,
+      hideInForm: true,
+      hideInDescriptions: true,
     },
   ];
 

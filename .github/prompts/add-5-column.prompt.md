@@ -29,9 +29,10 @@ export function {tableName}Column(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
+      ...buildColumnProps({ disabled: true, hidden: true }),
+      search: false,
       hideInTable: true,
       hideInDescriptions: true,
-      ...buildColumnProps({ disabled: true, hidden: true }),
     },
     {
       key: "{field1}",

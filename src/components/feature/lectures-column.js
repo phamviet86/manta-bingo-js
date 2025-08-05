@@ -14,6 +14,7 @@ export function lecturesColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
+      search: false,
       hideInTable: true,
       hideInDescriptions: true,
     },
@@ -106,12 +107,11 @@ export const lecturesMapping = {
   default: [
     { key: "id" },
     { key: "module_id" },
-    { key: "syllabus_name" },
     { key: "module_name" },
     { key: "displayLecture" },
     { key: "lecture_name", hideInTable: true },
     { key: "lecture_status_id", responsive: ["md"] },
-    { key: "lecture_no", hideInTable: true, search: false, responsive: ["lg"] },
+    { key: "lecture_no", search: false, hideInTable: true, responsive: ["lg"] },
     { key: "lecture_desc", search: false, responsive: ["xl"] },
   ],
 };

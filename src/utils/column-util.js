@@ -130,7 +130,7 @@ export function buildColumnProps(props) {
       if (!config?.proFieldProps) return { ...fieldProps };
       return {};
     },
-    formItemProps: (config) => {
+    formItemProps: (_, config) => {
       if (!config?.proFieldProps) return { ...formItemProps };
       return {};
     },

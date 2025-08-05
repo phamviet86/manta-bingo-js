@@ -12,6 +12,7 @@ export function rolePermissionsColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
+      search: false,
       hideInTable: true,
       hideInDescriptions: true,
     },

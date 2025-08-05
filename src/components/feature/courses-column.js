@@ -12,6 +12,7 @@ export function coursesColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
+      search: false,
       hideInTable: true,
       hideInDescriptions: true,
     },
