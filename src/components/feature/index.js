@@ -38,3 +38,6 @@ export * from "./courses-column";
 
 export * from "./classes-component";
 export * from "./classes-column";
+
+export * from "./enrollments-component";
+export * from "./enrollments-column";
