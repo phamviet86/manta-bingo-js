@@ -15,7 +15,33 @@ export function PageProvider({ children }) {
     { option_table: "classes", option_column: "class_status_id" }
   );
 
-  const contextValue = useMemo(() => ({ classStatus }), [classStatus]);
+  const enrollmentType = buildEnum(
+    optionsData,
+    { value: "id", label: "option_label", color: "option_color" },
+    { option_table: "enrollments", option_column: "enrollment_type_id" }
+  );
+
+  const enrollmentPaymentType = buildEnum(
+    optionsData,
+    { value: "id", label: "option_label", color: "option_color" },
+    { option_table: "enrollments", option_column: "enrollment_payment_type_id" }
+  );
+
+  const enrollmentStatus = buildEnum(
+    optionsData,
+    { value: "id", label: "option_label", color: "option_color" },
+    { option_table: "enrollments", option_column: "enrollment_status_id" }
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      classStatus,
+      enrollmentType,
+      enrollmentStatus,
+      enrollmentPaymentType,
+    }),
+    [classStatus, enrollmentType, enrollmentStatus, enrollmentPaymentType]
+  );
 
   return (
     <PageContext.Provider value={contextValue}>{children}</PageContext.Provider>

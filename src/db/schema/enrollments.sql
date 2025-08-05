@@ -12,7 +12,7 @@ CREATE TABLE enrollments (
   module_id UUID DEFAULT NULL,
   class_id UUID DEFAULT NULL,
   enrollment_type_id INTEGER NOT NULL,
-  enrollment_payment_type_id INTEGER DEFAULT 27,
+  enrollment_payment_type_id INTEGER DEFAULT 30,
   enrollment_payment_amount INTEGER DEFAULT 0,
   enrollment_payment_discount INTEGER DEFAULT 0,
   enrollment_start_date TIMESTAMPTZ DEFAULT NULL,
@@ -29,30 +29,30 @@ CREATE OR REPLACE VIEW enrollments_view AS
 SELECT 
   *,
   CASE
-    -- 29: Nhập sai ngày
+    -- 20: Nhập sai ngày
     WHEN enrollment_end_date IS NOT NULL 
-         AND enrollment_start_date > enrollment_end_date THEN 29
+         AND enrollment_start_date > enrollment_end_date THEN 20
 
-    -- 30: Đã kết thúc
+    -- 21: Đã kết thúc
     WHEN enrollment_end_date IS NOT NULL 
-         AND DATE(enrollment_end_date AT TIME ZONE 'Asia/Ho_Chi_Minh') <= (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::DATE THEN 30
+         AND DATE(enrollment_end_date AT TIME ZONE 'Asia/Ho_Chi_Minh') <= (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::DATE THEN 21
 
-    -- 31: Chờ xếp lớp
-    WHEN class_id IS NULL THEN 31
+    -- 22: Chờ xếp lớp
+    WHEN class_id IS NULL THEN 22
 
-    -- 32: Thiếu ngày bắt đầu
-    WHEN enrollment_start_date IS NULL THEN 32
+    -- 23: Thiếu ngày bắt đầu
+    WHEN enrollment_start_date IS NULL THEN 23
 
-    -- 33: Đang tham gia
+    -- 24: Đang tham gia
     WHEN enrollment_start_date IS NOT NULL
          AND DATE(enrollment_start_date AT TIME ZONE 'Asia/Ho_Chi_Minh') <= (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::DATE
          AND (
            enrollment_end_date IS NULL 
            OR DATE(enrollment_end_date AT TIME ZONE 'Asia/Ho_Chi_Minh') >= (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::DATE
-         ) THEN 33
+         ) THEN 24
 
-    -- 34: Chờ bắt đầu
-    ELSE 34
+    -- 25: Chờ bắt đầu
+    ELSE 25
   END AS enrollment_status_id
 FROM 
   enrollments;
