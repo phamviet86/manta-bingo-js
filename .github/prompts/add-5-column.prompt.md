@@ -1,16 +1,7 @@
 ---
 mode: "agent"
 model: GPT-4.1
-tools:
-  [
-    "changes",
-    "codebase",
-    "editFiles",
-    "githubRepo",
-    "problems",
-    "search",
-    "searchResults",
-  ]
+tools: ["changes","codebase","editFiles","githubRepo","problems","search","searchResults"]
 description: "Generate frontend column file from SQL table structure using template code"
 ---
 
@@ -39,9 +30,6 @@ export function {tableName}Schema(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "{field1}",
@@ -108,7 +96,8 @@ export function {tableName}Schema(params = {}, columnMapping = []) {
 }
 
 export const {tableName}Mapping = {
-  default: [{key: "id"}, {key: "{field1}"}, {key: "{field2}"}, {key: "{field3}"}, {key: "{optional1}"}, {key: "{optional2}"}, {key: "{optional3}"}, {key: "{optional4}"}, {key: "{optional5}"}],
+  fields: [{key: "id"}, {key: "{field1}"}, {key: "{field2}"}, {key: "{field3}"}, {key: "{optional1}"}, {key: "{optional2}"}, {key: "{optional3}"}, {key: "{optional4}"}, {key: "{optional5}"}],
+  columns: [{key: "id"}, {key: "{field1}"}, {key: "{field2}"}, {key: "{field3}"}, {key: "{optional1}"}, {key: "{optional2}"}, {key: "{optional3}"}, {key: "{optional4}"}, {key: "{optional5}"}],
 };
 ```
 
@@ -143,9 +132,9 @@ Replace template placeholders with your table data:
 ## Critical Rules
 
 - ✅ **File naming**: kebab-case with `-column` suffix (e.g., `options-column.js`)
-- ✅ **Function**: Single column function with `{tableName}Column` naming
+- ✅ **Function**: Single column function with `{tableName}Schema` naming
 - ✅ **Schema structure**: Array of column objects with required properties
-- ✅ **Field validation**: Use `buildColumnProps({ required: true })` for NOT NULL fields
+- ✅ **Field validation**: Use `buildColumnProps({ rules: [{ required: true }] })` for NOT NULL fields
 - ✅ **Field naming**: Use snake_case for database fields
 - ✅ **Vietnamese labels**: Use Vietnamese text for all user-facing labels
 - ✅ **Import path**: Use `@/utils/column-util` for buildColumns and buildColumnProps utilities
@@ -154,26 +143,25 @@ Replace template placeholders with your table data:
 
 Use specific valueTypes and configurations for different field types:
 
-- **Required fields**: Use `valueType: "text"` with `...buildColumnProps({ required: true })`
+- **Required fields**: Use `valueType: "text"` with `...buildColumnProps({ rules: [{ required: true }] })`
 - **Select fields**: Use `valueType: "select"` with options configuration
 - **Textarea fields**: Use `valueType: "textarea"` with autoSize configuration
 - **Time fields**: Use `valueType: "time"` with time format configuration
 - **Date fields**: Use `valueType: "date"` with date format configuration
 - **Money fields**: Use `valueType: "money"` with locale and precision configuration
-- **ID fields**: Hidden with `hideInTable: true, hideInDescriptions: true` plus `...buildColumnProps({ disabled: true, hidden: true })`
+- **ID fields**: Use `...buildColumnProps({ disabled: true, hidden: true })` with `valueType: "text"`
 
 ## Column Schema Patterns
 
 ### ID Field MUST
 
 - Use exact pattern with `key: "id"`, `dataIndex: "id"`, `title: "ID"`
-- Include `hideInTable: true, hideInDescriptions: true` properties
 - Include `...buildColumnProps({ disabled: true, hidden: true })`
 - Use `valueType: "text"`
 
 ### Required Fields MUST
 
-- Include `...buildColumnProps({ required: true })`
+- Include `...buildColumnProps({ rules: [{ required: true }] })`
 - Use `valueType: "text"`
 - Include Vietnamese `title` labels
 
@@ -197,7 +185,7 @@ Use specific valueTypes and configurations for different field types:
 
 ### Mapping Configuration MUST
 
-- Include `default` property with array of all column keys
+- Include `fields` and `columns` properties with arrays of all column keys
 - Each column key should be in format: `{key: "field_name"}`
 - Include all fields: `id`, required fields (`{field1}`, `{field2}`, `{field3}`), and optional fields (`{optional1}` through `{optional5}`)
 - Use snake_case for field names in the mapping keys (matching database field names)
@@ -219,18 +207,18 @@ export * from "./{table-name}-column";
 
 - ✅ **File location**: `src/components/feature/{table-name}-column.js`
 - ✅ **File naming**: kebab-case convention with `-column` suffix
-- ✅ **Function**: Single `{tableName}Column` function with correct signature
+- ✅ **Function**: Single `{tableName}Schema` function with correct signature
 - ✅ **Imports**: Correct import statement for `buildColumns` and `buildColumnProps` utilities
 - ✅ **Schema structure**: Array of column objects with all required properties
-- ✅ **ID field**: Hidden ID field with correct `buildColumnProps` configuration and hide properties
-- ✅ **Field validation**: Required field validation using `buildColumnProps({ required: true })`
+- ✅ **ID field**: Hidden ID field with correct `buildColumnProps` configuration
+- ✅ **Field validation**: Required field validation using `buildColumnProps({ rules: [{ required: true }] })`
 - ✅ **Vietnamese labels**: Proper Vietnamese labels for all columns
 - ✅ **Field naming**: snake_case for database fields (NOT camelCase)
 - ✅ **ValueType mapping**: Use specific `valueType` values for different field purposes (text, select, textarea, time, date, money)
 - ✅ **buildColumnProps usage**: Use spread operator with `buildColumnProps()` for all field configurations with appropriate options
 - ✅ **Dynamic params**: Use destructuring `const { optionStatus } = params;` for accessing options configuration
-- ✅ **Mapping export**: Include `{tableName}Mapping` export with default column configuration containing all field keys
-- ✅ **Mapping structure**: Default array includes all 9 column keys (id + 3 required + 5 optional fields) in `{key: "field_name"}` format
+- ✅ **Mapping export**: Include `{tableName}Mapping` export with `fields` and `columns` arrays containing all field keys
+- ✅ **Mapping structure**: Both `fields` and `columns` arrays include all 9 column keys (id + 3 required + 5 optional fields) in `{key: "field_name"}` format
 - ✅ **Index export**: Added column export to `src/components/feature/index.js`
 
 ## Output Location
