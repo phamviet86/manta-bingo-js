@@ -12,9 +12,6 @@ export function optionsColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      width: 56,
-      search: false,
-      responsive: ["md"],
     },
     {
       key: "option_table",
@@ -22,7 +19,6 @@ export function optionsColumn(params = {}, columnMapping = []) {
       title: "Bảng",
       valueType: "text",
       ...buildColumnProps({ rules: [{ required: true }] }),
-      responsive: ["md"],
     },
     {
       key: "option_column",
@@ -44,16 +40,13 @@ export function optionsColumn(params = {}, columnMapping = []) {
       title: "Màu Sắc",
       valueType: "select",
       ...buildColumnProps({ valueEnum: optionColor }),
-      search: false,
-      responsive: ["lg"],
     },
     {
       key: "option_group",
       dataIndex: "option_group",
       title: "Nhóm",
       valueType: "text",
-      ...buildColumnProps({ search: false }),
-      responsive: ["xl"],
+      ...buildColumnProps({}),
     },
   ];
 
@@ -61,5 +54,20 @@ export function optionsColumn(params = {}, columnMapping = []) {
 }
 
 export const optionsMapping = {
-  default: [],
+  default: [
+    { key: "id", width: 56, search: false, responsive: ["md"] },
+    { key: "option_table", responsive: ["md"] },
+    { key: "option_column" },
+    { key: "option_label" },
+    { key: "option_color", search: false, responsive: ["lg"] },
+    { key: "option_group", search: false, responsive: ["xl"] },
+  ],
+  fields: [
+    { key: "id" },
+    { key: "option_table" },
+    { key: "option_column" },
+    { key: "option_label" },
+    { key: "option_color" },
+    { key: "option_group" },
+  ],
 };

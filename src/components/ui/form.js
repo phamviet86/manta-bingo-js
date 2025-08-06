@@ -10,6 +10,7 @@ import { FORM_CONFIG, MODAL_CONFIG, DRAWER_CONFIG } from "@/configs";
 export function AntForm({
   // Form variant configuration
   variant = "page", // "page" | "modal" | "drawer"
+  fields = [],
 
   // Data handling props
   onRequest = undefined,
@@ -130,7 +131,7 @@ export function AntForm({
 
   // ========== Configuration Setup ==========
   // Configure submitter buttons based on available handlers
-  const renderFormButtons = (props, defaultDoms) => (
+  const renderFormButtons = (_, defaultDoms) => (
     <Flex
       justify="space-between"
       align="middle"
@@ -193,6 +194,7 @@ export function AntForm({
     ...props,
     ...FORM_CONFIG,
     formRef,
+    columns: fields ? fields : undefined,
     request: onRequest ? handleDataRequest : undefined,
     params: requestParams,
     onFinish: onSubmit ? handleDataSubmit : undefined,

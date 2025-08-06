@@ -10,6 +10,7 @@ import {
   OptionsCreate,
   OptionsEdit,
   optionsColumn,
+  optionsMapping,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -31,7 +32,8 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: optionsColumn({ optionColor }),
+    columns: optionsColumn({ optionColor }, optionsMapping.default),
+    fields: optionsColumn({ optionColor }, optionsMapping.fields),
   };
 
   // Open edit form
@@ -86,14 +88,14 @@ function PageContent() {
       />
       <OptionsCreate
         formHook={useOptions.create}
-        columns={useOptions.columns}
+        fields={useOptions.fields}
         onSubmitSuccess={useOptions.table.reload}
         title="Tạo tùy chọn"
         variant="drawer"
       />
       <OptionsEdit
         formHook={useOptions.edit}
-        columns={useOptions.columns}
+        fields={useOptions.fields}
         requestParams={useOptions.edit.requestParams}
         onSubmitSuccess={useOptions.table.reload}
         deleteParams={useOptions.edit.deleteParams}
