@@ -3,7 +3,7 @@
 import { Space, Typography } from "antd";
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function enrollmentsColumn(params = {}, columnMapping = []) {
+export function enrollmentsSchema(params = {}, columnMapping = []) {
   const { enrollmentStatus, enrollmentType, enrollmentPaymentType } = params;
 
   const schema = [
@@ -91,7 +91,7 @@ export function enrollmentsColumn(params = {}, columnMapping = []) {
       ...buildColumnProps({
         style: { width: "100%" },
         formatter: (value) => (value ? `${value} %` : ""),
-        colProps: { xs: 8 },  
+        colProps: { xs: 8 },
       }),
     },
     {

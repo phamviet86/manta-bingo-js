@@ -6,7 +6,8 @@ import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import {
   SyllabusesTable,
   SyllabusesCreate,
-  syllabusesColumn,
+  syllabusesSchema,
+  syllabusesMapping,
 } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -21,14 +22,15 @@ export default function Page(props) {
 
 function PageContent() {
   // Context
-  const { syllabusStatus, moduleStatus, lectureStatus } = usePageContext();
+  const { syllabusStatus } = usePageContext();
   const { navDetail } = useNavigate();
 
   // Hooks
   const useSyllabuses = {
     table: useTable(),
     create: useForm(),
-    columns: syllabusesColumn({ syllabusStatus }),
+    columns: syllabusesSchema({ syllabusStatus }, syllabusesMapping.columns),
+    fields: syllabusesSchema({ syllabusStatus }, syllabusesMapping.fields),
   };
 
   // Page action buttons
@@ -75,7 +77,7 @@ function PageContent() {
       />
       <SyllabusesCreate
         formHook={useSyllabuses.create}
-        columns={useSyllabuses.columns}
+        fields={useSyllabuses.fields}
         onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
         title="Tạo giáo trình"
         variant="drawer"

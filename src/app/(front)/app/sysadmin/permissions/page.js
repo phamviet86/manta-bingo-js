@@ -9,7 +9,8 @@ import {
   PermissionsTable,
   PermissionsCreate,
   PermissionsEdit,
-  permissionsColumn,
+  permissionsSchema,
+  permissionsMapping,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -31,7 +32,8 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: permissionsColumn(),
+    columns: permissionsSchema({}, permissionsMapping.columns),
+    fields: permissionsSchema({}, permissionsMapping.fields),
   };
 
   // Open edit
@@ -86,14 +88,14 @@ function PageContent() {
       />
       <PermissionsCreate
         formHook={usePermissions.create}
-        columns={usePermissions.columns}
+        fields={usePermissions.fields}
         onSubmitSuccess={usePermissions.table.reload}
         title="Tạo quyền"
         variant="drawer"
       />
       <PermissionsEdit
         formHook={usePermissions.edit}
-        columns={usePermissions.columns}
+        fields={usePermissions.fields}
         requestParams={usePermissions.edit.requestParams}
         onSubmitSuccess={usePermissions.table.reload}
         deleteParams={usePermissions.edit.deleteParams}

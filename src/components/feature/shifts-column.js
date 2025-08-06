@@ -2,7 +2,7 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function shiftsColumn(params = {}, columnMapping = []) {
+export function shiftsSchema(params = {}, columnMapping = []) {
   const { shiftStatus } = params;
 
   const schema = [
@@ -12,9 +12,6 @@ export function shiftsColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "shift_name",
@@ -43,10 +40,7 @@ export function shiftsColumn(params = {}, columnMapping = []) {
         rules: [{ required: true }],
         format: "HH:mm",
         style: { width: "100%" },
-        colProps: { xs: 12 },
       }),
-      search: false,
-      responsive: ["md"],
     },
     {
       key: "shift_end_time",
@@ -57,10 +51,7 @@ export function shiftsColumn(params = {}, columnMapping = []) {
         rules: [{ required: true }],
         format: "HH:mm",
         style: { width: "100%" },
-        colProps: { xs: 12 },
       }),
-      search: false,
-      responsive: ["md"],
     },
     {
       key: "shift_desc",
@@ -68,8 +59,6 @@ export function shiftsColumn(params = {}, columnMapping = []) {
       title: "Mô tả",
       valueType: "textarea",
       ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 9 } }),
-      search: false,
-      responsive: ["lg"],
     },
   ];
 
@@ -77,5 +66,19 @@ export function shiftsColumn(params = {}, columnMapping = []) {
 }
 
 export const shiftsMapping = {
-  default: [],
+  fields: [
+    { key: "id" },
+    { key: "shift_name" },
+    { key: "shift_status_id" },
+    { key: "shift_start_time", colProps: { xs: 12 } },
+    { key: "shift_end_time", colProps: { xs: 12 } },
+    { key: "shift_desc" },
+  ],
+  columns: [
+    { key: "shift_name" },
+    { key: "shift_status_id" },
+    { key: "shift_start_time", search: false, responsive: ["md"] },
+    { key: "shift_end_time", search: false, responsive: ["md"] },
+    { key: "shift_desc", search: false, responsive: ["lg"] },
+  ],
 };

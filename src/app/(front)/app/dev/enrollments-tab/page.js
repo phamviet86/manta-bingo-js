@@ -9,7 +9,7 @@ import {
   EnrollmentsCreate,
   EnrollmentsInfo,
   EnrollmentsEdit,
-  enrollmentsColumn,
+  enrollmentsSchema,
 } from "@/components/feature";
 import { useTable, useInfo, useForm } from "@/hooks";
 
@@ -24,7 +24,7 @@ export default function Page() {
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
-    columns: enrollmentsColumn(),
+    columns: enrollmentsSchema(),
   };
 
   // Open info modal

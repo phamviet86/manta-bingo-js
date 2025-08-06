@@ -2,7 +2,7 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function roomsColumn(params = {}, columnMapping = []) {
+export function roomsSchema(params = {}, columnMapping = []) {
   const { roomStatus } = params;
 
   const schema = [
@@ -12,9 +12,6 @@ export function roomsColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "room_name",
@@ -40,8 +37,6 @@ export function roomsColumn(params = {}, columnMapping = []) {
       title: "Mô tả",
       valueType: "textarea",
       ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 9 } }),
-      search: false,
-      responsive: ["md"],
     },
   ];
 
@@ -49,5 +44,15 @@ export function roomsColumn(params = {}, columnMapping = []) {
 }
 
 export const roomsMapping = {
-  default: [],
+  fields: [
+    { key: "id" },
+    { key: "room_name" },
+    { key: "room_status_id" },
+    { key: "room_desc" },
+  ],
+  columns: [
+    { key: "room_name" },
+    { key: "room_status_id" },
+    { key: "room_desc", search: false, responsive: ["md"] },
+  ],
 };

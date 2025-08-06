@@ -2,7 +2,7 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function rolesColumn(params = {}, columnMapping = []) {
+export function rolesSchema(params = {}, columnMapping = []) {
   const {} = params;
 
   const schema = [
@@ -12,8 +12,6 @@ export function rolesColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      width: 56,
-      search: false,
     },
     {
       key: "role_name",
@@ -35,5 +33,10 @@ export function rolesColumn(params = {}, columnMapping = []) {
 }
 
 export const rolesMapping = {
-  default: [],
+  fields: [{ key: "id" }, { key: "role_name" }, { key: "role_path" }],
+  columns: [
+    { key: "id", width: 56, search: false },
+    { key: "role_name" },
+    { key: "role_path" },
+  ],
 };

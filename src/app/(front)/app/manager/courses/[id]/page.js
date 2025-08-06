@@ -8,11 +8,12 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   CoursesInfo,
   CoursesEdit,
-  coursesColumn,
+  coursesSchema,
+  coursesMapping,
   ClassesTable,
   ClassesInfo,
   ClassesEdit,
-  classesColumn,
+  classesSchema,
   classesMapping,
   ClassesTransferByCourse,
 } from "@/components/feature";
@@ -37,7 +38,8 @@ function PageContent({ params }) {
   const useCourses = {
     info: useInfo(),
     edit: useForm(),
-    columns: coursesColumn(),
+    columns: coursesSchema({}, coursesMapping.columns),
+    fields: coursesSchema({}, coursesMapping.fields),
   };
 
   // Page action buttons
@@ -71,7 +73,7 @@ function PageContent({ params }) {
       />
       <CoursesEdit
         formHook={useCourses.edit}
-        columns={useCourses.columns}
+        fields={useCourses.fields}
         requestParams={{ id: courseId }}
         onSubmitSuccess={useCourses.info.reload}
         onDeleteSuccess={navBack}
@@ -91,7 +93,11 @@ function PageContent({ params }) {
     table: useTable(),
     info: useInfo(),
     edit: useForm(),
-    columns: classesColumn({ classStatus }, classesMapping.courses),
+    columns: classesSchema(
+      { classStatus },
+      classesMapping.courseClassesColumns
+    ),
+    fields: classesSchema({ classStatus }, classesMapping.fields),
     transfer: useTransfer(),
   };
 
@@ -186,7 +192,7 @@ function PageContent({ params }) {
       />
       <ClassesEdit
         formHook={useClasses.edit}
-        columns={useClasses.columns}
+        fields={useClasses.fields}
         requestParams={useClasses.edit.requestParams}
         deleteParams={useClasses.edit.deleteParams}
         onSubmitSuccess={() => useClasses.table.reload()}

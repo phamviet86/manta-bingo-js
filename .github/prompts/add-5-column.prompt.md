@@ -1,7 +1,16 @@
 ---
 mode: "agent"
 model: GPT-4.1
-tools: ["changes","codebase","editFiles","githubRepo","problems","search","searchResults"]
+tools:
+  [
+    "changes",
+    "codebase",
+    "editFiles",
+    "githubRepo",
+    "problems",
+    "search",
+    "searchResults",
+  ]
 description: "Generate frontend column file from SQL table structure using template code"
 ---
 
@@ -20,7 +29,7 @@ Use this exact template code:
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function {tableName}Column(params = {}, columnMapping = []) {
+export function {tableName}Schema(params = {}, columnMapping = []) {
   const { optionStatus } = params;
 
   const schema = [
@@ -181,7 +190,7 @@ Use specific valueTypes and configurations for different field types:
 
 ### Function Structure MUST
 
-- Use exact signature: `{tableName}Column(params = {}, columnMapping = [])`
+- Use exact signature: `{tableName}Schema(params = {}, columnMapping = [])`
 - Use destructuring for params: `const { optionStatus } = params;`
 - Return `buildColumns(schema, columnMapping)`
 - Export additional `{tableName}Mapping` object with default column configuration including all field keys

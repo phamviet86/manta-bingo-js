@@ -7,7 +7,8 @@ import {
   ShiftsTable,
   ShiftsCreate,
   ShiftsEdit,
-  shiftsColumn,
+  shiftsSchema,
+  shiftsMapping,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -29,7 +30,8 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: shiftsColumn({ shiftStatus }),
+    columns: shiftsSchema({ shiftStatus }, shiftsMapping.columns),
+    fields: shiftsSchema({ shiftStatus }, shiftsMapping.fields),
   };
 
   // Open edit
@@ -84,14 +86,14 @@ function PageContent() {
       />
       <ShiftsCreate
         formHook={useShifts.create}
-        columns={useShifts.columns}
+        fields={useShifts.fields}
         onSubmitSuccess={useShifts.table.reload}
         title="Tạo ca học"
         variant="drawer"
       />
       <ShiftsEdit
         formHook={useShifts.edit}
-        columns={useShifts.columns}
+        fields={useShifts.fields}
         requestParams={useShifts.edit.requestParams}
         onSubmitSuccess={useShifts.table.reload}
         deleteParams={useShifts.edit.deleteParams}

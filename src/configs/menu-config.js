@@ -25,8 +25,8 @@ export const MENU_CONFIG = [
     icon: <SettingOutlined />,
     routes: [
       { path: "/app/sysadmin/options", name: "Tuỳ chọn" },
-      { path: "/app/sysadmin/roles", name: "Vai trò" },
       { path: "/app/sysadmin/permissions", name: "Quyền" },
+      { path: "/app/sysadmin/roles", name: "Vai trò" },
     ],
   },
   {

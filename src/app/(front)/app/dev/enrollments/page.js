@@ -6,7 +6,7 @@ import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import {
   EnrollmentsTable,
   EnrollmentsCreate,
-  enrollmentsColumn,
+  enrollmentsSchema,
   enrollmentsMapping,
 } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
@@ -29,7 +29,7 @@ function PageContent() {
   const useEnrollments = {
     table: useTable(),
     create: useForm(),
-    columns: enrollmentsColumn({}, enrollmentsMapping.classPage),
+    columns: enrollmentsSchema({}, enrollmentsMapping.classPage),
   };
 
   // Page action buttons

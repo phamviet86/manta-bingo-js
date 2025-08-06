@@ -10,7 +10,6 @@ import { FORM_CONFIG, MODAL_CONFIG, DRAWER_CONFIG } from "@/configs";
 export function AntForm({
   // Form variant configuration
   variant = "page", // "page" | "modal" | "drawer"
-  fields = [],
 
   // Data handling props
   onRequest = undefined,
@@ -30,6 +29,7 @@ export function AntForm({
   deleteParams = undefined,
 
   // Form configuration
+  fields = [],
   extra = [],
   title = undefined,
   showDeleteBtn = true,

@@ -2,7 +2,7 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function optionsColumn(params = {}, columnMapping = []) {
+export function optionsSchema(params = {}, columnMapping = []) {
   const { optionColor } = params;
 
   const schema = [
@@ -46,7 +46,6 @@ export function optionsColumn(params = {}, columnMapping = []) {
       dataIndex: "option_group",
       title: "Nhóm",
       valueType: "text",
-      ...buildColumnProps({}),
     },
   ];
 
@@ -54,14 +53,6 @@ export function optionsColumn(params = {}, columnMapping = []) {
 }
 
 export const optionsMapping = {
-  default: [
-    { key: "id", width: 56, search: false, responsive: ["md"] },
-    { key: "option_table", responsive: ["md"] },
-    { key: "option_column" },
-    { key: "option_label" },
-    { key: "option_color", search: false, responsive: ["lg"] },
-    { key: "option_group", search: false, responsive: ["xl"] },
-  ],
   fields: [
     { key: "id" },
     { key: "option_table" },
@@ -69,5 +60,13 @@ export const optionsMapping = {
     { key: "option_label" },
     { key: "option_color" },
     { key: "option_group" },
+  ],
+  columns: [
+    { key: "id", width: 56, search: false, responsive: ["md"] },
+    { key: "option_table", responsive: ["md"] },
+    { key: "option_column" },
+    { key: "option_label" },
+    { key: "option_color", search: false, responsive: ["lg"] },
+    { key: "option_group", search: false, responsive: ["xl"] },
   ],
 };

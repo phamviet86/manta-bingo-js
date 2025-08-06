@@ -6,7 +6,7 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   EnrollmentsInfo,
   EnrollmentsEdit,
-  enrollmentsColumn,
+  enrollmentsSchema,
   enrollmentsMapping,
 } from "@/components/feature";
 import { useInfo, useForm, useNavigate } from "@/hooks";
@@ -30,7 +30,7 @@ function PageContent({ params }) {
   const useEnrollments = {
     info: useInfo(),
     edit: useForm(),
-    columns: enrollmentsColumn({}, enrollmentsMapping.classPage),
+    columns: enrollmentsSchema({}, enrollmentsMapping.classPage),
   };
 
   // Page action buttons

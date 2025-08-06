@@ -5,7 +5,7 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   UsersTable,
   UsersCreate,
-  usersColumn,
+  usersSchema,
   usersMapping,
 } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
@@ -28,7 +28,8 @@ function PageContent() {
   const useUsers = {
     table: useTable(),
     create: useForm(),
-    columns: usersColumn({ userStatus }, usersMapping.default),
+    columns: usersSchema({ userStatus }, usersMapping.columns),
+    fields: usersSchema({ userStatus }, usersMapping.fields),
   };
 
   // Page action buttons
@@ -55,7 +56,7 @@ function PageContent() {
       <UsersTable tableHook={useUsers.table} columns={useUsers.columns} />
       <UsersCreate
         formHook={useUsers.create}
-        columns={useUsers.columns}
+        fields={useUsers.fields}
         onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
         title="Tạo người dùng"
         variant="drawer"

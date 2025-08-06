@@ -2,7 +2,7 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function userRolesColumn(params = {}, columnMapping = []) {
+export function userRolesSchema(params = {}, columnMapping = []) {
   const {} = params;
 
   const schema = [
@@ -36,5 +36,6 @@ export function userRolesColumn(params = {}, columnMapping = []) {
 }
 
 export const userRolesMapping = {
-  default: [],
+  fields: [],
+  columns: [{ key: "role_name" }, { key: "role_path" }],
 };

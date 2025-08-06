@@ -2,7 +2,7 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function rolePermissionsColumn(params = {}, columnMapping = []) {
+export function rolePermissionsSchema(params = {}, columnMapping = []) {
   const {} = params;
 
   const schema = [
@@ -12,9 +12,6 @@ export function rolePermissionsColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "role_id",
@@ -36,5 +33,6 @@ export function rolePermissionsColumn(params = {}, columnMapping = []) {
 }
 
 export const rolePermissionsMapping = {
-  default: [],
+  fields: [],
+  columns: [],
 };

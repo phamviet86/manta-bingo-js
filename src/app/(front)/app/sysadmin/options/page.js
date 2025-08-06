@@ -9,7 +9,7 @@ import {
   OptionsTable,
   OptionsCreate,
   OptionsEdit,
-  optionsColumn,
+  optionsSchema,
   optionsMapping,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
@@ -32,8 +32,8 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: optionsColumn({ optionColor }, optionsMapping.default),
-    fields: optionsColumn({ optionColor }, optionsMapping.fields),
+    columns: optionsSchema({ optionColor }, optionsMapping.columns),
+    fields: optionsSchema({ optionColor }, optionsMapping.fields),
   };
 
   // Open edit form

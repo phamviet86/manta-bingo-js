@@ -2,7 +2,7 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function syllabusesColumn(params = {}, columnMapping = []) {
+export function syllabusesSchema(params = {}, columnMapping = []) {
   const { syllabusStatus } = params;
 
   const schema = [
@@ -12,9 +12,6 @@ export function syllabusesColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "syllabus_name",
@@ -40,5 +37,10 @@ export function syllabusesColumn(params = {}, columnMapping = []) {
 }
 
 export const syllabusesMapping = {
-  default: [],
+  fields: [
+    { key: "id" },
+    { key: "syllabus_name" },
+    { key: "syllabus_status_id" },
+  ],
+  columns: [{ key: "syllabus_name" }, { key: "syllabus_status_id" }],
 };

@@ -2,7 +2,7 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function modulesColumn(params = {}, columnMapping = []) {
+export function modulesSchema(params = {}, columnMapping = []) {
   const { moduleStatus } = params;
 
   const schema = [
@@ -12,9 +12,6 @@ export function modulesColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "syllabus_id",
@@ -22,9 +19,6 @@ export function modulesColumn(params = {}, columnMapping = []) {
       title: "ID Giáo trình",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "module_name",
@@ -59,5 +53,12 @@ export function modulesColumn(params = {}, columnMapping = []) {
 }
 
 export const modulesMapping = {
-  default: [],
+  fields: [
+    { key: "id" },
+    { key: "syllabus_id" },
+    { key: "module_name" },
+    { key: "module_status_id" },
+    { key: "module_desc" },
+  ],
+  columns: [{ key: "module_name" }, { key: "module_status_id" }],
 };

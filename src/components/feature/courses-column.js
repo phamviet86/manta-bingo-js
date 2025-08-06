@@ -2,7 +2,7 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function coursesColumn(params = {}, columnMapping = []) {
+export function coursesSchema(params = {}, columnMapping = []) {
   const {} = params;
 
   const schema = [
@@ -12,9 +12,6 @@ export function coursesColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "course_name",
@@ -36,5 +33,6 @@ export function coursesColumn(params = {}, columnMapping = []) {
 }
 
 export const coursesMapping = {
-  default: [],
+  fields: [{ key: "id" }, { key: "course_name" }, { key: "course_code" }],
+  columns: [{ key: "course_name" }, { key: "course_code" }],
 };

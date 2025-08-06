@@ -10,13 +10,13 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   ClassesInfo,
   ClassesEdit,
-  classesColumn,
+  classesSchema,
   classesMapping,
   EnrollmentsTable,
   EnrollmentsCreate,
   EnrollmentsInfo,
   EnrollmentsEdit,
-  enrollmentsColumn,
+  enrollmentsSchema,
   enrollmentsMapping,
 } from "@/components/feature";
 import { useInfo, useForm, useNavigate, useTable } from "@/hooks";
@@ -45,7 +45,8 @@ function PageContent({ params }) {
   const useClasses = {
     info: useInfo(),
     edit: useForm(),
-    columns: classesColumn({ classStatus }, classesMapping.default),
+    columns: classesSchema({ classStatus }, classesMapping.columns),
+    fields: classesSchema({ classStatus }, classesMapping.fields),
   };
 
   // Page action buttons
@@ -79,7 +80,7 @@ function PageContent({ params }) {
       />
       <ClassesEdit
         formHook={useClasses.edit}
-        columns={useClasses.columns}
+        fields={useClasses.fields}
         requestParams={{ id: classesId }}
         onSubmitSuccess={useClasses.info.reload}
         onDeleteSuccess={navBack}
@@ -99,7 +100,7 @@ function PageContent({ params }) {
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
-    columns: enrollmentsColumn(
+    columns: enrollmentsSchema(
       {
         enrollmentType,
         enrollmentStatus,

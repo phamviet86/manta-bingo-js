@@ -2,7 +2,7 @@
 
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function permissionsColumn(params = {}, columnMapping = []) {
+export function permissionsSchema(params = {}, columnMapping = []) {
   const {} = params;
 
   const schema = [
@@ -12,8 +12,6 @@ export function permissionsColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      width: 56,
-      search: false,
     },
     {
       key: "permission_key",
@@ -21,8 +19,8 @@ export function permissionsColumn(params = {}, columnMapping = []) {
       title: "Mã quyền",
       valueType: "text",
       ...buildColumnProps({
-        placeholder: "url.path.method",
         rules: [{ required: true }],
+        placeholder: "url.path.method",
       }),
     },
     {
@@ -38,5 +36,14 @@ export function permissionsColumn(params = {}, columnMapping = []) {
 }
 
 export const permissionsMapping = {
-  default: [],
+  fields: [
+    { key: "id" },
+    { key: "permission_key" },
+    { key: "permission_desc" },
+  ],
+  columns: [
+    { key: "id", width: 56, search: false, responsive: ["md"] },
+    { key: "permission_key" },
+    { key: "permission_desc" },
+  ],
 };

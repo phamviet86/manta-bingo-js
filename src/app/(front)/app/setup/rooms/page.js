@@ -7,7 +7,8 @@ import {
   RoomsTable,
   RoomsCreate,
   RoomsEdit,
-  roomsColumn,
+  roomsSchema,
+  roomsMapping,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -29,7 +30,8 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: roomsColumn({ roomStatus }),
+    columns: roomsSchema({ roomStatus }, roomsMapping.columns),
+    fields: roomsSchema({ roomStatus }, roomsMapping.fields),
   };
 
   // Open edit
@@ -84,14 +86,14 @@ function PageContent() {
       />
       <RoomsCreate
         formHook={useRooms.create}
-        columns={useRooms.columns}
+        fields={useRooms.fields}
         onSubmitSuccess={useRooms.table.reload}
         title="Tạo phòng học"
         variant="drawer"
       />
       <RoomsEdit
         formHook={useRooms.edit}
-        columns={useRooms.columns}
+        fields={useRooms.fields}
         requestParams={useRooms.edit.requestParams}
         onSubmitSuccess={useRooms.table.reload}
         deleteParams={useRooms.edit.deleteParams}

@@ -12,11 +12,12 @@ import {
 import {
   UsersInfo,
   UsersEdit,
-  usersColumn,
+  usersSchema,
   usersMapping,
   UsersResetPassword,
   UserRolesTable,
-  userRolesColumn,
+  userRolesSchema,
+  userRolesMapping,
   UserRolesTransferByUser,
 } from "@/components/feature";
 import { useTable, useInfo, useForm, useNavigate, useTransfer } from "@/hooks";
@@ -40,7 +41,8 @@ function PageContent({ params }) {
   const useUsers = {
     info: useInfo(),
     edit: useForm(),
-    columns: usersColumn({ userStatus }, usersMapping.default),
+    columns: usersSchema({ userStatus }, usersMapping.columns),
+    fields: usersSchema({ userStatus }, usersMapping.fields),
   };
 
   // Page action buttons
@@ -88,7 +90,7 @@ function PageContent({ params }) {
         />
         <UsersEdit
           formHook={useUsers.edit}
-          columns={useUsers.columns}
+          fields={useUsers.fields}
           requestParams={{ id: userId }}
           onSubmitSuccess={useUsers.info.reload}
           onDeleteSuccess={navBack}
@@ -107,7 +109,7 @@ function PageContent({ params }) {
   // Hooks
   const useUserRoles = {
     table: useTable(),
-    columns: userRolesColumn(),
+    columns: userRolesSchema({}, userRolesMapping.columns),
     transfer: useTransfer(),
   };
 

@@ -8,17 +8,18 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   SyllabusesInfo,
   SyllabusesEdit,
-  syllabusesColumn,
+  syllabusesSchema,
+  syllabusesMapping,
   ModulesTable,
   ModulesCreate,
-  ModulesInfo,
   ModulesEdit,
-  modulesColumn,
+  modulesSchema,
+  modulesMapping,
   LecturesTable,
   LecturesCreate,
   LecturesInfo,
   LecturesEdit,
-  lecturesColumn,
+  lecturesSchema,
   lecturesMapping,
 } from "@/components/feature";
 import { useTable, useInfo, useForm, useNavigate } from "@/hooks";
@@ -42,7 +43,8 @@ function PageContent({ params }) {
   const useSyllabuses = {
     info: useInfo(),
     edit: useForm(),
-    columns: syllabusesColumn({ syllabusStatus }),
+    columns: syllabusesSchema({ syllabusStatus }, syllabusesMapping.columns),
+    fields: syllabusesSchema({ syllabusStatus }, syllabusesMapping.fields),
   };
 
   // Page action buttons
@@ -76,7 +78,7 @@ function PageContent({ params }) {
       />
       <SyllabusesEdit
         formHook={useSyllabuses.edit}
-        columns={useSyllabuses.columns}
+        fields={useSyllabuses.fields}
         requestParams={{ id: syllabusId }}
         onSubmitSuccess={useSyllabuses.info.reload}
         onDeleteSuccess={navBack}
@@ -96,7 +98,8 @@ function PageContent({ params }) {
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
-    columns: modulesColumn({ moduleStatus }),
+    columns: modulesSchema({ moduleStatus }, modulesMapping.columns),
+    fields: modulesSchema({ moduleStatus }, modulesMapping.fields),
   };
 
   // Open info modal
@@ -140,21 +143,6 @@ function PageContent({ params }) {
       <ModulesTable
         tableHook={useModules.table}
         columns={useModules.columns}
-        leftColumns={[
-          {
-            width: 56,
-            align: "center",
-            search: false,
-            render: (_, record) => (
-              <AntButton
-                icon={<InfoCircleOutlined />}
-                color="primary"
-                variant="link"
-                onClick={() => openModulesInfo(record)}
-              />
-            ),
-          },
-        ]}
         rightColumns={[
           {
             width: 56,
@@ -174,18 +162,9 @@ function PageContent({ params }) {
         showSearch={false}
         showPagination={false}
       />
-      <ModulesInfo
-        infoHook={useModules.info}
-        columns={useModules.columns}
-        requestParams={useModules.info.requestParams}
-        title="Thông tin học phần"
-        variant="modal"
-        column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
-        size="small"
-      />
       <ModulesCreate
         formHook={useModules.create}
-        columns={useModules.columns}
+        fields={useModules.fields}
         onSubmitSuccess={() => useModules.table.reload()}
         initialValues={{ syllabus_id: syllabusId }}
         title="Tạo học phần"
@@ -193,7 +172,7 @@ function PageContent({ params }) {
       />
       <ModulesEdit
         formHook={useModules.edit}
-        columns={useModules.columns}
+        fields={useModules.fields}
         requestParams={useModules.edit.requestParams}
         deleteParams={useModules.edit.deleteParams}
         onSubmitSuccess={() => useModules.table.reload()}
@@ -219,9 +198,13 @@ function PageContent({ params }) {
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
-    columns: lecturesColumn(
+    columns: lecturesSchema(
       { lectureStatus, syllabusId },
-      lecturesMapping.default
+      lecturesMapping.columns
+    ),
+    fields: lecturesSchema(
+      { lectureStatus, syllabusId },
+      lecturesMapping.fields
     ),
   };
 
@@ -316,7 +299,7 @@ function PageContent({ params }) {
       />
       <LecturesEdit
         formHook={useLectures.edit}
-        columns={useLectures.columns}
+        fields={useLectures.fields}
         requestParams={useLectures.edit.requestParams}
         deleteParams={useLectures.edit.deleteParams}
         onSubmitSuccess={() => useLectures.table.reload()}

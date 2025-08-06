@@ -7,7 +7,7 @@ import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import {
   ClassesTable,
-  classesColumn,
+  classesSchema,
   classesMapping,
 } from "@/components/feature";
 import { useTable } from "@/hooks";
@@ -28,7 +28,7 @@ function PageContent() {
   // Hooks
   const useClasses = {
     table: useTable(),
-    columns: classesColumn({ classStatus }, classesMapping.default),
+    columns: classesSchema({ classStatus }, classesMapping.columns),
   };
 
   // Page action buttons

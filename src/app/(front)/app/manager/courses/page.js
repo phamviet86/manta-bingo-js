@@ -6,7 +6,8 @@ import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import {
   CoursesTable,
   CoursesCreate,
-  coursesColumn,
+  coursesSchema,
+  coursesMapping,
 } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
@@ -28,7 +29,8 @@ function PageContent() {
   const useCourses = {
     table: useTable(),
     create: useForm(),
-    columns: coursesColumn(),
+    columns: coursesSchema({}, coursesMapping.columns),
+    fields: coursesSchema({}, coursesMapping.fields),
   };
 
   // Page action buttons
@@ -75,7 +77,7 @@ function PageContent() {
       />
       <CoursesCreate
         formHook={useCourses.create}
-        columns={useCourses.columns}
+        fields={useCourses.fields}
         onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
         title="Tạo khóa học"
         variant="drawer"

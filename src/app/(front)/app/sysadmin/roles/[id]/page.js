@@ -9,9 +9,11 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   RolesInfo,
   RolesEdit,
-  rolesColumn,
+  rolesSchema,
+  rolesMapping,
   PermissionsCreate,
-  permissionsColumn,
+  permissionsSchema,
+  permissionsMapping,
   RolePermissionsTransferByRole,
 } from "@/components/feature";
 import { useInfo, useForm, useNavigate, useTransfer } from "@/hooks";
@@ -35,7 +37,8 @@ function PageContent({ params }) {
   const useRoles = {
     info: useInfo(),
     edit: useForm(),
-    columns: rolesColumn(),
+    columns: rolesSchema({}, rolesMapping.columns),
+    fields: rolesSchema({}, rolesMapping.fields),
   };
 
   // Page action buttons
@@ -69,7 +72,7 @@ function PageContent({ params }) {
       />
       <RolesEdit
         formHook={useRoles.edit}
-        columns={useRoles.columns}
+        fields={useRoles.fields}
         requestParams={{ id: roleId }}
         onSubmitSuccess={useRoles.info.reload}
         onDeleteSuccess={navBack}
@@ -86,7 +89,7 @@ function PageContent({ params }) {
   // Hooks
   const usePermissions = {
     create: useForm(),
-    columns: permissionsColumn(),
+    fields: permissionsSchema({}, permissionsMapping.fields),
   };
 
   const useRolePermissions = {
@@ -115,7 +118,7 @@ function PageContent({ params }) {
       />
       <PermissionsCreate
         formHook={usePermissions.create}
-        columns={usePermissions.columns}
+        fields={usePermissions.fields}
         onSubmitSuccess={useRolePermissions.transfer.reload}
         title="Tạo quyền"
         variant="drawer"

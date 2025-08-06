@@ -5,7 +5,12 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton, SubPathButton } from "@/components/ui";
-import { RolesTable, RolesCreate, rolesColumn } from "@/components/feature";
+import {
+  RolesTable,
+  RolesCreate,
+  rolesSchema,
+  rolesMapping,
+} from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
@@ -26,7 +31,8 @@ function PageContent() {
   const useRoles = {
     table: useTable(),
     create: useForm(),
-    columns: rolesColumn(),
+    columns: rolesSchema({}, rolesMapping.columns),
+    fields: rolesSchema({}, rolesMapping.fields),
   };
 
   // Page action buttons
@@ -73,7 +79,7 @@ function PageContent() {
       />
       <RolesCreate
         formHook={useRoles.create}
-        columns={useRoles.columns}
+        fields={useRoles.fields}
         onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
         title="Tạo vai trò"
         variant="drawer"

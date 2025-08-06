@@ -4,7 +4,7 @@ import { Space, Typography } from "antd";
 import { DiceBeerAvatar, SubLink } from "@/components/ui";
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
 
-export function usersColumn(params = {}, columnMapping = []) {
+export function usersSchema(params = {}, columnMapping = []) {
   const { userStatus } = params;
 
   const schema = [
@@ -14,9 +14,6 @@ export function usersColumn(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "user_name",
@@ -30,10 +27,7 @@ export function usersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_desc",
       title: "Mô tả",
       valueType: "text",
-      ...buildColumnProps({
-        rules: [{ required: true }],
-        colProps: { sm: 12 },
-      }),
+      ...buildColumnProps({ rules: [{ required: true }] }),
     },
     {
       key: "user_status_id",
@@ -44,7 +38,6 @@ export function usersColumn(params = {}, columnMapping = []) {
         rules: [{ required: true }],
         valueEnum: userStatus.valueEnum,
         options: userStatus.options,
-        colProps: { sm: 12 },
       }),
     },
     {
@@ -59,14 +52,12 @@ export function usersColumn(params = {}, columnMapping = []) {
       dataIndex: "user_phone",
       title: "Phone",
       valueType: "text",
-      ...buildColumnProps({ colProps: { sm: 12 } }),
     },
     {
       key: "user_parent_phone",
       dataIndex: "user_parent_phone",
       title: "Phone 2",
       valueType: "text",
-      ...buildColumnProps({ colProps: { sm: 12 } }),
     },
     {
       key: "user_avatar",
@@ -74,8 +65,6 @@ export function usersColumn(params = {}, columnMapping = []) {
       title: "Ảnh đại diện",
       valueType: "textarea",
       ...buildColumnProps({ autoSize: { minRows: 1, maxRows: 6 } }),
-      search: false,
-      hideInDescriptions: true,
     },
     {
       key: "user_notes",
@@ -83,7 +72,6 @@ export function usersColumn(params = {}, columnMapping = []) {
       title: "Ghi chú",
       valueType: "textarea",
       ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 9 } }),
-      search: false,
     },
     {
       key: "displayAvatar",
@@ -101,7 +89,6 @@ export function usersColumn(params = {}, columnMapping = []) {
         </SubLink>
       ),
       search: false,
-      hideInForm: true,
       hideInDescriptions: true,
     },
     {
@@ -116,7 +103,6 @@ export function usersColumn(params = {}, columnMapping = []) {
         </Space>
       ),
       search: false,
-      hideInForm: true,
       hideInDescriptions: true,
     },
   ];
@@ -125,17 +111,26 @@ export function usersColumn(params = {}, columnMapping = []) {
 }
 
 export const usersMapping = {
-  default: [
+  fields: [
+    { key: "id" },
+    { key: "user_name" },
+    { key: "user_desc", colProps: { sm: 12 } },
+    { key: "user_status_id", colProps: { sm: 12 } },
+    { key: "user_email" },
+    { key: "user_phone", colProps: { sm: 12 } },
+    { key: "user_parent_phone", colProps: { sm: 12 } },
+    { key: "user_avatar" },
+    { key: "user_notes" },
+  ],
+  columns: [
     { key: "displayAvatar" },
     { key: "displayUser" },
-    { key: "id" },
     { key: "user_name", hideInTable: true },
     { key: "user_desc", hideInTable: true },
     { key: "user_status_id", responsive: ["sm"] },
     { key: "user_email", responsive: ["md"] },
-    { key: "user_phone", hideInTable: true, responsive: ["lg"] },
+    { key: "user_phone", hideInTable: true },
     { key: "user_parent_phone", hideInTable: true },
-    { key: "user_avatar", hideInTable: true },
     { key: "user_notes", responsive: ["xl"] },
   ],
 };
