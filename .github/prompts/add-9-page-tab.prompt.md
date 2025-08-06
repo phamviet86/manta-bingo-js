@@ -29,7 +29,8 @@ import {
   {TableName}Create,
   {TableName}Info,
   {TableName}Edit,
-  get{TableName}Column,
+  {tableName}Schema,
+  {tableName}Mapping,
 } from "@/components/feature";
 import { useTable, useInfo, useForm } from "@/hooks";
 
@@ -46,7 +47,8 @@ export default function Page() {
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
-    columns: get{TableName}Column(),
+    columns: {tableName}Schema({}, {tableName}Mapping.columns),
+    fields: {tableName}Schema({}, {tableName}Mapping.fields),
   };
 
   // Open info modal
@@ -132,14 +134,14 @@ export default function Page() {
       />
       <{TableName}Create
         formHook={use{TableName}.create}
-        columns={use{TableName}.columns}
+        fields={use{TableName}.fields}
         onSubmitSuccess={() => use{TableName}.table.reload()}
         title="Tạo {vnTableName}"
         variant="drawer"
       />
       <{TableName}Edit
         formHook={use{TableName}.edit}
-        columns={use{TableName}.columns}
+        fields={use{TableName}.fields}
         requestParams={use{TableName}.edit.requestParams}
         deleteParams={use{TableName}.edit.deleteParams}
         onSubmitSuccess={() => use{TableName}.table.reload()}
@@ -184,6 +186,7 @@ Replace template placeholders with your table data:
 - **{TableName}**: PascalCase table name (e.g., `Options`, `UserRoles`)
 - **{tableName}**: camelCase table name (e.g., `options`, `userRoles`)
 - **{vnTableName}**: Vietnamese table description (e.g., `tùy chọn`, `vai trò người dùng`)
+- **{tableName}**: camelCase table name (e.g., `options`, `userRoles`)
 
 ### Template Structure
 
@@ -204,7 +207,7 @@ Replace template placeholders with your table data:
 
 - ✅ **File naming**: kebab-case folder with `-tab` suffix and `page.js` (e.g., `options-tab/page.js`)
 - ✅ **Component structure**: Exact tab pattern with all CRUD operations
-- ✅ **Component imports**: Import all required components (Table, Create, Info, Edit, getColumn)
+- ✅ **Component imports**: Import all required components (Table, Create, Info, Edit, Schema, Mapping)
 - ✅ **Hook usage**: Use exact hook patterns (useTable, useInfo, useForm)
 - ✅ **Vietnamese text**: Use Vietnamese for all user-facing labels
 - ✅ **Template structure**: Keep all component structure unchanged
@@ -218,13 +221,20 @@ Replace template placeholders with your table data:
 - **{TableName}Info**: For viewing record details
 - **{TableName}Create**: For creating new records
 - **{TableName}Edit**: For editing records
-- **get{TableName}Column**: For table column definitions
+- **{tableName}Schema**: For field and column schema definitions
+- **{tableName}Mapping**: For column and field mappings
 
 ### Required Hooks
 
 - **useTable()**: For table state management
-- **useInfo()**: For info state management
+- **useInfo()**: For info modal state management
 - **useForm()**: For form state management (used twice: create and edit)
+
+### Schema and Mapping Integration
+
+- **{tableName}Schema()**: Generates column/field definitions with parameters and mapping
+- **{tableName}Mapping.columns**: Column mapping configuration
+- **{tableName}Mapping.fields**: Field mapping configuration
 
 ### Page Structure
 
@@ -232,6 +242,32 @@ Replace template placeholders with your table data:
 - **ProCard**: Content wrapper with boxShadow and bordered properties
 - **Tab integration**: Single tab with complete CRUD operations
 - **Action buttons**: Reload and Create buttons in tab header
+
+## Schema and Mapping Pattern
+
+The template uses a schema and mapping pattern for column and field definitions:
+
+### Schema Function
+
+- **{tableName}Schema({}, mapping)**: Takes empty object and mapping to generate definitions
+- **Returns**: Column or field configurations based on the mapping provided
+
+### Mapping Objects
+
+- **{tableName}Mapping.columns**: Mapping configuration for table columns
+- **{tableName}Mapping.fields**: Mapping configuration for form fields
+
+### Usage in Hooks
+
+```javascript
+const use{TableName} = {
+  // ... other hooks
+  columns: {tableName}Schema({}, {tableName}Mapping.columns),
+  fields: {tableName}Schema({}, {tableName}Mapping.fields),
+};
+```
+
+This pattern provides consistent column and field definitions across the table and forms.
 
 ## Tab Structure
 
@@ -248,6 +284,14 @@ The page uses a tab-based interface pattern:
 Follow exact naming patterns from template:
 
 - **use{TableName}**: Object containing all hooks and component props
+- **use{TableName}.table**: Table hook instance
+- **use{TableName}.info**: Info modal hook instance
+- **use{TableName}.create**: Create form hook instance
+- **use{TableName}.edit**: Edit form hook instance
+- **use{TableName}.columns**: Column definitions from schema + mapping
+- **use{TableName}.fields**: Field definitions from schema + mapping
+- **open{TableName}Info**: Function to open info modal
+- **open{TableName}Edit**: Function to open edit form
 - **{tableName}Button**: Action buttons for tab header
 - **{tableName}Content**: Tab content with all CRUD components
 - **{tableName}Tab**: Tab definition object
@@ -280,6 +324,9 @@ Follow exact naming patterns from template:
 - ✅ **Action buttons**: Reload and Create buttons in tab header
 - ✅ **Table integration**: Table with view and edit columns
 - ✅ **CRUD integration**: All 4 components with drawer/modal variants
+- ✅ **Schema integration**: Proper use of {tableName}Schema and {tableName}Mapping
+- ✅ **Hook structure**: Proper use{TableName} object with table, info, create, edit, columns, fields
+- ✅ **Modal functions**: open{TableName}Info and open{TableName}Edit functions properly implemented
 - ✅ **Success handling**: Proper table reload after operations
 - ✅ **Variable naming**: Exact naming patterns followed
 

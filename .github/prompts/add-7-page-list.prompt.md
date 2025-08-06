@@ -26,7 +26,7 @@ import { AntPage, AntButton, SubPathButton } from "@/components/ui";
 import {
   {TableName}Table,
   {TableName}Create,
-  {tableName}Column,
+  {tableName}Schema,
   {tableName}Mapping,
 } from "@/components/feature";
 import { useTable, useForm, useNavigate } from "@/hooks";
@@ -49,7 +49,8 @@ function PageContent() {
   const use{TableName} = {
     table: useTable(),
     create: useForm(),
-    columns: {tableName}Column({}, {tableName}Mapping.default),
+    columns: {tableName}Schema({}, {tableName}Mapping.columns),
+    fields: {tableName}Schema({}, {tableName}Mapping.fields),
   };
 
   // Page action buttons
@@ -96,7 +97,7 @@ function PageContent() {
       />
       <{TableName}Create
         formHook={use{TableName}.create}
-        columns={use{TableName}.columns}
+        fields={use{TableName}.fields}
         onSubmitSuccess={(result) => navDetail(result?.data[0]?.id)}
         title="Tạo {vnTableName}"
         variant="drawer"
@@ -171,6 +172,35 @@ export function usePageContext() {
 }
 ```
 
+## Template Key Features
+
+### Component Structure
+
+- **Page Component**: Default export with PageProvider wrapper
+- **PageContent Function**: Contains all page logic and UI
+- **Provider Pattern**: Separate provider.js file with PageContext and usePageContext
+
+### Data Management
+
+- **Schema Integration**: Uses {tableName}Schema with mapping objects
+- **Hook Organization**: Consolidated use{TableName} object pattern
+- **Form Handling**: Integrated create form with drawer variant
+- **Table Display**: Full-featured table with right action column
+
+### Navigation Features
+
+- **Breadcrumb Navigation**: Development → {VnTableName} structure
+- **Detail Navigation**: SubPathButton in rightColumns for record details
+- **Create Success**: Automatic navigation to newly created record detail
+- **Action Buttons**: Reload table and create new record functionality
+
+### UI Components
+
+- **AntPage**: Main page wrapper with breadcrumbs, title, and actions
+- **ProCard**: Content wrapper with shadow and border styling
+- **AntButton**: Styled buttons with Vietnamese labels
+- **SubPathButton**: Navigation button for detail pages
+
 ## Quick Steps
 
 1. **Page File**: Create `src/app/(front)/app/dev/{table-name}/page.js`
@@ -194,51 +224,75 @@ export function usePageContext() {
 
 ### Required Components:
 
-- **{TableName}Table**: For data display
-- **{TableName}Create**: For creating new records
-- **get{TableName}Column**: Function to get column definitions
+- **{TableName}Table**: For data display with rightColumns support
+- **{TableName}Create**: For creating new records with drawer variant
+- **{tableName}Schema**: Function that takes empty object and mapping to return schema
+- **{tableName}Mapping**: Object containing columns and fields mappings
 
 ### Required Hooks:
 
-- **useTable()**: For table state management
-- **useForm()**: For form state management (create only)
-- **useNavigate()**: For navigation (navDetail function)
+- **useTable()**: For table state management (provides reload function)
+- **useForm()**: For form state management (provides open function)
+- **useNavigate()**: For navigation (provides navDetail function)
+- **usePageContext()**: For accessing page-specific context data
 
 ### Page Structure:
 
-- **AntPage**: Main page wrapper with breadcrumbs and title
+- **AntPage**: Main page wrapper with breadcrumbs, title, and extra buttons
 - **ProCard**: Content wrapper with boxShadow and bordered properties
-- **PageProvider**: Context provider for page state
-- **Action buttons**: Reload and Create buttons
-- **Detail navigation**: Info button in table rows that navigates to detail page
+- **PageProvider**: Context provider for page state (wraps PageContent)
+- **Action buttons**: Array with Reload and Create buttons in pageButton variable
+- **Detail navigation**: Info button in rightColumns that navigates to detail page using SubPathButton
+
+### Hook Usage Pattern:
+
+The template uses a specific hook structure pattern:
+
+```javascript
+const use{TableName} = {
+  table: useTable(),
+  create: useForm(),
+  columns: {tableName}Schema({}, {tableName}Mapping.columns),
+  fields: {tableName}Schema({}, {tableName}Mapping.fields),
+};
+```
+
+This pattern provides:
+
+- **table.reload()**: Function to reload table data
+- **create.open()**: Function to open create form
+- **columns**: Column definitions for table display
+- **fields**: Field definitions for create form
 
 ## Navigation Setup
 
 The page uses a standard navigation pattern:
 
-- **Breadcrumbs**: Development → {vnTableName}
-- **Page title**: {vnTableName}
-- **Detail navigation**: Click info icon to navigate to detail page
-- **Create success**: Navigate to detail page of newly created record
+- **Breadcrumbs**: Development → {VnTableName} (using AntPage items prop)
+- **Page title**: {VnTableName} (using AntPage title prop)
+- **Detail navigation**: SubPathButton with InfoCircleOutlined icon in rightColumns
+- **Create success**: Navigate to detail page using navDetail(result?.data[0]?.id)
+- **Page actions**: Extra buttons array with reload and create functionality
 
 ## Validation Checklist
 
 - ✅ **Page file location**: `src/app/(front)/app/dev/{table-name}/page.js`
 - ✅ **Provider file location**: `src/app/(front)/app/dev/{table-name}/provider.js`
 - ✅ **File naming**: kebab-case folder convention
-- ✅ **Template structure**: Exact Provider and PageContent pattern
-- ✅ **Imports**: All required components and hooks imported
-- ✅ **Component usage**: UI and feature components properly integrated
-- ✅ **Hook usage**: useTable and useForm properly used
-- ✅ **Vietnamese labels**: Proper Vietnamese text for all user-facing elements
-- ✅ **Navigation**: Breadcrumbs and title properly configured
-- ✅ **Action buttons**: Reload and Create buttons properly implemented
-- ✅ **Table integration**: Table with info button and proper columns
-- ✅ **Form integration**: Create form with drawer variant
-- ✅ **Navigation handling**: Navigation to detail page after successful creation
-- ✅ **Provider template**: Exact provider.js content without modifications
-- ✅ **Detail functionality**: Info button with SubPathButton for navigation to detail page
-- ✅ **Grid layout**: ProCard structure with boxShadow and bordered wrapper
+- ✅ **Template structure**: Exact Provider wrapper with PageContent function
+- ✅ **Imports**: All required UI components, feature components, and hooks imported
+- ✅ **Hook structure**: use{TableName} object with table, create, columns, fields properties
+- ✅ **Schema usage**: {tableName}Schema with empty object and mapping parameters
+- ✅ **Vietnamese labels**: Proper Vietnamese text in buttons and form titles
+- ✅ **Breadcrumbs**: AntPage items array with Development and {VnTableName}
+- ✅ **Page actions**: pageButton array with reload and create AntButtons
+- ✅ **Table integration**: {TableName}Table with tableHook, columns, and rightColumns props
+- ✅ **Right column**: SubPathButton with InfoCircleOutlined icon for detail navigation
+- ✅ **Create form**: {TableName}Create with formHook, fields, onSubmitSuccess, title, variant props
+- ✅ **Navigation handling**: navDetail function called with result?.data[0]?.id
+- ✅ **Provider template**: Empty contextValue with useAppContext and buildEnum imports
+- ✅ **Content wrapper**: ProCard with boxShadow and bordered properties
+- ✅ **Page wrapper**: AntPage with items, title, extra, and content props
 
 ## Output Location
 

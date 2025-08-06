@@ -27,7 +27,7 @@ import {
   {TableName}Table,
   {TableName}Create,
   {TableName}Edit,
-  {tableName}Column,
+  {tableName}Schema,
   {tableName}Mapping,
 } from "@/components/feature";
 import { useTable, useForm } from "@/hooks";
@@ -50,7 +50,8 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
-    columns: {tableName}Column({}, {tableName}Mapping.default),
+    columns: {tableName}Schema({}, {tableName}Mapping.columns),
+    fields: {tableName}Schema({}, {tableName}Mapping.fields),
   };
 
   // Open edit
@@ -105,14 +106,14 @@ function PageContent() {
       />
       <{TableName}Create
         formHook={use{TableName}.create}
-        columns={use{TableName}.columns}
+        fields={use{TableName}.fields}
         onSubmitSuccess={use{TableName}.table.reload}
         title="Tạo {vnTableName}"
         variant="drawer"
       />
       <{TableName}Edit
         formHook={use{TableName}.edit}
-        columns={use{TableName}.columns}
+        fields={use{TableName}.fields}
         requestParams={use{TableName}.edit.requestParams}
         onSubmitSuccess={use{TableName}.table.reload}
         deleteParams={use{TableName}.edit.deleteParams}
@@ -151,6 +152,7 @@ Replace template placeholders with your table data:
 
 - Use **PascalCase** for component imports and usage
 - Use **Vietnamese** labels for all user-facing text
+- Use **{tableName}Schema** function with **{tableName}Mapping** for columns and fields configuration
 - Keep all component structure, imports, and hooks exactly as shown
 
 ## Provider Template
@@ -204,7 +206,9 @@ export function usePageContext() {
 - ✅ **File naming**: kebab-case folder with `page.js` and `provider.js` (e.g., `options/page.js`, `options/provider.js`)
 - ✅ **Component structure**: Exact Provider and PageContent pattern
 - ✅ **Component imports**: Import UI components from `@/components/ui` and feature components from `@/components/feature`
+- ✅ **Schema imports**: Import `{tableName}Schema` and `{tableName}Mapping` from `@/components/feature`
 - ✅ **Hook usage**: Use exact hook patterns (useTable, useForm)
+- ✅ **Schema configuration**: Use `{tableName}Schema({}, {tableName}Mapping.columns)` for columns and `{tableName}Schema({}, {tableName}Mapping.fields)` for fields
 - ✅ **Vietnamese text**: Use Vietnamese for all user-facing labels
 - ✅ **Template structure**: Keep all component structure unchanged
 - ✅ **Provider pattern**: Use PageProvider and usePageContext exactly as shown
@@ -216,7 +220,8 @@ export function usePageContext() {
 - **{TableName}Table**: For data display
 - **{TableName}Create**: For creating new records
 - **{TableName}Edit**: For editing existing records
-- **get{TableName}Column**: Function to get column definitions
+- **{tableName}Schema**: Schema function for column and field definitions
+- **{tableName}Mapping**: Mapping configuration for columns and fields
 
 ### Required Hooks:
 
@@ -248,9 +253,10 @@ The page uses a standard navigation pattern:
 - ✅ **Provider file location**: `src/app/(front)/app/dev/{table-name}/provider.js`
 - ✅ **File naming**: kebab-case folder convention
 - ✅ **Template structure**: Exact Provider and PageContent pattern
-- ✅ **Imports**: All required components and hooks imported
+- ✅ **Imports**: All required components, hooks, schema, and mapping imported
 - ✅ **Component usage**: UI and feature components properly integrated
 - ✅ **Hook usage**: useTable and useForm properly used
+- ✅ **Schema configuration**: {tableName}Schema with {tableName}Mapping for columns and fields
 - ✅ **Vietnamese labels**: Proper Vietnamese text for all user-facing elements
 - ✅ **Navigation**: Breadcrumbs and title properly configured
 - ✅ **Action buttons**: Reload and Create buttons properly implemented

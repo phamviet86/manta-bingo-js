@@ -26,7 +26,7 @@ import { AntPage, AntButton } from "@/components/ui";
 import {
   {TableName}Info,
   {TableName}Edit,
-  {tableName}Column,
+  {tableName}Schema,
   {tableName}Mapping,
 } from "@/components/feature";
 import { useInfo, useForm, useNavigate } from "@/hooks";
@@ -50,7 +50,8 @@ function PageContent({ params }) {
   const use{TableName} = {
     info: useInfo(),
     edit: useForm(),
-    columns: {tableName}Column({}, {tableName}Mapping.default),
+    columns: {tableName}Schema({}, {tableName}Mapping.columns),
+    fields: {tableName}Schema({}, {tableName}Mapping.fields),
   };
 
   // Page action buttons
@@ -84,7 +85,7 @@ function PageContent({ params }) {
       />
       <{TableName}Edit
         formHook={use{TableName}.edit}
-        columns={use{TableName}.columns}
+        fields={use{TableName}.fields}
         requestParams={{ id: {tableName}Id }}
         onSubmitSuccess={use{TableName}.info.reload}
         onDeleteSuccess={navBack}
@@ -134,48 +135,54 @@ Replace template placeholders with your table data:
 - Use **ProCard** for layout with boxShadow and bordered properties
 - Import components from `@/components/ui` and `@/components/feature`
 - Import hooks from `@/hooks`
+- Import schema and mapping from `@/components/feature`
 
 ## Quick Steps
 
 1. **File Path**: Create `src/app/(front)/app/dev/{table-name}/[id]/page.js`
 2. **Copy Template**: Use the exact template structure above
 3. **Replace Names**: Fill in table naming placeholders
-4. **Title Field**: Choose appropriate field for page title display
-5. **Vietnamese Labels**: Use appropriate Vietnamese descriptions
-6. **Validate**: Ensure all imports and component usage are correct
+4. **Schema Setup**: Ensure {tableName}Schema and {tableName}Mapping are available
+5. **Title Field**: Choose appropriate field for page title display
+6. **Vietnamese Labels**: Use appropriate Vietnamese descriptions
+7. **Validate**: Ensure all imports and component usage are correct
 
 ## Critical Rules
 
 - ✅ **File naming**: kebab-case folder with `[id]/page.js` (e.g., `options/[id]/page.js`)
 - ✅ **Component structure**: Exact Provider and PageContent pattern
 - ✅ **Component imports**: Import UI components from `@/components/ui` and feature components from `@/components/feature`
+- ✅ **Schema imports**: Import schema and mapping functions from `@/components/feature`
 - ✅ **Hook usage**: Use exact hook patterns (useInfo, useForm, useNavigate)
 - ✅ **Vietnamese text**: Use Vietnamese for all user-facing labels
 - ✅ **Template structure**: Keep all component structure unchanged
 - ✅ **Provider pattern**: Use PageProvider and usePageContext exactly as shown
 - ✅ **Dynamic routing**: Use `use(params)` pattern for accessing route parameters
-- ✅ **Layout**: Use Row, Col, Card for page layout structure
+- ✅ **Layout**: Use ProCard structure with boxShadow and bordered properties
 
 ## Component Integration
 
-### Required Components:
+### Required Components
 
-- **{TableName}Info**: For data display (replaces previous {TableName}Desc)
-- **{TableName}Edit**: For editing records
-- **get{TableName}Column**: Function for table column definitions
+- **{TableName}Info**: For data display and information viewing
+- **{TableName}Edit**: For editing records with drawer form
+- **{tableName}Schema**: Function for generating form fields and columns
+- **{tableName}Mapping**: Configuration for columns and fields mapping
 
-### Required Hooks:
+### Required Hooks
 
 - **useInfo()**: For information/detail state management
 - **useForm()**: For form state management
 - **useNavigate()**: For navigation functionality
+- **usePageContext()**: For shared page context state
 
-### Page Structure:
+### Page Structure
 
 - **AntPage**: Main page wrapper with breadcrumbs and title
 - **ProCard**: Content wrapper with boxShadow and bordered properties
 - **PageProvider**: Context provider for page state (shared with list page)
-- **Action buttons**: Back and Edit buttons
+- **Action buttons**: Back and Edit buttons array
+- **Dynamic title**: Based on data field with fallback
 
 ## Navigation Setup
 
@@ -201,14 +208,15 @@ Choose appropriate field for `{titleField}` placeholder:
 - ✅ **File location**: `src/app/(front)/app/dev/{table-name}/[id]/page.js`
 - ✅ **File naming**: kebab-case folder with [id] dynamic route
 - ✅ **Template structure**: Exact Provider and PageContent pattern
-- ✅ **Imports**: All required components and hooks imported from correct paths
-- ✅ **Component usage**: Info and Edit components properly integrated
-- ✅ **Hook usage**: useInfo, useForm, useNavigate properly used
+- ✅ **Imports**: All required components, hooks, schema and mapping imported from correct paths
+- ✅ **Component usage**: Info and Edit components properly integrated with schema
+- ✅ **Hook usage**: useInfo, useForm, useNavigate, usePageContext properly used
+- ✅ **Schema integration**: Both columns and fields properly configured from schema
 - ✅ **Vietnamese labels**: Proper Vietnamese text for all user-facing elements
 - ✅ **Navigation**: Breadcrumbs and title properly configured
-- ✅ **Action buttons**: Back and Edit buttons properly implemented
-- ✅ **Detail integration**: Info component with proper data binding
-- ✅ **Form integration**: Edit form with drawer variant and delete functionality
+- ✅ **Action buttons**: Back and Edit buttons properly implemented as array
+- ✅ **Detail integration**: Info component with proper infoHook and data binding
+- ✅ **Form integration**: Edit form with formHook, drawer variant and delete functionality
 - ✅ **Success handling**: Proper reload and navigation after operations
 - ✅ **Dynamic title**: Page title based on record data with fallback
 - ✅ **Route parameters**: Proper use of dynamic routing with use(params)
