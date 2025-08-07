@@ -138,3 +138,61 @@ export async function deleteEnrollment(id) {
     throw new Error(error.message);
   }
 }
+
+// Create multiple enrollments by class ID and user IDs
+export async function createEnrollmentsByClass(
+  classId,
+  userIds,
+  enrollmentType,
+  paymentType,
+  paymentAmount
+) {
+  try {
+    const queryValues = [];
+    const valuePlaceholders = userIds
+      .map((userId, index) => {
+        queryValues.push(
+          userId,
+          classId,
+          enrollmentType,
+          paymentType,
+          paymentAmount
+        );
+        return `($${index * 5 + 1}, $${index * 5 + 2}, $${index * 5 + 3}, $${
+          index * 5 + 4
+        }, $${index * 5 + 5})`;
+      })
+      .join(", ");
+
+    const queryText = `
+      INSERT INTO enrollments (user_id, class_id, enrollment_type_id, enrollment_payment_type_id, enrollment_payment_amount)
+      VALUES ${valuePlaceholders}
+      RETURNING *;
+    `;
+
+    return await sql.query(queryText, queryValues);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// Soft-delete multiple enrollments by class ID and user IDs
+export async function deleteEnrollmentsByClass(classId, userIds) {
+  try {
+    const placeholders = userIds.map((_, index) => `$${index + 2}`).join(", ");
+
+    const queryText = `
+      UPDATE enrollments
+      SET deleted_at = NOW()
+      WHERE deleted_at IS NULL 
+        AND class_id = $1 
+        AND user_id IN (${placeholders})
+      RETURNING *;
+    `;
+
+    const queryValues = [classId, ...userIds];
+    return await sql.query(queryText, queryValues);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
