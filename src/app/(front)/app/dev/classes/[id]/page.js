@@ -3,17 +3,16 @@
 "use client";
 
 import { use } from "react";
-import { InfoCircleOutlined, EditOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import { Space } from "antd";
 import { ProCard } from "@ant-design/pro-components";
-import { AntPage, AntButton } from "@/components/ui";
+import { AntPage, AntButton, DiceBeerAvatar } from "@/components/ui";
 import {
   ClassesInfo,
   ClassesEdit,
   classesSchema,
   classesMapping,
   EnrollmentsTable,
-  EnrollmentsCreate,
   EnrollmentsInfo,
   EnrollmentsEdit,
   enrollmentsSchema,
@@ -98,7 +97,6 @@ function PageContent({ params }) {
   const useEnrollments = {
     table: useTable(),
     info: useInfo(),
-    create: useForm(),
     edit: useForm(),
     columns: enrollmentsSchema(
       {
@@ -106,7 +104,7 @@ function PageContent({ params }) {
         enrollmentStatus,
         enrollmentPaymentType,
       },
-      enrollmentsMapping.classPage
+      enrollmentsMapping.classEnrollmentsColumns
     ),
     fields: enrollmentsSchema(
       {
@@ -114,7 +112,7 @@ function PageContent({ params }) {
         enrollmentStatus,
         enrollmentPaymentType,
       },
-      enrollmentsMapping.classPage
+      enrollmentsMapping.fields
     ),
   };
 
@@ -143,13 +141,6 @@ function PageContent({ params }) {
         variant="outlined"
         onClick={() => useEnrollments.table.reload()}
       />
-      <AntButton
-        key="create-button"
-        label="Tạo mới"
-        color="primary"
-        variant="solid"
-        onClick={() => useEnrollments.create.open()}
-      />
     </Space>
   );
 
@@ -161,14 +152,16 @@ function PageContent({ params }) {
         columns={useEnrollments.columns}
         leftColumns={[
           {
-            width: 56,
+            width: 68,
             align: "center",
             search: false,
             render: (_, record) => (
-              <AntButton
-                icon={<InfoCircleOutlined />}
-                color="primary"
-                variant="link"
+              <DiceBeerAvatar
+                src={record?.user_avatar}
+                seed={record?.user_id}
+                shape="square"
+                size="large"
+                alt="Ảnh đại diện"
                 onClick={() => openEnrollmentsInfo(record)}
               />
             ),
@@ -199,16 +192,9 @@ function PageContent({ params }) {
         column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
         size="small"
       />
-      <EnrollmentsCreate
-        formHook={useEnrollments.create}
-        columns={useEnrollments.columns}
-        onSubmitSuccess={() => useEnrollments.table.reload()}
-        title="Tạo đăng ký"
-        variant="drawer"
-      />
       <EnrollmentsEdit
         formHook={useEnrollments.edit}
-        columns={useEnrollments.columns}
+        fields={useEnrollments.fields}
         requestParams={useEnrollments.edit.requestParams}
         deleteParams={useEnrollments.edit.deleteParams}
         onSubmitSuccess={() => useEnrollments.table.reload()}

@@ -1,8 +1,8 @@
 // path: @/utils/render-util.js
 
-import { Tag, Badge, Typography } from "antd";
 import { presetPrimaryColors } from "@ant-design/colors";
-import { COLOR_ENUM } from "@/component/config/enum-config";
+import { Tag, Badge, Typography } from "antd";
+import { COLOR_ENUM } from "@/configs/enum-config";
 
 export function renderTextArea(text) {
   return (

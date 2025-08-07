@@ -1,7 +1,9 @@
 // path: @/components/feature/enrollments-column.js
 
 import { Space, Typography } from "antd";
+import { DiceBeerAvatar } from "@/components/ui";
 import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { renderEnum } from "@/utils/render-util";
 
 export function enrollmentsSchema(params = {}, columnMapping = []) {
   const { enrollmentStatus, enrollmentType, enrollmentPaymentType } = params;
@@ -13,9 +15,6 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       title: "ID",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "user_id",
@@ -23,9 +22,6 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       title: "Người dùng",
       valueType: "text",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "module_id",
@@ -33,9 +29,6 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       title: "Module",
       valueType: "select",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "class_id",
@@ -43,9 +36,6 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       title: "Lớp học",
       valueType: "select",
       ...buildColumnProps({ disabled: true, hidden: true }),
-      search: false,
-      hideInTable: true,
-      hideInDescriptions: true,
     },
     {
       key: "enrollment_type_id",
@@ -57,7 +47,6 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
         options: enrollmentType?.options,
         valueEnum: enrollmentType?.valueEnum,
         disabled: true,
-        hidden: true,
       }),
     },
     {
@@ -68,7 +57,6 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       ...buildColumnProps({
         options: enrollmentPaymentType?.options,
         valueEnum: enrollmentPaymentType?.valueEnum,
-        colProps: { xs: 8 },
       }),
     },
     {
@@ -80,17 +68,6 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
         locale: "vi-VN",
         precision: 0,
         style: { width: "100%" },
-        colProps: { xs: 8 },
-      }),
-    },
-    {
-      key: "enrollment_payment_discount",
-      dataIndex: "enrollment_payment_discount",
-      title: "Giảm giá",
-      valueType: "digit",
-      ...buildColumnProps({
-        style: { width: "100%" },
-        formatter: (value) => (value ? `${value} %` : ""),
         colProps: { xs: 8 },
       }),
     },
@@ -109,13 +86,6 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       ...buildColumnProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
     },
     {
-      key: "enrollment_discount_notes",
-      dataIndex: "enrollment_discount_notes",
-      title: "Ghi chú giảm giá",
-      valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
-    },
-    {
       key: "enrollment_desc",
       dataIndex: "enrollment_desc",
       title: "Mô tả",
@@ -131,7 +101,6 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
         options: enrollmentStatus?.options,
         valueEnum: enrollmentStatus?.valueEnum,
         disabled: true,
-        colProps: { xs: 12 },
       }),
     },
     {
@@ -139,28 +108,28 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       dataIndex: "user_name",
       title: "Người dùng",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, colProps: { xs: 12 } }),
+      ...buildColumnProps({ disabled: true }),
     },
     {
       key: "course_name",
       dataIndex: "course_name",
       title: "Khóa học",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, colProps: { xs: 12 } }),
+      ...buildColumnProps({ disabled: true }),
     },
     {
       key: "module_name",
       dataIndex: "module_name",
       title: "Học phần",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, colProps: { xs: 12 } }),
+      ...buildColumnProps({ disabled: true }),
     },
     {
       key: "syllabus_name",
       dataIndex: "syllabus_name",
       title: "Giáo trình",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, colProps: { xs: 12 } }),
+      ...buildColumnProps({ disabled: true }),
     },
     {
       key: "displayClass",
@@ -180,7 +149,36 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
         );
       },
       search: false,
-      hideInForm: true,
+      hideInDescriptions: true,
+    },
+    {
+      key: "displayAvatar",
+      width: 68,
+      align: "center",
+      render: (_, record) => (
+        <DiceBeerAvatar
+          src={record?.user_avatar}
+          seed={record?.user_id}
+          shape="square"
+          size="large"
+          alt="Ảnh đại diện"
+        />
+      ),
+      search: false,
+      hideInDescriptions: true,
+    },
+    {
+      key: "displayUser",
+      title: "Người dùng",
+      render: (_, record) => {
+        return (
+          <Space direction="vertical" size={0}>
+            <Typography.Text strong>{record?.user_name}</Typography.Text>
+            {renderEnum(enrollmentType?.valueEnum, record?.enrollment_type_id)}
+          </Space>
+        );
+      },
+      search: false,
       hideInDescriptions: true,
     },
   ];
@@ -189,25 +187,30 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
 }
 
 export const enrollmentsMapping = {
-  classPage: [
-    { key: "id" },
-    { key: "user_id" },
-    { key: "module_id" },
-    { key: "class_id" },
-    { key: "enrollment_type_id" },
-    { key: "user_name" },
+  fields: [
+    { key: "syllabus_name", colProps: { xs: 12 } }, // disabled
+    { key: "module_name", colProps: { xs: 12 } }, // disabled
+    { key: "course_name", colProps: { xs: 12 } }, // disabled
+    { key: "enrollment_status_id", colProps: { xs: 12 } }, // disabled
+    { key: "user_name", colProps: { xs: 12 } }, // disabled
+    { key: "enrollment_type_id", colProps: { xs: 12 } }, // disabled
+    { key: "enrollment_payment_type_id", colProps: { xs: 12 } },
+    { key: "enrollment_payment_amount", colProps: { xs: 12 } },
+    { key: "enrollment_start_date", colProps: { xs: 12 } },
+    { key: "enrollment_end_date", colProps: { xs: 12 } },
+    { key: "enrollment_desc" },
+    { key: "id" }, // hidden
+    { key: "user_id" }, // hidden
+    { key: "module_id" }, // hidden
+    { key: "class_id" }, // hidden
+  ],
+  classEnrollmentsColumns: [
+    { key: "displayUser" },
     { key: "enrollment_status_id", responsive: ["md"] },
-    { key: "enrollment_payment_type_id", responsive: ["xl"] },
-    { key: "enrollment_payment_amount", search: false, responsive: ["xl"] },
-    { key: "enrollment_payment_discount", search: false, responsive: ["xl"] },
-    { key: "enrollment_discount_notes", search: false, hideInTable: true },
     { key: "enrollment_start_date", search: false, responsive: ["lg"] },
     { key: "enrollment_end_date", search: false, responsive: ["lg"] },
-    {
-      key: "enrollment_desc",
-      search: false,
-      hideInTable: true,
-      responsive: ["md"],
-    },
+    { key: "enrollment_payment_type_id", responsive: ["xl"] },
+    { key: "enrollment_payment_amount", search: false, responsive: ["xl"] },
+    { key: "enrollment_desc", search: false, responsive: ["md"] },
   ],
 };
