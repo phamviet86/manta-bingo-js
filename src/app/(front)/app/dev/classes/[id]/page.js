@@ -108,6 +108,14 @@ function PageContent({ params }) {
       },
       enrollmentsMapping.classPage
     ),
+    fields: enrollmentsSchema(
+      {
+        enrollmentType,
+        enrollmentStatus,
+        enrollmentPaymentType,
+      },
+      enrollmentsMapping.classPage
+    ),
   };
 
   // Open info modal
