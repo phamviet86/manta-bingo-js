@@ -195,20 +195,24 @@ const useUserRoles = {
   transfer: useTransfer(),
 };
 // ... Page actions
-<AntButton
-  key="edit-button"
-  label="Chỉnh sửa"
-  color="primary"
-  variant="solid"
-  onClick={() => useRoles.edit.open()}
-/>,
-// ... Transfer component
-<UserRolesTransferByUser
-  transferHook={useUserRoles.transfer}
-  userId={userId}
-  variant="modal"
-  title="Điều chỉnh phân quyền"
-  afterClose={() => useUserRoles.table.reload()}
-/>;
+(
+  <AntButton
+    key="edit-button"
+    label="Chỉnh sửa"
+    color="primary"
+    variant="solid"
+    onClick={() => useRoles.edit.open()}
+  />
+),
+  (
+    // ... Transfer component
+    <UserRolesTransferByUser
+      transferHook={useUserRoles.transfer}
+      userId={userId}
+      variant="modal"
+      title="Điều chỉnh phân quyền"
+      afterClose={() => useUserRoles.table.reload()}
+    />
+  );
 // ...
 ```
