@@ -1,4 +1,4 @@
-// path: @/utils/column-util.js
+// path: @/utils/schema-util.js
 
 /**
  * Converts and maps columns from a schema based on a provided column mapping.
@@ -11,7 +11,7 @@
  * @param {Array<Object>} columnMapping - The array of mapping objects, each with a `key` and optional config properties.
  * @returns {Array<Object>} The mapped and merged columns, or the original schema if no mapping is provided.
  */
-export function buildColumns(schema, columnMapping) {
+export function buildSchema(schema, columnMapping) {
   if (Array.isArray(columnMapping) && columnMapping.length > 0) {
     return columnMapping
       .map((item) => {
@@ -35,7 +35,7 @@ export function buildColumns(schema, columnMapping) {
  *   - formItemProps: Returns the separated form item props.
  *   - restProps: Returns the rest props that don't belong to field or form item props.
  */
-export function buildColumnProps(props) {
+export function buildSchemaProps(props) {
   // Known field props (for input components)
   const fieldPropNames = new Set([
     "disabled",

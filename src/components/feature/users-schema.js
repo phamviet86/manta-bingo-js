@@ -1,8 +1,8 @@
-// path: @/components/feature/users-column.js
+// path: @/components/feature/users-schema.js
 
 import { Space, Typography } from "antd";
 import { DiceBeerAvatar, SubLink } from "@/components/ui";
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function usersSchema(params = {}, columnMapping = []) {
   const { userStatus } = params;
@@ -13,28 +13,28 @@ export function usersSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "user_name",
       dataIndex: "user_name",
       title: "Người dùng",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "user_desc",
       dataIndex: "user_desc",
       title: "Mô tả",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "user_status_id",
       dataIndex: "user_status_id",
       title: "Trạng thái",
       valueType: "select",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         rules: [{ required: true }],
         valueEnum: userStatus.valueEnum,
         options: userStatus.options,
@@ -45,7 +45,7 @@ export function usersSchema(params = {}, columnMapping = []) {
       dataIndex: "user_email",
       title: "Email",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "user_phone",
@@ -64,14 +64,14 @@ export function usersSchema(params = {}, columnMapping = []) {
       dataIndex: "user_avatar",
       title: "Ảnh đại diện",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 1, maxRows: 6 } }),
+      ...buildSchemaProps({ autoSize: { minRows: 1, maxRows: 6 } }),
     },
     {
       key: "user_notes",
       dataIndex: "user_notes",
       title: "Ghi chú",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 9 } }),
+      ...buildSchemaProps({ autoSize: { minRows: 3, maxRows: 9 } }),
     },
     {
       key: "displayAvatar",
@@ -107,7 +107,7 @@ export function usersSchema(params = {}, columnMapping = []) {
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const usersMapping = {

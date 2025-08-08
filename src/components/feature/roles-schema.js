@@ -1,6 +1,6 @@
-// path: @/components/feature/roles-column.js
+// path: @/components/feature/roles-schema.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function rolesSchema(params = {}, columnMapping = []) {
   const {} = params;
@@ -11,25 +11,25 @@ export function rolesSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "role_name",
       dataIndex: "role_name",
       title: "Vai trò",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "role_path",
       dataIndex: "role_path",
       title: "Đường dẫn",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const rolesMapping = {

@@ -1,6 +1,6 @@
-// path: @/components/feature/role-permissions-column.js
+// path: @/components/feature/role-permissions-schema.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function rolePermissionsSchema(params = {}, columnMapping = []) {
   const {} = params;
@@ -11,25 +11,25 @@ export function rolePermissionsSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "role_id",
       dataIndex: "role_id",
       title: "Vai trò",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "permission_id",
       dataIndex: "permission_id",
       title: "Quyền hạn",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const rolePermissionsMapping = {

@@ -1,8 +1,8 @@
-// path: @/components/feature/enrollments-column.js
+// path: @/components/feature/enrollments-schema.js
 
 import { Space, Typography } from "antd";
 import { DiceBeerAvatar } from "@/components/ui";
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 import { renderEnum } from "@/utils/render-util";
 
 export function enrollmentsSchema(params = {}, columnMapping = []) {
@@ -14,35 +14,35 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "user_id",
       dataIndex: "user_id",
       title: "Người dùng",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "module_id",
       dataIndex: "module_id",
       title: "Module",
       valueType: "select",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "class_id",
       dataIndex: "class_id",
       title: "Lớp học",
       valueType: "select",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "enrollment_type_id",
       dataIndex: "enrollment_type_id",
       title: "Đăng ký",
       valueType: "select",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         rules: [{ required: true }],
         options: enrollmentType?.options,
         valueEnum: enrollmentType?.valueEnum,
@@ -54,7 +54,7 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       dataIndex: "enrollment_payment_type_id",
       title: "Thanh toán",
       valueType: "select",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         options: enrollmentPaymentType?.options,
         valueEnum: enrollmentPaymentType?.valueEnum,
       }),
@@ -64,7 +64,7 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       dataIndex: "enrollment_payment_amount",
       title: "Số tiền",
       valueType: "money",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         locale: "vi-VN",
         precision: 0,
         style: { width: "100%" },
@@ -76,28 +76,28 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       dataIndex: "enrollment_start_date",
       title: "Ngày bắt đầu",
       valueType: "date",
-      ...buildColumnProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
+      ...buildSchemaProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
     },
     {
       key: "enrollment_end_date",
       dataIndex: "enrollment_end_date",
       title: "Ngày kết thúc",
       valueType: "date",
-      ...buildColumnProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
+      ...buildSchemaProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
     },
     {
       key: "enrollment_desc",
       dataIndex: "enrollment_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+      ...buildSchemaProps({ autoSize: { minRows: 3, maxRows: 6 } }),
     },
     {
       key: "enrollment_status_id",
       dataIndex: "enrollment_status_id",
       title: "Trạng thái",
       valueType: "select",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         options: enrollmentStatus?.options,
         valueEnum: enrollmentStatus?.valueEnum,
         disabled: true,
@@ -108,28 +108,28 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
       dataIndex: "user_name",
       title: "Người dùng",
       valueType: "text",
-      ...buildColumnProps({ disabled: true }),
+      ...buildSchemaProps({ disabled: true }),
     },
     {
       key: "course_name",
       dataIndex: "course_name",
       title: "Khóa học",
       valueType: "text",
-      ...buildColumnProps({ disabled: true }),
+      ...buildSchemaProps({ disabled: true }),
     },
     {
       key: "module_name",
       dataIndex: "module_name",
       title: "Học phần",
       valueType: "text",
-      ...buildColumnProps({ disabled: true }),
+      ...buildSchemaProps({ disabled: true }),
     },
     {
       key: "syllabus_name",
       dataIndex: "syllabus_name",
       title: "Giáo trình",
       valueType: "text",
-      ...buildColumnProps({ disabled: true }),
+      ...buildSchemaProps({ disabled: true }),
     },
     {
       key: "displayClass",
@@ -183,7 +183,7 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const enrollmentsMapping = {

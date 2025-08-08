@@ -1,43 +1,43 @@
 // path: @/components/feature/index.js
 
-export * from "./options-column";
+export * from "./options-schema";
 export * from "./options-component";
 
 export * from "./roles-component";
-export * from "./roles-column";
+export * from "./roles-schema";
 
 export * from "./permissions-component";
-export * from "./permissions-column";
+export * from "./permissions-schema";
 
 export * from "./role-permissions-component";
-export * from "./role-permissions-column";
+export * from "./role-permissions-schema";
 
 export * from "./rooms-component";
-export * from "./rooms-column";
+export * from "./rooms-schema";
 
 export * from "./shifts-component";
-export * from "./shifts-column";
+export * from "./shifts-schema";
 
 export * from "./users-component";
-export * from "./users-column";
+export * from "./users-schema";
 
 export * from "./user-roles-component";
-export * from "./user-roles-column";
+export * from "./user-roles-schema";
 
 export * from "./syllabuses-component";
-export * from "./syllabuses-column";
+export * from "./syllabuses-schema";
 
 export * from "./modules-component";
-export * from "./modules-column";
+export * from "./modules-schema";
 
 export * from "./lectures-component";
-export * from "./lectures-column";
+export * from "./lectures-schema";
 
 export * from "./courses-component";
-export * from "./courses-column";
+export * from "./courses-schema";
 
 export * from "./classes-component";
-export * from "./classes-column";
+export * from "./classes-schema";
 
 export * from "./enrollments-component";
-export * from "./enrollments-column";
+export * from "./enrollments-schema";

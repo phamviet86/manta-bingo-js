@@ -1,6 +1,6 @@
-// path: @/components/feature/permissions-column.js
+// path: @/components/feature/permissions-schema.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function permissionsSchema(params = {}, columnMapping = []) {
   const {} = params;
@@ -11,14 +11,14 @@ export function permissionsSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "permission_key",
       dataIndex: "permission_key",
       title: "Mã quyền",
       valueType: "text",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         rules: [{ required: true }],
         placeholder: "url.path.method",
       }),
@@ -28,11 +28,11 @@ export function permissionsSchema(params = {}, columnMapping = []) {
       dataIndex: "permission_desc",
       title: "Mô tả",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const permissionsMapping = {

@@ -1,6 +1,6 @@
-// path: @/components/feature/options-column.js
+// path: @/components/feature/options-schema.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function optionsSchema(params = {}, columnMapping = []) {
   const { optionColor } = params;
@@ -11,35 +11,35 @@ export function optionsSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "option_table",
       dataIndex: "option_table",
       title: "Bảng",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "option_column",
       dataIndex: "option_column",
       title: "Cột",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "option_label",
       dataIndex: "option_label",
       title: "Nhãn",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "option_color",
       dataIndex: "option_color",
       title: "Màu Sắc",
       valueType: "select",
-      ...buildColumnProps({ valueEnum: optionColor }),
+      ...buildSchemaProps({ valueEnum: optionColor }),
     },
     {
       key: "option_group",
@@ -49,7 +49,7 @@ export function optionsSchema(params = {}, columnMapping = []) {
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const optionsMapping = {

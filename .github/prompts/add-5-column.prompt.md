@@ -1,7 +1,16 @@
 ---
 mode: "agent"
 model: GPT-4.1
-tools: ["changes","codebase","editFiles","githubRepo","problems","search","searchResults"]
+tools:
+  [
+    "changes",
+    "codebase",
+    "editFiles",
+    "githubRepo",
+    "problems",
+    "search",
+    "searchResults",
+  ]
 description: "Generate frontend column file from SQL table structure using template code"
 ---
 
@@ -18,7 +27,7 @@ Use this exact template code:
 ```javascript
 // path: @/components/feature/{table-name}-column.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function {tableName}Schema(params = {}, columnMapping = []) {
   const { optionStatus } = params;
@@ -29,35 +38,35 @@ export function {tableName}Schema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "{field1}",
       dataIndex: "{field1}",
       title: "{Field1 Label}",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "{field2}",
       dataIndex: "{field2}",
       title: "{Field2 Label}",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "{field3}",
       dataIndex: "{field3}",
       title: "{Field3 Label}",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "{optional1}",
       dataIndex: "{optional1}",
       title: "{Optional1 Label}",
       valueType: "select",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         options: optionStatus.options,
         valueEnum: optionStatus.valueEnum,
       }),
@@ -67,32 +76,32 @@ export function {tableName}Schema(params = {}, columnMapping = []) {
       dataIndex: "{optional2}",
       title: "{Optional2 Label}",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+      ...buildSchemaProps({ autoSize: { minRows: 3, maxRows: 6 } }),
     },
     {
       key: "{optional3}",
       dataIndex: "{optional3}",
       title: "{Optional3 Label}",
       valueType: "time",
-      ...buildColumnProps({ format: "HH:mm", style: { width: "100%" } }),
+      ...buildSchemaProps({ format: "HH:mm", style: { width: "100%" } }),
     },
     {
       key: "{optional4}",
       dataIndex: "{optional4}",
       title: "{Optional4 Label}",
       valueType: "date",
-      ...buildColumnProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
+      ...buildSchemaProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
     },
     {
       key: "{optional5}",
       dataIndex: "{optional5}",
       title: "{Optional5 Label}",
       valueType: "money",
-      ...buildColumnProps({ locale: "vi-VN", precision: 0, style: { width: "100%" } }),
+      ...buildSchemaProps({ locale: "vi-VN", precision: 0, style: { width: "100%" } }),
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const {tableName}Mapping = {
@@ -134,34 +143,34 @@ Replace template placeholders with your table data:
 - ✅ **File naming**: kebab-case with `-column` suffix (e.g., `options-column.js`)
 - ✅ **Function**: Single column function with `{tableName}Schema` naming
 - ✅ **Schema structure**: Array of column objects with required properties
-- ✅ **Field validation**: Use `buildColumnProps({ rules: [{ required: true }] })` for NOT NULL fields
+- ✅ **Field validation**: Use `buildSchemaProps({ rules: [{ required: true }] })` for NOT NULL fields
 - ✅ **Field naming**: Use snake_case for database fields
 - ✅ **Vietnamese labels**: Use Vietnamese text for all user-facing labels
-- ✅ **Import path**: Use `@/utils/column-util` for buildColumns and buildColumnProps utilities
+- ✅ **Import path**: Use `@/utils/schema-util` for buildSchema and buildSchemaProps utilities
 
 ## Field Type Mapping
 
 Use specific valueTypes and configurations for different field types:
 
-- **Required fields**: Use `valueType: "text"` with `...buildColumnProps({ rules: [{ required: true }] })`
+- **Required fields**: Use `valueType: "text"` with `...buildSchemaProps({ rules: [{ required: true }] })`
 - **Select fields**: Use `valueType: "select"` with options configuration
 - **Textarea fields**: Use `valueType: "textarea"` with autoSize configuration
 - **Time fields**: Use `valueType: "time"` with time format configuration
 - **Date fields**: Use `valueType: "date"` with date format configuration
 - **Money fields**: Use `valueType: "money"` with locale and precision configuration
-- **ID fields**: Use `...buildColumnProps({ disabled: true, hidden: true })` with `valueType: "text"`
+- **ID fields**: Use `...buildSchemaProps({ disabled: true, hidden: true })` with `valueType: "text"`
 
 ## Column Schema Patterns
 
 ### ID Field MUST
 
 - Use exact pattern with `key: "id"`, `dataIndex: "id"`, `title: "ID"`
-- Include `...buildColumnProps({ disabled: true, hidden: true })`
+- Include `...buildSchemaProps({ disabled: true, hidden: true })`
 - Use `valueType: "text"`
 
 ### Required Fields MUST
 
-- Include `...buildColumnProps({ rules: [{ required: true }] })`
+- Include `...buildSchemaProps({ rules: [{ required: true }] })`
 - Use `valueType: "text"`
 - Include Vietnamese `title` labels
 
@@ -174,13 +183,13 @@ Use specific valueTypes and configurations for different field types:
   - `"date"` for date fields with format configuration
   - `"money"` for currency fields with locale and precision configuration
 - Include Vietnamese `title` labels
-- Use appropriate `buildColumnProps` configuration for each field type
+- Use appropriate `buildSchemaProps` configuration for each field type
 
 ### Function Structure MUST
 
 - Use exact signature: `{tableName}Schema(params = {}, columnMapping = [])`
 - Use destructuring for params: `const { optionStatus } = params;`
-- Return `buildColumns(schema, columnMapping)`
+- Return `buildSchema(schema, columnMapping)`
 - Export additional `{tableName}Mapping` object with default column configuration including all field keys
 
 ### Mapping Configuration MUST
@@ -208,14 +217,14 @@ export * from "./{table-name}-column";
 - ✅ **File location**: `src/components/feature/{table-name}-column.js`
 - ✅ **File naming**: kebab-case convention with `-column` suffix
 - ✅ **Function**: Single `{tableName}Schema` function with correct signature
-- ✅ **Imports**: Correct import statement for `buildColumns` and `buildColumnProps` utilities
+- ✅ **Imports**: Correct import statement for `buildSchema` and `buildSchemaProps` utilities
 - ✅ **Schema structure**: Array of column objects with all required properties
-- ✅ **ID field**: Hidden ID field with correct `buildColumnProps` configuration
-- ✅ **Field validation**: Required field validation using `buildColumnProps({ rules: [{ required: true }] })`
+- ✅ **ID field**: Hidden ID field with correct `buildSchemaProps` configuration
+- ✅ **Field validation**: Required field validation using `buildSchemaProps({ rules: [{ required: true }] })`
 - ✅ **Vietnamese labels**: Proper Vietnamese labels for all columns
 - ✅ **Field naming**: snake_case for database fields (NOT camelCase)
 - ✅ **ValueType mapping**: Use specific `valueType` values for different field purposes (text, select, textarea, time, date, money)
-- ✅ **buildColumnProps usage**: Use spread operator with `buildColumnProps()` for all field configurations with appropriate options
+- ✅ **buildSchemaProps usage**: Use spread operator with `buildSchemaProps()` for all field configurations with appropriate options
 - ✅ **Dynamic params**: Use destructuring `const { optionStatus } = params;` for accessing options configuration
 - ✅ **Mapping export**: Include `{tableName}Mapping` export with `fields` and `columns` arrays containing all field keys
 - ✅ **Mapping structure**: Both `fields` and `columns` arrays include all 9 column keys (id + 3 required + 5 optional fields) in `{key: "field_name"}` format

@@ -1,6 +1,6 @@
-// path: @/components/feature/user-roles-column.js
+// path: @/components/feature/user-roles-schema.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function userRolesSchema(params = {}, columnMapping = []) {
   const {} = params;
@@ -11,7 +11,7 @@ export function userRolesSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
       search: false,
       hideInTable: true,
       hideInDescriptions: true,
@@ -21,18 +21,18 @@ export function userRolesSchema(params = {}, columnMapping = []) {
       dataIndex: "role_name",
       title: "Vai trò",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "role_path",
       dataIndex: "role_path",
       title: "Đường dẫn",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const userRolesMapping = {

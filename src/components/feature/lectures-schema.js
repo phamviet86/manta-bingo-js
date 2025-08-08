@@ -1,6 +1,6 @@
-// path: @/components/feature/lectures-column.js
+// path: @/components/feature/lectures-schema.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 import { fetchOption } from "@/utils/fetch-util";
 import { Space, Typography } from "antd";
 
@@ -13,7 +13,7 @@ export function lecturesSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "module_id",
@@ -26,21 +26,21 @@ export function lecturesSchema(params = {}, columnMapping = []) {
           label: "module_name",
         }),
       params: { syllabus_id: syllabusId },
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "lecture_name",
       dataIndex: "lecture_name",
       title: "Bài giảng",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "lecture_status_id",
       dataIndex: "lecture_status_id",
       title: "Trạng thái",
       valueType: "select",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         rules: [{ required: true }],
         valueEnum: lectureStatus?.valueEnum,
         options: lectureStatus.options,
@@ -51,14 +51,14 @@ export function lecturesSchema(params = {}, columnMapping = []) {
       dataIndex: "lecture_no",
       title: "Số thứ tự",
       valueType: "digit",
-      ...buildColumnProps({ style: { width: "100%" } }),
+      ...buildSchemaProps({ style: { width: "100%" } }),
     },
     {
       key: "lecture_desc",
       dataIndex: "lecture_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+      ...buildSchemaProps({ autoSize: { minRows: 3, maxRows: 6 } }),
     },
     {
       key: "syllabus_name",
@@ -88,7 +88,7 @@ export function lecturesSchema(params = {}, columnMapping = []) {
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const lecturesMapping = {

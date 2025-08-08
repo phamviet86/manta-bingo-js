@@ -1,6 +1,6 @@
-// path: @/components/feature/syllabuses-column.js
+// path: @/components/feature/syllabuses-schema.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function syllabusesSchema(params = {}, columnMapping = []) {
   const { syllabusStatus } = params;
@@ -11,21 +11,21 @@ export function syllabusesSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "syllabus_name",
       dataIndex: "syllabus_name",
       title: "Giáo trình",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "syllabus_status_id",
       dataIndex: "syllabus_status_id",
       title: "Trạng thái",
       valueType: "select",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         rules: [{ required: true }],
         valueEnum: syllabusStatus?.valueEnum,
         options: syllabusStatus.options,
@@ -33,7 +33,7 @@ export function syllabusesSchema(params = {}, columnMapping = []) {
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const syllabusesMapping = {

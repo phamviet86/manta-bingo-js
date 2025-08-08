@@ -1,6 +1,6 @@
-// path: @/components/feature/shifts-column.js
+// path: @/components/feature/shifts-schema.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function shiftsSchema(params = {}, columnMapping = []) {
   const { shiftStatus } = params;
@@ -11,21 +11,21 @@ export function shiftsSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "shift_name",
       dataIndex: "shift_name",
       title: "Ca học",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "shift_status_id",
       dataIndex: "shift_status_id",
       title: "Trạng thái",
       valueType: "select",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         rules: [{ required: true }],
         options: shiftStatus.options,
         valueEnum: shiftStatus.valueEnum,
@@ -36,7 +36,7 @@ export function shiftsSchema(params = {}, columnMapping = []) {
       dataIndex: "shift_start_time",
       title: "Giờ bắt đầu",
       valueType: "time",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         rules: [{ required: true }],
         format: "HH:mm",
         style: { width: "100%" },
@@ -47,7 +47,7 @@ export function shiftsSchema(params = {}, columnMapping = []) {
       dataIndex: "shift_end_time",
       title: "Giờ kết thúc",
       valueType: "time",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         rules: [{ required: true }],
         format: "HH:mm",
         style: { width: "100%" },
@@ -58,11 +58,11 @@ export function shiftsSchema(params = {}, columnMapping = []) {
       dataIndex: "shift_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 9 } }),
+      ...buildSchemaProps({ autoSize: { minRows: 3, maxRows: 9 } }),
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const shiftsMapping = {

@@ -1,6 +1,6 @@
-// path: @/components/feature/courses-column.js
+// path: @/components/feature/courses-schema.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function coursesSchema(params = {}, columnMapping = []) {
   const {} = params;
@@ -11,25 +11,25 @@ export function coursesSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "course_name",
       dataIndex: "course_name",
       title: "Khóa học",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "course_code",
       dataIndex: "course_code",
       title: "Mã khóa học",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const coursesMapping = {

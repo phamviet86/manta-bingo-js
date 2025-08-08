@@ -1,6 +1,6 @@
-// path: @/components/feature/modules-column.js
+// path: @/components/feature/modules-schema.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function modulesSchema(params = {}, columnMapping = []) {
   const { moduleStatus } = params;
@@ -11,28 +11,28 @@ export function modulesSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "syllabus_id",
       dataIndex: "syllabus_id",
       title: "ID Giáo trình",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "module_name",
       dataIndex: "module_name",
       title: "Học phần",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "module_status_id",
       dataIndex: "module_status_id",
       title: "Trạng thái",
       valueType: "select",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         rules: [{ required: true }],
         valueEnum: moduleStatus?.valueEnum,
         options: moduleStatus.options,
@@ -43,13 +43,13 @@ export function modulesSchema(params = {}, columnMapping = []) {
       dataIndex: "module_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+      ...buildSchemaProps({ autoSize: { minRows: 3, maxRows: 6 } }),
       search: false,
       responsive: ["md"],
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const modulesMapping = {

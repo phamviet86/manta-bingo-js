@@ -1,7 +1,7 @@
-// path: @/components/feature/classes-column.js
+// path: @/components/feature/classes-schema.js
 
 import { Space, Typography } from "antd";
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function classesSchema(params = {}, columnMapping = []) {
   const { classStatus } = params;
@@ -12,28 +12,28 @@ export function classesSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "course_id",
       dataIndex: "course_id",
       title: "ID Khóa học",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "module_id",
       dataIndex: "module_id",
       title: "ID Học phần",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "class_fee",
       dataIndex: "class_fee",
       title: "Học phí lớp",
       valueType: "money",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         rules: [{ required: true }],
         locale: "vi-VN",
         precision: 0,
@@ -45,7 +45,7 @@ export function classesSchema(params = {}, columnMapping = []) {
       dataIndex: "class_total_fee",
       title: "Tổng học phí",
       valueType: "money",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         locale: "vi-VN",
         precision: 0,
         style: { width: "100%" },
@@ -56,21 +56,21 @@ export function classesSchema(params = {}, columnMapping = []) {
       dataIndex: "class_start_date",
       title: "Ngày bắt đầu",
       valueType: "date",
-      ...buildColumnProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
+      ...buildSchemaProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
     },
     {
       key: "class_end_date",
       dataIndex: "class_end_date",
       title: "Ngày kết thúc",
       valueType: "date",
-      ...buildColumnProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
+      ...buildSchemaProps({ format: "YYYY-MM-DD", style: { width: "100%" } }),
     },
     {
       key: "class_status_id",
       dataIndex: "class_status_id",
       title: "Trạng thái",
       valueType: "select",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         options: classStatus.options,
         valueEnum: classStatus.valueEnum,
         disabled: true,
@@ -81,21 +81,21 @@ export function classesSchema(params = {}, columnMapping = []) {
       dataIndex: "syllabus_name",
       title: "Giáo trình",
       valueType: "text",
-      ...buildColumnProps({ disabled: true }),
+      ...buildSchemaProps({ disabled: true }),
     },
     {
       key: "module_name",
       dataIndex: "module_name",
       title: "Học phần",
       valueType: "text",
-      ...buildColumnProps({ disabled: true }),
+      ...buildSchemaProps({ disabled: true }),
     },
     {
       key: "course_name",
       dataIndex: "course_name",
       title: "Khóa học",
       valueType: "text",
-      ...buildColumnProps({ disabled: true }),
+      ...buildSchemaProps({ disabled: true }),
     },
     {
       key: "displayClass",
@@ -135,7 +135,7 @@ export function classesSchema(params = {}, columnMapping = []) {
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const classesMapping = {

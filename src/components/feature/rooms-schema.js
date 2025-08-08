@@ -1,6 +1,6 @@
-// path: @/components/feature/rooms-column.js
+// path: @/components/feature/rooms-schema.js
 
-import { buildColumns, buildColumnProps } from "@/utils/column-util";
+import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function roomsSchema(params = {}, columnMapping = []) {
   const { roomStatus } = params;
@@ -11,21 +11,21 @@ export function roomsSchema(params = {}, columnMapping = []) {
       dataIndex: "id",
       title: "ID",
       valueType: "text",
-      ...buildColumnProps({ disabled: true, hidden: true }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "room_name",
       dataIndex: "room_name",
       title: "Phòng học",
       valueType: "text",
-      ...buildColumnProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
       key: "room_status_id",
       dataIndex: "room_status_id",
       title: "Trạng thái",
       valueType: "select",
-      ...buildColumnProps({
+      ...buildSchemaProps({
         rules: [{ required: true }],
         valueEnum: roomStatus.valueEnum,
         options: roomStatus.options,
@@ -36,11 +36,11 @@ export function roomsSchema(params = {}, columnMapping = []) {
       dataIndex: "room_desc",
       title: "Mô tả",
       valueType: "textarea",
-      ...buildColumnProps({ autoSize: { minRows: 3, maxRows: 9 } }),
+      ...buildSchemaProps({ autoSize: { minRows: 3, maxRows: 9 } }),
     },
   ];
 
-  return buildColumns(schema, columnMapping);
+  return buildSchema(schema, columnMapping);
 }
 
 export const roomsMapping = {
