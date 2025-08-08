@@ -143,8 +143,8 @@ export async function deleteEnrollment(id) {
 export async function createEnrollmentsByClass(
   classId,
   userIds,
-  enrollmentType,
-  paymentType,
+  enrollmentTypeId,
+  paymentTypeId,
   paymentAmount
 ) {
   try {
@@ -154,8 +154,8 @@ export async function createEnrollmentsByClass(
         queryValues.push(
           userId,
           classId,
-          enrollmentType,
-          paymentType,
+          enrollmentTypeId,
+          paymentTypeId,
           paymentAmount
         );
         return `($${index * 5 + 1}, $${index * 5 + 2}, $${index * 5 + 3}, $${
