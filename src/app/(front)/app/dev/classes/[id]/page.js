@@ -2,9 +2,9 @@
 
 "use client";
 
-import { use } from "react";
+import { use, useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
-import { Space } from "antd";
+import { Space, Dropdown } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton, DiceBeerAvatar } from "@/components/ui";
 import {
@@ -17,8 +17,9 @@ import {
   EnrollmentsEdit,
   enrollmentsSchema,
   enrollmentsMapping,
+  EnrollmentsTransferByClass,
 } from "@/components/feature";
-import { useInfo, useForm, useNavigate, useTable } from "@/hooks";
+import { useInfo, useForm, useNavigate, useTable, useTransfer } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
 
 export default function Page(props) {
@@ -38,7 +39,7 @@ function PageContent({ params }) {
     enrollmentPaymentType,
   } = usePageContext();
   const { navBack } = useNavigate();
-  const { id: classesId } = use(params);
+  const { id: classId } = use(params);
 
   // Hooks
   const useClasses = {
@@ -71,7 +72,7 @@ function PageContent({ params }) {
     <ProCard boxShadow bordered>
       <ClassesInfo
         infoHook={useClasses.info}
-        requestParams={{ id: classesId }}
+        requestParams={{ id: classId }}
         onRequestSuccess={(result) =>
           useClasses.info.setDataSource(result?.data?.[0])
         }
@@ -80,7 +81,7 @@ function PageContent({ params }) {
       <ClassesEdit
         formHook={useClasses.edit}
         fields={useClasses.fields}
-        requestParams={{ id: classesId }}
+        requestParams={{ id: classId }}
         onSubmitSuccess={useClasses.info.reload}
         onDeleteSuccess={navBack}
         title="Chỉnh sửa lớp học"
@@ -114,7 +115,12 @@ function PageContent({ params }) {
       },
       enrollmentsMapping.fields
     ),
+    transfer: useTransfer(),
   };
+
+  const [typeId, setTypeId] = useState();
+  const [paymentTypeId, setPaymentTypeId] = useState();
+  const [paymentAmount, setPaymentAmount] = useState();
 
   // Open info modal
   const openEnrollmentsInfo = (record) => {
@@ -131,6 +137,44 @@ function PageContent({ params }) {
     useEnrollments.edit.open();
   };
 
+  // Open transfer modal: adding teacher
+  const openTeacherTransfer = () => {
+    setTypeId(26);
+    setPaymentTypeId(30);
+    setPaymentAmount(0);
+
+    useEnrollments.transfer.open();
+  };
+
+  // Open transfer modal: adding assistant
+  const openAssistantTransfer = () => {
+    setTypeId(27);
+    setPaymentTypeId(30);
+    setPaymentAmount(0);
+
+    useEnrollments.transfer.open();
+  };
+
+  // Open transfer modal: adding student
+  const openStudentTransfer = () => {
+    setTypeId(28);
+    setPaymentTypeId(30);
+    setPaymentAmount(useClasses.info?.dataSource?.class_fee || 0);
+
+    useEnrollments.transfer.open();
+  };
+
+  // Close transfer modal
+  const closeTransferModal = () => {
+    useEnrollments.table.reload();
+
+    setTypeId(undefined);
+    setPaymentTypeId(undefined);
+    setPaymentAmount(undefined);
+
+    useEnrollments.transfer.close();
+  };
+
   // enrollments tab buttons
   const enrollmentsButton = (
     <Space>
@@ -141,6 +185,28 @@ function PageContent({ params }) {
         variant="outlined"
         onClick={() => useEnrollments.table.reload()}
       />
+      <Dropdown.Button
+        key="add-teacher"
+        type="primary"
+        variant="solid"
+        onClick={openTeacherTransfer}
+        menu={{
+          items: [
+            {
+              key: "add-assistant",
+              label: "Thêm trợ giảng",
+              onClick: openAssistantTransfer,
+            },
+            {
+              key: "add-student",
+              label: "Thêm học viên",
+              onClick: openStudentTransfer,
+            },
+          ],
+        }}
+      >
+        Thêm giáo viên
+      </Dropdown.Button>
     </Space>
   );
 
@@ -182,6 +248,8 @@ function PageContent({ params }) {
             ),
           },
         ]}
+        requestParams={{ class_id: classId }}
+        syncToUrl={false}
       />
       <EnrollmentsInfo
         infoHook={useEnrollments.info}
@@ -201,6 +269,16 @@ function PageContent({ params }) {
         onDeleteSuccess={() => useEnrollments.table.reload()}
         title="Sửa đăng ký"
         variant="drawer"
+      />
+      <EnrollmentsTransferByClass
+        transferHook={useEnrollments.transfer}
+        classId={classId}
+        enrollmentTypeId={typeId}
+        enrollmentPaymentTypeId={paymentTypeId}
+        enrollmentPaymentAmount={paymentAmount}
+        variant="modal"
+        title="Xếp lớp"
+        afterClose={closeTransferModal}
       />
     </ProCard>
   );

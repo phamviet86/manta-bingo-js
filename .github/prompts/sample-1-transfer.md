@@ -201,7 +201,7 @@ const useUserRoles = {
     label="Chỉnh sửa"
     color="primary"
     variant="solid"
-    onClick={() => useRoles.edit.open()}
+    onClick={() => useRoles.transfer.open()}
   />
 ),
   (

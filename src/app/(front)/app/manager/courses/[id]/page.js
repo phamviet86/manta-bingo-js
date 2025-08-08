@@ -173,6 +173,7 @@ function PageContent({ params }) {
             ),
           },
         ]}
+        syncToUrl={false}
       />
       <ClassesTransferByCourse
         transferHook={useClasses.transfer}

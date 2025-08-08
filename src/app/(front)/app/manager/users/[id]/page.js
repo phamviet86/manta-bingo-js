@@ -142,6 +142,7 @@ function PageContent({ params }) {
         requestParams={{ user_id: userId }}
         showSearch={false}
         showPagination={false}
+        syncToUrl={false}
       />
       <UserRolesTransferByUser
         transferHook={useUserRoles.transfer}

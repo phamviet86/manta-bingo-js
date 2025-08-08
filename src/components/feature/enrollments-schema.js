@@ -68,7 +68,6 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
         locale: "vi-VN",
         precision: 0,
         style: { width: "100%" },
-        colProps: { xs: 8 },
       }),
     },
     {
@@ -174,7 +173,12 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
         return (
           <Space direction="vertical" size={0}>
             <Typography.Text strong>{record?.user_name}</Typography.Text>
-            {renderEnum(enrollmentType?.valueEnum, record?.enrollment_type_id)}
+            {renderEnum(
+              enrollmentType?.valueEnum,
+              record?.enrollment_type_id,
+              "",
+              "tag"
+            )}
           </Space>
         );
       },
@@ -206,6 +210,8 @@ export const enrollmentsMapping = {
   ],
   classEnrollmentsColumns: [
     { key: "displayUser" },
+    { key: "user_name", hideInTable: true },
+    { key: "enrollment_type_id", hideInTable: true },
     { key: "enrollment_status_id", responsive: ["md"] },
     { key: "enrollment_start_date", search: false, responsive: ["lg"] },
     { key: "enrollment_end_date", search: false, responsive: ["lg"] },

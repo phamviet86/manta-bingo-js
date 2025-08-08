@@ -161,6 +161,7 @@ function PageContent({ params }) {
         requestParams={{ syllabus_id: syllabusId }}
         showSearch={false}
         showPagination={false}
+        syncToUrl={false}
       />
       <ModulesCreate
         formHook={useModules.create}
@@ -280,6 +281,7 @@ function PageContent({ params }) {
           },
         ]}
         requestParams={{ syllabus_id: syllabusId }}
+        syncToUrl={false}
       />
       <LecturesInfo
         infoHook={useLectures.info}

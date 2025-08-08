@@ -144,8 +144,8 @@ export async function createEnrollmentsByClass(
   classId,
   userIds,
   enrollmentTypeId,
-  paymentTypeId,
-  paymentAmount
+  enrollmentPaymentTypeId,
+  enrollmentPaymentAmount
 ) {
   try {
     const queryValues = [];
@@ -155,8 +155,8 @@ export async function createEnrollmentsByClass(
           userId,
           classId,
           enrollmentTypeId,
-          paymentTypeId,
-          paymentAmount
+          enrollmentPaymentTypeId,
+          enrollmentPaymentAmount
         );
         return `($${index * 5 + 1}, $${index * 5 + 2}, $${index * 5 + 3}, $${
           index * 5 + 4
@@ -177,20 +177,25 @@ export async function createEnrollmentsByClass(
 }
 
 // Soft-delete multiple enrollments by class ID and user IDs
-export async function deleteEnrollmentsByClass(classId, userIds) {
+export async function deleteEnrollmentsByClass(
+  classId,
+  userIds,
+  enrollmentTypeId
+) {
   try {
-    const placeholders = userIds.map((_, index) => `$${index + 2}`).join(", ");
+    const placeholders = userIds.map((_, index) => `$${index + 3}`).join(", ");
 
     const queryText = `
       UPDATE enrollments
       SET deleted_at = NOW()
       WHERE deleted_at IS NULL 
-        AND class_id = $1 
+        AND class_id = $1
+        AND enrollment_type_id = $2 
         AND user_id IN (${placeholders})
       RETURNING *;
     `;
 
-    const queryValues = [classId, ...userIds];
+    const queryValues = [classId, enrollmentTypeId, ...userIds];
     return await sql.query(queryText, queryValues);
   } catch (error) {
     throw new Error(error.message);

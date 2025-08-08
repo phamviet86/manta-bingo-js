@@ -17,8 +17,8 @@ export async function POST(request, context) {
     const {
       userIds,
       enrollmentTypeId,
-      paymentTypeId = 30,
-      paymentAmount = 0,
+      enrollmentPaymentTypeId = 30,
+      enrollmentPaymentAmount = 0,
     } = await request.json();
 
     // Validate required fields
@@ -35,8 +35,8 @@ export async function POST(request, context) {
       classId,
       userIds,
       enrollmentTypeId,
-      paymentTypeId,
-      paymentAmount
+      enrollmentPaymentTypeId,
+      enrollmentPaymentAmount
     );
 
     if (!result || !result.length)
@@ -58,13 +58,22 @@ export async function DELETE(request, context) {
       return buildApiResponse(400, false, "Thiếu ID lớp học.");
     }
 
-    const { userIds } = await request.json();
+    const { userIds, enrollmentTypeId } = await request.json();
 
     // Validate required fields
-    if (!classId || !Array.isArray(userIds) || userIds.length === 0)
+    if (
+      !classId ||
+      !Array.isArray(userIds) ||
+      userIds.length === 0 ||
+      !enrollmentTypeId
+    )
       return buildApiResponse(400, false, "Thiếu thông tin bắt buộc");
 
-    const result = await deleteEnrollmentsByClass(classId, userIds);
+    const result = await deleteEnrollmentsByClass(
+      classId,
+      userIds,
+      enrollmentTypeId
+    );
 
     if (!result || !result.length)
       return buildApiResponse(

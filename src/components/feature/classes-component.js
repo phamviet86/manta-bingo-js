@@ -68,7 +68,10 @@ export function ClassesTransferByCourse({ courseId, ...props }) {
         })
       }
       sourceItem={{ key: "id", disabled: ["module_status_id", [12], []] }}
-      targetItem={{ key: "module_id", disabled: ["class_status_id", [], [15]] }}
+      targetItem={{
+        key: "module_id",
+        disabled: ["class_status_id", [], [15, 16]],
+      }}
       render={(record) => (
         <Space>
           <Typography.Text>{record?.module_name}</Typography.Text>

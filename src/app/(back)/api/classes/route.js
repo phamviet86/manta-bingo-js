@@ -28,7 +28,7 @@ export async function POST(request) {
     } = await request.json();
 
     // Validate required fields (based on NOT NULL constraints in SQL)
-    if (!course_id || !module_id || class_fee || class_total_fee)
+    if (!course_id || !module_id)
       return buildApiResponse(400, false, "Thiếu thông tin bắt buộc");
 
     // Validate date range if both dates are provided
