@@ -37,7 +37,7 @@ export function schedulesSchema(params = {}, columnMapping = []) {
         format: "YYYY-MM-DD",
         style: { width: "100%" },
       }),
-    },
+    }, // Chi điên
     {
       key: "schedule_status_id",
       dataIndex: "schedule_status_id",

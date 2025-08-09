@@ -21,20 +21,6 @@ function buildSearchParams(columns, value) {
   }
 }
 
-/**
- * Converts an array of objects into a format suitable for transfer components, adding key and disabled properties.
- *
- * @param {Array<Object>} data - The input array of items to convert.
- * @param {Object} columnMapping - The mapping options for keys in the output.
- * @param {string} columnMapping.key - The property name to use as the unique key for each item.
- * @param {string|Array} [columnMapping.disabled] - The property name or array to determine if the item is disabled.
- *   - String: Field name to map directly (e.g., 'isDisabled')
- *   - Array [fieldName, inArray, notInArray]:
- *     - If both arrays are empty → treat as string mapping (!!fieldValue)
- *     - If inArray: disabled = true if field value is in inArray
- *     - If notInArray: disabled = true if field value is NOT in notInArray
- * @returns {Array<Object>} The converted array of items with all original properties, plus key and disabled.
- */
 function buildTransferItems(data = [], columnMapping = {}) {
   if (!Array.isArray(data) || data.length === 0) return [];
 

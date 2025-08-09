@@ -8,3 +8,4 @@ export * from "./table-config";
 export * from "./form-config";
 export * from "./enum-config";
 export * from "./menu-config";
+export * from "./calendar-config";

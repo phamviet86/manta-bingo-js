@@ -217,6 +217,6 @@ export const enrollmentsMapping = {
     { key: "enrollment_end_date", search: false, responsive: ["lg"] },
     { key: "enrollment_payment_type_id", responsive: ["xl"] },
     { key: "enrollment_payment_amount", search: false, responsive: ["xl"] },
-    { key: "enrollment_desc", search: false, responsive: ["md"] },
+    { key: "enrollment_desc", search: false, responsive: ["lg"] },
   ],
 };
