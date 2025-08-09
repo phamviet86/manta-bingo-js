@@ -21,6 +21,7 @@ CREATE TABLE schedules (
 CREATE TRIGGER update_record BEFORE
 UPDATE ON schedules FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
+
 DROP VIEW IF EXISTS schedules_view CASCADE;
 CREATE OR REPLACE VIEW schedules_view AS
 SELECT 
