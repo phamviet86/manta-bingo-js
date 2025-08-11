@@ -1,7 +1,16 @@
 ---
 mode: "agent"
 model: GPT-4.1
-tools: ["changes","codebase","editFiles","githubRepo","problems","search","searchResults"]
+tools:
+  [
+    "changes",
+    "codebase",
+    "editFiles",
+    "githubRepo",
+    "problems",
+    "search",
+    "searchResults",
+  ]
 description: "Generate React/Next.js frontend page list component and provider from SQL table structure using template code"
 ---
 
@@ -164,7 +173,7 @@ Create a provider file alongside the page with this exact content:
 
 import { createContext, useContext, useMemo } from "react";
 import { useAppContext } from "@/app/(front)/provider";
-import { buildEnum } from "@/utils/build-util";
+import { buildSelection } from "@/utils/selection-util";
 
 const PageContext = createContext(null);
 
@@ -179,7 +188,7 @@ export function PageProvider({ children }) {
 }
 
 /* 
-  const syllabusStatus = buildEnum(
+  const syllabusStatus = buildSelection(
     optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "syllabuses", option_column: "syllabus_status_id" }

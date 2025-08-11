@@ -1,13 +1,13 @@
 import { createContext, useContext, useMemo } from "react";
 import { useAppContext } from "@/app/(front)/provider";
-import { buildEnum } from "@/utils/build-util";
+import { buildSelection } from "@/utils/selection-util";
 
 const PageContext = createContext(null);
 
 export function PageProvider({ children }) {
   const { optionsData } = useAppContext();
 
-  const roomStatus = buildEnum(
+  const roomStatus = buildSelection(
     optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "rooms", option_column: "room_status_id" }

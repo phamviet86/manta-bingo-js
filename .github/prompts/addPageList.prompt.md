@@ -1,7 +1,16 @@
 ---
 mode: "agent"
 model: GPT-4.1
-tools: ["changes","codebase","editFiles","githubRepo","problems","search","searchResults"]
+tools:
+  [
+    "changes",
+    "codebase",
+    "editFiles",
+    "githubRepo",
+    "problems",
+    "search",
+    "searchResults",
+  ]
 description: "Generate React/Next.js frontend page list component and provider from SQL table structure using template code"
 ---
 
@@ -144,7 +153,7 @@ Create a provider file alongside the page with this exact content:
 
 import { createContext, useContext, useMemo } from "react";
 import { useAppContext } from "@/app/(front)/provider";
-import { buildEnum } from "@/utils/build-util";
+import { buildSelection } from "@/utils/selection-util";
 
 const PageContext = createContext(null);
 
@@ -159,7 +168,7 @@ export function PageProvider({ children }) {
 }
 
 /* 
-  const syllabusStatus = buildEnum(
+  const syllabusStatus = buildSelection(
     optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "syllabuses", option_column: "syllabus_status_id" }
@@ -290,7 +299,7 @@ The page uses a standard navigation pattern:
 - ✅ **Right column**: SubPathButton with InfoCircleOutlined icon for detail navigation
 - ✅ **Create form**: {TableName}Create with formHook, fields, onSubmitSuccess, title, variant props
 - ✅ **Navigation handling**: navDetail function called with result?.data[0]?.id
-- ✅ **Provider template**: Empty contextValue with useAppContext and buildEnum imports
+- ✅ **Provider template**: Empty contextValue with useAppContext and buildSelection imports
 - ✅ **Content wrapper**: ProCard with boxShadow and bordered properties
 - ✅ **Page wrapper**: AntPage with items, title, extra, and content props
 

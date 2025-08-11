@@ -1,4 +1,4 @@
-// path: @/utils/build-util.js
+// path: @/utils/selection-util.js
 /**
  * Creates valueEnum and options from an array of objects, with optional filtering
  *
@@ -10,7 +10,11 @@
  * @param {Object} [filterParams={}] - Optional filter parameters (field:value pairs)
  * @returns {Object} { valueEnum, options }
  */
-export function buildEnum(data = [], columnMapping = {}, filterParams = {}) {
+export function buildSelection(
+  data = [],
+  columnMapping = {},
+  filterParams = {}
+) {
   const { value: valueKey, label: labelKey, color: colorKey } = columnMapping;
   if (!Array.isArray(data) || !valueKey || !labelKey)
     return { valueEnum: {}, options: [] };

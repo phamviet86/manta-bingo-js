@@ -2,32 +2,32 @@
 
 import { createContext, useContext, useMemo } from "react";
 import { useAppContext } from "@/app/(front)/provider";
-import { buildEnum } from "@/utils/build-util";
+import { buildSelection } from "@/utils/selection-util";
 
 const PageContext = createContext(null);
 
 export function PageProvider({ children }) {
   const { optionsData } = useAppContext();
 
-  const classStatus = buildEnum(
+  const classStatus = buildSelection(
     optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "classes", option_column: "class_status_id" }
   );
 
-  const enrollmentType = buildEnum(
+  const enrollmentType = buildSelection(
     optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "enrollments", option_column: "enrollment_type_id" }
   );
 
-  const enrollmentPaymentType = buildEnum(
+  const enrollmentPaymentType = buildSelection(
     optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "enrollments", option_column: "enrollment_payment_type_id" }
   );
 
-  const enrollmentStatus = buildEnum(
+  const enrollmentStatus = buildSelection(
     optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "enrollments", option_column: "enrollment_status_id" }
@@ -49,7 +49,7 @@ export function PageProvider({ children }) {
 }
 
 /* 
-  const syllabusStatus = buildEnum(
+  const syllabusStatus = buildSelection(
     optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "syllabuses", option_column: "syllabus_status_id" }

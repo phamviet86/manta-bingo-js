@@ -1,25 +1,25 @@
 import { createContext, useContext, useMemo } from "react";
 import { useAppContext } from "@/app/(front)/provider";
-import { buildEnum } from "@/utils/build-util";
+import { buildSelection } from "@/utils/selection-util";
 
 const PageContext = createContext(null);
 
 export function PageProvider({ children }) {
   const { optionsData } = useAppContext();
 
-  const syllabusStatus = buildEnum(
+  const syllabusStatus = buildSelection(
     optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "syllabuses", option_column: "syllabus_status_id" }
   );
 
-  const moduleStatus = buildEnum(
+  const moduleStatus = buildSelection(
     optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "modules", option_column: "module_status_id" }
   );
 
-  const lectureStatus = buildEnum(
+  const lectureStatus = buildSelection(
     optionsData,
     { value: "id", label: "option_label", color: "option_color" },
     { option_table: "lectures", option_column: "lecture_status_id" }
