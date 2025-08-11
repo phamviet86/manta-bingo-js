@@ -65,7 +65,10 @@ function PageContent() {
   // Main content
   const pageContent = (
     <ProCard boxShadow bordered>
-      <SchedulesCalendar calendarHook={useSchedules.calendar} />
+      <SchedulesCalendar
+        calendarHook={useSchedules.calendar}
+        // requestParams={{}}
+      />
       {/* <SchedulesTable
         tableHook={useSchedules.table}
         columns={useSchedules.columns}

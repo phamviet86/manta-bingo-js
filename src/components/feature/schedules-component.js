@@ -54,7 +54,12 @@ export function SchedulesCalendar(props) {
     <FullCalendar
       {...props}
       onRequest={(params) => fetchList("/api/schedules", params)}
-      // requestItem={{ id: "id", title: "id" }}
+      requestItem={{
+        id: "id",
+        title: "id",
+        startDate: "schedule_date",
+        endDate: "schedule_date",
+      }}
     />
   );
 }

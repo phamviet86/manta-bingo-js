@@ -1,9 +1,9 @@
 // path: @/components/ui/calendar.js
 
-import Calendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
 import { useEffect, useCallback, useState, useRef } from "react";
 import { message, Grid, Spin } from "antd";
+import Calendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
 import { CALENDAR_CONFIG, RESPONSIVE_CONFIG } from "@/configs/calendar-config";
 
 const { useBreakpoint } = Grid;
@@ -18,41 +18,6 @@ function formatLocalDate(year, month, day = 1) {
 function getBreakpoint(screens) {
   const breakpoints = ["xxl", "xl", "lg", "md", "sm", "xs"];
   return breakpoints.find((bp) => screens[bp]) || "xs";
-}
-
-/**
- * Helper function to generate ISO formatted event time
- * @param {string} isoDateString - ISO date string (e.g. "2025-04-25T00:00:00.000Z")
- * @param {string} timeString - Time string in format "HH:MM:SS" (e.g. "19:30:00")
- * @returns {string|null} ISO formatted datetime string or null if invalid
- */
-function generateEventTime(isoDateString, timeString) {
-  if (!isoDateString || !timeString) return null;
-
-  try {
-    // Parse hours and minutes from time string
-    const timeParts = timeString.split(":");
-    const hours = parseInt(timeParts[0], 10);
-    const minutes = parseInt(timeParts[1], 10);
-
-    // Create date from ISO string
-    const baseDate = new Date(isoDateString);
-
-    // Get date components
-    const year = baseDate.getFullYear();
-    const month = String(baseDate.getMonth() + 1).padStart(2, "0");
-    const day = String(baseDate.getDate()).padStart(2, "0");
-
-    // Format time components
-    const formattedHours = String(hours).padStart(2, "0");
-    const formattedMinutes = String(minutes).padStart(2, "0");
-
-    // Build result string
-    return `${year}-${month}-${day}T${formattedHours}:${formattedMinutes}:00`;
-  } catch (error) {
-    console.error("Error generating event time:", error);
-    return null;
-  }
 }
 
 function buildCalendarDateRange(dateInfo) {
@@ -83,6 +48,35 @@ function buildCalendarDateRange(dateInfo) {
   }
 }
 
+function generateEventTime(isoDateString, timeString) {
+  if (!isoDateString || !timeString) return null;
+
+  try {
+    // Parse hours and minutes from time string
+    const timeParts = timeString.split(":");
+    const hours = parseInt(timeParts[0], 10);
+    const minutes = parseInt(timeParts[1], 10);
+
+    // Create date from ISO string
+    const baseDate = new Date(isoDateString);
+
+    // Get date components
+    const year = baseDate.getFullYear();
+    const month = String(baseDate.getMonth() + 1).padStart(2, "0");
+    const day = String(baseDate.getDate()).padStart(2, "0");
+
+    // Format time components
+    const formattedHours = String(hours).padStart(2, "0");
+    const formattedMinutes = String(minutes).padStart(2, "0");
+
+    // Build result string
+    return `${year}-${month}-${day}T${formattedHours}:${formattedMinutes}:00`;
+  } catch (error) {
+    console.error("Error generating event time:", error);
+    return null;
+  }
+}
+
 /**
  * Converts an array of data items to event format using property mapping configuration
  * @param {Array} data - Array of data objects to convert
@@ -97,7 +91,7 @@ function buildCalendarDateRange(dateInfo) {
  * @param {Object} [eventProps.extendedProps] - Object mapping extended property keys to source properties
  * @returns {Array} - Array of converted event items with required format {id, title, start, end?, extendedProps, ...customProps}
  */
-export function buildCalendarEventItems(data = [], eventProps = {}) {
+export function buildEventItems(data = [], eventProps = {}) {
   if (!Array.isArray(data) || data.length === 0) return [];
 
   // Reserved property names that have special handling
@@ -193,11 +187,11 @@ export function buildCalendarEventItems(data = [], eventProps = {}) {
 }
 
 export function FullCalendar({
-  onRequest = undefined,
-  onRequestError = undefined,
-  onRequestSuccess = undefined,
-  requestParams = undefined,
-  requestItem = undefined,
+  onCalendarRequest = undefined,
+  onCalendarRequestError = undefined,
+  onCalendarRequestSuccess = undefined,
+  onCalendarRequestParams = undefined,
+  onCalendarItem = undefined,
   plugins = [],
   height = "auto",
   responsive = RESPONSIVE_CONFIG,
@@ -235,16 +229,14 @@ export function FullCalendar({
   const handleProcessEvents = useCallback(() => {
     let finalEvents = [];
 
-    if (requestItem) {
-      finalEvents = buildCalendarEventItems(rawCalendarData, requestItem);
+    if (onCalendarItem) {
+      finalEvents = buildEventItems(rawCalendarData, onCalendarItem);
     } else {
       finalEvents = rawCalendarData;
     }
 
-    console.log("Processed events:", finalEvents);
-
     setProcessedEvents(finalEvents);
-  }, [rawCalendarData, requestItem]);
+  }, [rawCalendarData, onCalendarItem]);
 
   useEffect(() => {
     handleProcessEvents();
@@ -252,7 +244,7 @@ export function FullCalendar({
 
   // Handlers
   const handleDataRequest = useCallback(async () => {
-    if (!onRequest) {
+    if (!onCalendarRequest) {
       messageApi.error("Data request handler not provided");
       return;
     }
@@ -262,23 +254,23 @@ export function FullCalendar({
     }
 
     try {
-      const result = await onRequest(requestParams);
+      const result = await onCalendarRequest(onCalendarRequestParams);
       const resultData = result.data || result || [];
 
       setRawCalendarData(resultData);
-      onRequestSuccess?.(result);
+      onCalendarRequestSuccess?.(result);
     } catch (error) {
       messageApi.error(error?.message || "Đã xảy ra lỗi");
-      onRequestError?.(error);
+      onCalendarRequestError?.(error);
       setRawCalendarData([]);
     } finally {
       setLoading(false);
     }
   }, [
-    onRequest,
-    onRequestSuccess,
-    onRequestError,
-    requestParams,
+    onCalendarRequest,
+    onCalendarRequestSuccess,
+    onCalendarRequestError,
+    onCalendarRequestParams,
     messageApi,
     setLoading,
     startDate,
@@ -332,11 +324,6 @@ export function FullCalendar({
 
   // set view at components mounting base on screen size
   useEffect(() => {
-    // Skip responsive behavior if responsive is false
-    if (responsive === false) {
-      return;
-    }
-
     const breakpoint = getBreakpoint(screens);
     const viewName = responsive[breakpoint] || "dayGridMonth";
 
@@ -349,10 +336,10 @@ export function FullCalendar({
   // Handle data request khi dates thay đổi
   useEffect(() => {
     // Only trigger data request if not loading and both startDate/endDate are valid (not null/undefined/empty)
-    if (onRequest && requestParams && loading) {
+    if (onCalendarRequest && onCalendarRequestParams && loading) {
       handleDataRequest();
     }
-  }, [handleDataRequest, onRequest, requestParams, loading]);
+  }, [handleDataRequest, onCalendarRequest, onCalendarRequestParams, loading]);
 
   // Return the component
   return (
