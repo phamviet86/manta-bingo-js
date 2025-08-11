@@ -9,8 +9,9 @@ import {
   SchedulesEdit,
   schedulesSchema,
   schedulesMapping,
+  SchedulesCalendar,
 } from "@/components/feature";
-import { useTable, useForm } from "@/hooks";
+import { useTable, useForm, useCalendar } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -30,6 +31,7 @@ function PageContent() {
     table: useTable(),
     create: useForm(),
     edit: useForm(),
+    calendar: useCalendar(),
     columns: schedulesSchema({ scheduleStatus }, schedulesMapping.columns),
     fields: schedulesSchema({ scheduleStatus }, schedulesMapping.fields),
   };
@@ -63,7 +65,8 @@ function PageContent() {
   // Main content
   const pageContent = (
     <ProCard boxShadow bordered>
-      <SchedulesTable
+      <SchedulesCalendar calendarHook={useSchedules.calendar} />
+      {/* <SchedulesTable
         tableHook={useSchedules.table}
         columns={useSchedules.columns}
         rightColumns={[
@@ -83,7 +86,7 @@ function PageContent() {
             },
           },
         ]}
-      />
+      /> */}
       <SchedulesCreate
         formHook={useSchedules.create}
         fields={useSchedules.fields}

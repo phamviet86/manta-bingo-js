@@ -1,9 +1,9 @@
-// path: @/components/feature/schedules-column.js
+// path: @/components/feature/schedules-schema.js
 
 import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function schedulesSchema(params = {}, columnMapping = []) {
-  const { optionStatus } = params;
+  const { scheduleStatus } = params;
 
   const schema = [
     {
@@ -45,8 +45,8 @@ export function schedulesSchema(params = {}, columnMapping = []) {
       valueType: "select",
       ...buildSchemaProps({
         rules: [{ required: true }],
-        options: optionStatus?.options,
-        valueEnum: optionStatus?.valueEnum,
+        options: scheduleStatus?.options,
+        valueEnum: scheduleStatus?.valueEnum,
       }),
     },
     {

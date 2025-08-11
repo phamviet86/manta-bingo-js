@@ -1,6 +1,6 @@
 // path: @/components/feature/schedules-component.js
 
-import { AntTable, AntInfo, AntForm } from "@/components/ui";
+import { AntTable, AntInfo, AntForm, FullCalendar } from "@/components/ui";
 import {
   fetchList,
   fetchGet,
@@ -45,6 +45,16 @@ export function SchedulesEdit(props) {
       onRequest={(params) => fetchGet(`/api/schedules/${params?.id}`)}
       onSubmit={(values) => fetchPut(`/api/schedules/${values?.id}`, values)}
       onDelete={(params) => fetchDelete(`/api/schedules/${params?.id}`)}
+    />
+  );
+}
+
+export function SchedulesCalendar(props) {
+  return (
+    <FullCalendar
+      {...props}
+      onRequest={(params) => fetchList("/api/schedules", params)}
+      // requestItem={{ id: "id", title: "id" }}
     />
   );
 }

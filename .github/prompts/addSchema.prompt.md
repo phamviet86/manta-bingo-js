@@ -16,7 +16,7 @@ Generate complete frontend column files from SQL table structure using the templ
 Use this exact template code:
 
 ```javascript
-// path: @/components/feature/{table-name}-column.js
+// path: @/components/feature/{table-name}-schema.js
 
 import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
@@ -122,7 +122,7 @@ Replace template placeholders with your table data:
 
 ## Quick Steps
 
-1. **File Path**: Create `src/components/feature/{table-name}-column.js`
+1. **File Path**: Create `src/components/feature/{table-name}-schema.js`
 2. **Copy Template**: Use the exact template structure above
 3. **Replace Names**: Fill in table naming placeholders
 4. **Map Fields**: Replace field placeholders with your table's columns
@@ -131,7 +131,7 @@ Replace template placeholders with your table data:
 
 ## Critical Rules
 
-- ✅ **File naming**: kebab-case with `-column` suffix (e.g., `options-column.js`)
+- ✅ **File naming**: kebab-case with `-column` suffix (e.g., `options-schema.js`)
 - ✅ **Function**: Single column function with `{tableName}Schema` naming
 - ✅ **Schema structure**: Array of column objects with required properties
 - ✅ **Field validation**: Use `buildSchemaProps({ rules: [{ required: true }] })` for NOT NULL fields
@@ -199,13 +199,13 @@ After creating the column file, add exports to the main index file:
 **Export Pattern**:
 
 ```javascript
-// Export column function from {table-name}-column.js
+// Export column function from {table-name}-schema.js
 export * from "./{table-name}-column";
 ```
 
 ## Validation Checklist
 
-- ✅ **File location**: `src/components/feature/{table-name}-column.js`
+- ✅ **File location**: `src/components/feature/{table-name}-schema.js`
 - ✅ **File naming**: kebab-case convention with `-column` suffix
 - ✅ **Function**: Single `{tableName}Schema` function with correct signature
 - ✅ **Imports**: Correct import statement for `buildSchema` and `buildSchemaProps` utilities
@@ -225,5 +225,5 @@ export * from "./{table-name}-column";
 
 Generated files:
 
-- `src/components/feature/{table-name}-column.js`
+- `src/components/feature/{table-name}-schema.js`
 - Updated `src/components/feature/index.js` with column export

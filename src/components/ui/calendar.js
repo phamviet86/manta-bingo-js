@@ -20,6 +20,41 @@ function getBreakpoint(screens) {
   return breakpoints.find((bp) => screens[bp]) || "xs";
 }
 
+/**
+ * Helper function to generate ISO formatted event time
+ * @param {string} isoDateString - ISO date string (e.g. "2025-04-25T00:00:00.000Z")
+ * @param {string} timeString - Time string in format "HH:MM:SS" (e.g. "19:30:00")
+ * @returns {string|null} ISO formatted datetime string or null if invalid
+ */
+function generateEventTime(isoDateString, timeString) {
+  if (!isoDateString || !timeString) return null;
+
+  try {
+    // Parse hours and minutes from time string
+    const timeParts = timeString.split(":");
+    const hours = parseInt(timeParts[0], 10);
+    const minutes = parseInt(timeParts[1], 10);
+
+    // Create date from ISO string
+    const baseDate = new Date(isoDateString);
+
+    // Get date components
+    const year = baseDate.getFullYear();
+    const month = String(baseDate.getMonth() + 1).padStart(2, "0");
+    const day = String(baseDate.getDate()).padStart(2, "0");
+
+    // Format time components
+    const formattedHours = String(hours).padStart(2, "0");
+    const formattedMinutes = String(minutes).padStart(2, "0");
+
+    // Build result string
+    return `${year}-${month}-${day}T${formattedHours}:${formattedMinutes}:00`;
+  } catch (error) {
+    console.error("Error generating event time:", error);
+    return null;
+  }
+}
+
 function buildCalendarDateRange(dateInfo) {
   const isMonthView = dateInfo.view?.type?.includes("Month");
 
@@ -206,6 +241,8 @@ export function FullCalendar({
       finalEvents = rawCalendarData;
     }
 
+    console.log("Processed events:", finalEvents);
+
     setProcessedEvents(finalEvents);
   }, [rawCalendarData, requestItem]);
 
@@ -295,6 +332,11 @@ export function FullCalendar({
 
   // set view at components mounting base on screen size
   useEffect(() => {
+    // Skip responsive behavior if responsive is false
+    if (responsive === false) {
+      return;
+    }
+
     const breakpoint = getBreakpoint(screens);
     const viewName = responsive[breakpoint] || "dayGridMonth";
 

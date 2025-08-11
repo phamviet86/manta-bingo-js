@@ -42,5 +42,5 @@ export * from "./classes-schema";
 export * from "./enrollments-component";
 export * from "./enrollments-schema";
 
-export * from "./schedules-column";
+export * from "./schedules-schema";
 export * from "./schedules-component";
