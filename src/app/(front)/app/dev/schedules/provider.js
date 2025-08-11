@@ -13,7 +13,16 @@ export function PageProvider({ children }) {
     { option_table: "schedules", option_column: "schedule_status_id" }
   );
 
-  const contextValue = useMemo(() => ({ scheduleStatus }), [scheduleStatus]);
+  const classStatus = buildSelection(
+    optionsData,
+    { value: "id", label: "option_label", color: "option_color" },
+    { option_table: "classes", option_column: "class_status_id" }
+  );
+
+  const contextValue = useMemo(
+    () => ({ scheduleStatus, classStatus }),
+    [scheduleStatus, classStatus]
+  );
 
   return (
     <PageContext.Provider value={contextValue}>{children}</PageContext.Provider>

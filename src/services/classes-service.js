@@ -18,11 +18,13 @@ export async function getClasses(searchParams) {
       SELECT c.*, COUNT(*) OVER() AS total,
         co.course_name, co.course_code,
         m.module_name, 
-        s.syllabus_name
+        s.syllabus_name,
+        ss.pending_count, ss.completed_count, ss.absent_count, ss.total_count
       FROM classes_view c
       LEFT JOIN courses co ON c.course_id = co.id AND co.deleted_at IS NULL
       LEFT JOIN modules m ON c.module_id = m.id AND m.deleted_at IS NULL
       LEFT JOIN syllabuses s ON m.syllabus_id = s.id AND s.deleted_at IS NULL
+      LEFT JOIN schedules_summary ss ON c.id = ss.class_id
       WHERE c.deleted_at IS NULL
       ${whereClause}
       ${orderByClause || "ORDER BY c.created_at"}
@@ -38,14 +40,16 @@ export async function getClasses(searchParams) {
 export async function getClass(id) {
   try {
     return await sql`
-      SELECT c.*,
+      SELECT c.*, 
         co.course_name, co.course_code,
         m.module_name, 
-        s.syllabus_name
+        s.syllabus_name,
+        ss.pending_count, ss.completed_count, ss.absent_count, ss.total_count
       FROM classes_view c
       LEFT JOIN courses co ON c.course_id = co.id AND co.deleted_at IS NULL
       LEFT JOIN modules m ON c.module_id = m.id AND m.deleted_at IS NULL
       LEFT JOIN syllabuses s ON m.syllabus_id = s.id AND s.deleted_at IS NULL
+      LEFT JOIN schedules_summary ss ON c.id = ss.class_id
       WHERE c.deleted_at IS NULL
         AND c.id = ${id};
     `;

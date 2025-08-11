@@ -98,6 +98,30 @@ export function classesSchema(params = {}, columnMapping = []) {
       ...buildSchemaProps({ disabled: true }),
     },
     {
+      key: "pending_count",
+      dataIndex: "pending_count",
+      title: "Chờ",
+      valueType: "digit",
+    },
+    {
+      key: "completed_count",
+      dataIndex: "completed_count",
+      title: "Đã học",
+      valueType: "digit",
+    },
+    {
+      key: "absent_count",
+      dataIndex: "absent_count",
+      title: "Nghỉ",
+      valueType: "digit",
+    },
+    {
+      key: "total_count",
+      dataIndex: "total_count",
+      title: "Tổng",
+      valueType: "digit",
+    },
+    {
       key: "displayClass",
       title: "Lớp học",
       render: (_, record) => {
@@ -162,6 +186,10 @@ export const classesMapping = {
     { key: "class_end_date", search: false, responsive: ["lg"] },
     { key: "class_fee", search: false, responsive: ["xl"] },
     { key: "class_total_fee", search: false, responsive: ["xl"] },
+    { key: "pending_count", search: false, responsive: ["xxl"] },
+    { key: "completed_count", search: false, responsive: ["xxl"] },
+    { key: "absent_count", search: false, responsive: ["xxl"] },
+    { key: "total_count", search: false, responsive: ["xxl"] },
   ],
   courseClassesColumns: [
     { key: "displayModule" },
@@ -172,5 +200,21 @@ export const classesMapping = {
     { key: "class_end_date", search: false, responsive: ["lg"] },
     { key: "class_fee", search: false, responsive: ["xl"] },
     { key: "class_total_fee", search: false, responsive: ["xl"] },
+    { key: "pending_count", search: false, responsive: ["xxl"] },
+    { key: "completed_count", search: false, responsive: ["xxl"] },
+    { key: "absent_count", search: false, responsive: ["xxl"] },
+    { key: "total_count", search: false, responsive: ["xxl"] },
+  ],
+  scheduleClassesColumns: [
+    { key: "displayClass" },
+    { key: "course_name", hideInTable: true },
+    { key: "module_name", hideInTable: true },
+    { key: "class_status_id" },
+    { key: "class_start_date", search: false, responsive: ["lg"] },
+    { key: "class_end_date", search: false, responsive: ["lg"] },
+    { key: "pending_count", search: false, responsive: ["xl"] },
+    { key: "completed_count", search: false, responsive: ["xl"] },
+    { key: "absent_count", search: false, responsive: ["xl"] },
+    { key: "total_count", search: false, responsive: ["xl"] },
   ],
 };

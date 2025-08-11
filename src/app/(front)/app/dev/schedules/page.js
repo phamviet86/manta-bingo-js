@@ -1,17 +1,21 @@
 "use client";
 
-import { EditOutlined } from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components";
+import { Space } from "antd";
+import { InfoCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { AntPage, AntButton } from "@/components/ui";
 import {
-  SchedulesTable,
   SchedulesCreate,
   SchedulesEdit,
   schedulesSchema,
   schedulesMapping,
   SchedulesCalendar,
+  ClassesTable,
+  ClassesInfo,
+  classesSchema,
+  classesMapping,
 } from "@/components/feature";
-import { useTable, useForm, useCalendar } from "@/hooks";
+import { useTable, useForm, useCalendar, useInfo } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -24,7 +28,7 @@ export default function Page(props) {
 
 function PageContent() {
   // Context
-  const { scheduleStatus } = usePageContext();
+  const { scheduleStatus, classStatus } = usePageContext();
 
   // Hooks
   const useSchedules = {
@@ -51,45 +55,14 @@ function PageContent() {
       label="Tải lại"
       color="default"
       variant="outlined"
-      onClick={() => useSchedules.table.reload()}
-    />,
-    <AntButton
-      key="create-button"
-      label="Tạo mới"
-      color="primary"
-      variant="solid"
-      onClick={() => useSchedules.create.open()}
+      onClick={() => useSchedules.calendar.reload()}
     />,
   ];
 
   // Main content
   const pageContent = (
     <ProCard boxShadow bordered>
-      <SchedulesCalendar
-        calendarHook={useSchedules.calendar}
-        // requestParams={{}}
-      />
-      {/* <SchedulesTable
-        tableHook={useSchedules.table}
-        columns={useSchedules.columns}
-        rightColumns={[
-          {
-            width: 56,
-            align: "center",
-            search: false,
-            render: (_, record) => {
-              return (
-                <AntButton
-                  icon={<EditOutlined />}
-                  color="primary"
-                  variant="link"
-                  onClick={() => openSchedulesEdit(record)}
-                />
-              );
-            },
-          },
-        ]}
-      /> */}
+      <SchedulesCalendar calendarHook={useSchedules.calendar} />
       <SchedulesCreate
         formHook={useSchedules.create}
         fields={useSchedules.fields}
@@ -110,6 +83,103 @@ function PageContent() {
     </ProCard>
   );
 
+  // CLASSES TAB
+  // Hooks
+  const useClasses = {
+    table: useTable(),
+    info: useInfo(),
+    columns: classesSchema(
+      { classStatus },
+      classesMapping.scheduleClassesColumns
+    ),
+    fields: classesSchema({ classStatus }, classesMapping.fields),
+  };
+
+  // Open info modal
+  const openClassesInfo = (record) => {
+    const { id } = record || {};
+    useClasses.info.setRequestParams({ id });
+    useClasses.info.open();
+  };
+
+  // classes tab buttons
+  const classesButton = (
+    <Space>
+      <AntButton
+        key="reload-button"
+        label="Tải lại"
+        color="default"
+        variant="outlined"
+        onClick={() => useClasses.table.reload()}
+      />
+      <AntButton
+        key="edit-button"
+        label="Thêm lớp"
+        color="primary"
+        variant="solid"
+        onClick={() => useClasses.transfer.open()}
+      />
+      ,
+    </Space>
+  );
+
+  // classes tab content
+  const classesContent = (
+    <ProCard
+      boxShadow
+      bordered
+      title="Danh sách"
+      extra={classesButton}
+      loading={
+        !useSchedules.calendar.endDate || !useSchedules.calendar.startDate
+      }
+    >
+      <ClassesTable
+        tableHook={useClasses.table}
+        columns={useClasses.columns}
+        leftColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<InfoCircleOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => openClassesInfo(record)}
+              />
+            ),
+          },
+        ]}
+        requestParams={{
+          class_start_date_lte: useSchedules.calendar.endDate,
+          or: {
+            class_end_date_gte: useSchedules.calendar.startDate,
+            class_end_date_null: true,
+          },
+        }}
+        syncToUrl={false}
+      />
+      <ClassesInfo
+        infoHook={useClasses.info}
+        columns={useClasses.columns}
+        requestParams={useClasses.info.requestParams}
+        title="Thông tin lớp học"
+        variant="modal"
+        column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
+        size="small"
+      />
+    </ProCard>
+  );
+
+  // classes tab configuration
+  const classesTab = {
+    key: "classes",
+    label: "Lớp học",
+    children: classesContent,
+  };
+
   // Render
   return (
     <AntPage
@@ -117,6 +187,7 @@ function PageContent() {
       title="Lịch học"
       extra={pageButton}
       content={pageContent}
+      tabList={[classesTab]}
     />
   );
 }
