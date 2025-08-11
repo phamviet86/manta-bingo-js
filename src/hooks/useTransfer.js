@@ -1,4 +1,4 @@
-// path: @/component/hook/useTransfer.js
+// path: @/components/hookuseTransfer.js
 
 import { useState, useRef } from "react";
 

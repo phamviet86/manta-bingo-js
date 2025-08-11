@@ -1,4 +1,4 @@
-// path: @/component/hook/useForm.js
+// path: @/components/hookuseForm.js
 
 import { useRef, useState } from "react";
 

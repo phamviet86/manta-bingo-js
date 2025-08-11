@@ -1,4 +1,4 @@
-// path: @/component/hook/useInfo.js
+// path: @/components/hookuseInfo.js
 
 import { useRef, useState } from "react";
 
