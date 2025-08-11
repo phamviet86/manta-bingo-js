@@ -35,8 +35,8 @@ function PageContent() {
   };
 
   // Open edit
-  const openRoomsEdit = (record) => {
-    const { id } = record || {};
+  const openRoomsEdit = (roomRecord) => {
+    const { id } = roomRecord || {};
     useRooms.edit.setRequestParams({ id });
     useRooms.edit.setDeleteParams({ id });
     useRooms.edit.open();

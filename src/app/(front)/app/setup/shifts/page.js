@@ -35,8 +35,8 @@ function PageContent() {
   };
 
   // Open edit
-  const openShiftsEdit = (record) => {
-    const { id } = record || {};
+  const openShiftsEdit = (shiftRecord) => {
+    const { id } = shiftRecord || {};
     useShifts.edit.setRequestParams({ id });
     useShifts.edit.setDeleteParams({ id });
     useShifts.edit.open();

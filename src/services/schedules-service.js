@@ -15,11 +15,18 @@ export async function getSchedules(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT sv.*, COUNT(*) OVER() AS total
-      FROM schedules_view sv
-      WHERE sv.deleted_at IS NULL
+      SELECT s.*, COUNT(*) OVER() AS total,
+        course_name,
+        module_name,
+        syllabus_name
+      FROM schedules s
+      LEFT JOIN classes_view cv ON cv.id = s.class_id AND cv.deleted_at IS NULL
+      LEFT JOIN courses c ON c.id = cv.course_id AND c.deleted_at IS NULL
+      LEFT JOIN modules m ON m.id = cv.module_id AND m.deleted_at IS NULL
+      LEFT JOIN syllabuses sy ON sy.id = m.syllabus_id AND sy.deleted_at IS NULL
+      WHERE s.deleted_at IS NULL
       ${whereClause}
-      ${orderByClause || "ORDER BY sv.created_at"}
+      ${orderByClause || "ORDER BY s.created_at"}
       ${limitClause};
     `;
 
@@ -32,10 +39,17 @@ export async function getSchedules(searchParams) {
 export async function getSchedule(id) {
   try {
     return await sql`
-      SELECT sv.*
-      FROM schedules_view sv
-      WHERE sv.deleted_at IS NULL
-        AND sv.id = ${id};
+      SELECT s.*, 
+        course_name,
+        module_name,
+        syllabus_name
+      FROM schedules s
+      LEFT JOIN classes_view cv ON cv.id = s.class_id AND cv.deleted_at IS NULL
+      LEFT JOIN courses c ON c.id = cv.course_id AND c.deleted_at IS NULL
+      LEFT JOIN modules m ON m.id = cv.module_id AND m.deleted_at IS NULL
+      LEFT JOIN syllabuses sy ON sy.id = m.syllabus_id AND sy.deleted_at IS NULL
+      WHERE s.deleted_at IS NULL
+        AND s.id = ${id};
     `;
   } catch (error) {
     throw new Error(error.message);
@@ -113,32 +127,6 @@ export async function deleteSchedule(id) {
         AND id = ${id}
       RETURNING *;
     `;
-  } catch (error) {
-    throw new Error(error.message);
-  }
-}
-
-// READ operations
-export async function getSchedulesSummary(searchParams) {
-  try {
-    const ignoredSearchColumns = [];
-    const { whereClause, orderByClause, limitClause, queryValues } =
-      parseSearchParams(searchParams, ignoredSearchColumns);
-
-    const sqlValue = [...queryValues];
-    const sqlText = `
-      SELECT sv.*, COUNT(*) OVER() AS total,
-      COUNT(sv.schedule_pending) AS pending_count,
-      COUNT(sv.schedule_completed) AS completed_count,
-      COUNT(sv.schedule_absent) AS absent_count
-      FROM schedules_view sv
-      WHERE sv.deleted_at IS NULL
-      ${whereClause}
-      ${orderByClause || "ORDER BY s.created_at"}
-      ${limitClause};
-    `;
-
-    return await sql.query(sqlText, sqlValue);
   } catch (error) {
     throw new Error(error.message);
   }

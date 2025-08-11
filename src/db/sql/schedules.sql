@@ -22,16 +22,6 @@ CREATE TRIGGER update_record BEFORE
 UPDATE ON schedules FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
 
-DROP VIEW IF EXISTS schedules_view CASCADE;
-CREATE OR REPLACE VIEW schedules_view AS
-SELECT 
-  s.*,
-  CASE WHEN schedule_status_id = 31 THEN 1 END AS schedule_pending,
-  CASE WHEN schedule_status_id = 32 THEN 1 END AS schedule_completed,
-  CASE WHEN schedule_status_id = 33 THEN 1 END AS schedule_absent
-FROM schedules s;
-
-
 DROP VIEW IF EXISTS schedules_summary CASCADE;
 CREATE OR REPLACE VIEW schedules_summary AS
 SELECT 

@@ -2,7 +2,7 @@
 
 import { ProCard } from "@ant-design/pro-components";
 import { Space } from "antd";
-import { InfoCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { PlusCircleOutlined } from "@ant-design/icons";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   SchedulesCreate,
@@ -11,11 +11,10 @@ import {
   schedulesMapping,
   SchedulesCalendar,
   ClassesSummaryTable,
-  ClassesInfo,
   classesSchema,
   classesMapping,
 } from "@/components/feature";
-import { useTable, useForm, useCalendar, useInfo } from "@/hooks";
+import { useTable, useForm, useCalendar } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -30,19 +29,44 @@ function PageContent() {
   // Context
   const { scheduleStatus, classStatus } = usePageContext();
 
-  // Hooks
+  // Schedules Hooks
   const useSchedules = {
-    table: useTable(),
     create: useForm(),
     edit: useForm(),
     calendar: useCalendar(),
-    columns: schedulesSchema({ scheduleStatus }, schedulesMapping.columns),
     fields: schedulesSchema({ scheduleStatus }, schedulesMapping.fields),
   };
 
+  // classes Hooks
+  const useClasses = {
+    table: useTable(),
+    columns: classesSchema(
+      { classStatus },
+      classesMapping.scheduleClassesColumns
+    ),
+    fields: classesSchema({ classStatus }, classesMapping.fields),
+  };
+
+  // Open schedule create
+  const openSchedulesCreate = (classRecord) => {
+    const { id, course_name, module_name } = classRecord || {};
+    useSchedules.create.setInitialValues({
+      class_id: id,
+      course_name: course_name,
+      module_name: module_name,
+    });
+    useSchedules.create.open();
+  };
+
+  // reload data
+  const reloadData = () => {
+    useSchedules.calendar.reload();
+    useClasses.table.reload();
+  };
+
   // Open edit
-  const openSchedulesEdit = (record) => {
-    const { id } = record || {};
+  const openSchedulesEdit = (scheduleRecord) => {
+    const { id } = scheduleRecord || {};
     useSchedules.edit.setRequestParams({ id });
     useSchedules.edit.setDeleteParams({ id });
     useSchedules.edit.open();
@@ -55,18 +79,26 @@ function PageContent() {
       label="Tải lại"
       color="default"
       variant="outlined"
-      onClick={() => useSchedules.calendar.reload()}
+      onClick={reloadData}
     />,
   ];
 
   // Main content
   const pageContent = (
     <ProCard boxShadow bordered>
-      <SchedulesCalendar calendarHook={useSchedules.calendar} />
+      <SchedulesCalendar
+        calendarHook={useSchedules.calendar}
+        requestParams={{
+          schedule_date_gte: useSchedules.calendar.startDate,
+          schedule_date_lte: useSchedules.calendar.endDate,
+        }}
+        eventClick={(info) => openSchedulesEdit(info.event)}
+      />
       <SchedulesCreate
         formHook={useSchedules.create}
         fields={useSchedules.fields}
-        onSubmitSuccess={useSchedules.table.reload}
+        initialValues={useSchedules.create.initialValues}
+        onSubmitSuccess={reloadData}
         title="Tạo lịch học"
         variant="drawer"
       />
@@ -74,9 +106,9 @@ function PageContent() {
         formHook={useSchedules.edit}
         fields={useSchedules.fields}
         requestParams={useSchedules.edit.requestParams}
-        onSubmitSuccess={useSchedules.table.reload}
+        onSubmitSuccess={reloadData}
         deleteParams={useSchedules.edit.deleteParams}
-        onDeleteSuccess={useSchedules.table.reload}
+        onDeleteSuccess={reloadData}
         title="Chỉnh sửa lịch học"
         variant="drawer"
       />
@@ -84,24 +116,6 @@ function PageContent() {
   );
 
   // CLASSES TAB
-  // Hooks
-  const useClasses = {
-    table: useTable(),
-    info: useInfo(),
-    columns: classesSchema(
-      { classStatus },
-      classesMapping.scheduleClassesColumns
-    ),
-    fields: classesSchema({ classStatus }, classesMapping.fields),
-  };
-
-  // Open info modal
-  const openClassesInfo = (record) => {
-    const { id } = record || {};
-    useClasses.info.setRequestParams({ id });
-    useClasses.info.open();
-  };
-
   // classes tab buttons
   const classesButton = (
     <Space>
@@ -112,14 +126,6 @@ function PageContent() {
         variant="outlined"
         onClick={() => useClasses.table.reload()}
       />
-      <AntButton
-        key="edit-button"
-        label="Thêm lớp"
-        color="primary"
-        variant="solid"
-        onClick={() => useClasses.transfer.open()}
-      />
-      ,
     </Space>
   );
 
@@ -128,7 +134,7 @@ function PageContent() {
     <ProCard
       boxShadow
       bordered
-      title="Danh sách"
+      title="Danh sách lớp"
       extra={classesButton}
       loading={
         !useSchedules.calendar.endDate || !useSchedules.calendar.startDate
@@ -144,10 +150,10 @@ function PageContent() {
             search: false,
             render: (_, record) => (
               <AntButton
-                icon={<InfoCircleOutlined />}
+                icon={<PlusCircleOutlined />}
                 color="primary"
                 variant="link"
-                onClick={() => openClassesInfo(record)}
+                onClick={() => openSchedulesCreate(record)}
               />
             ),
           },
@@ -164,15 +170,6 @@ function PageContent() {
         syncToUrl={false}
         startDate={useSchedules.calendar.startDate}
         endDate={useSchedules.calendar.endDate}
-      />
-      <ClassesInfo
-        infoHook={useClasses.info}
-        columns={useClasses.columns}
-        requestParams={useClasses.info.requestParams}
-        title="Thông tin lớp học"
-        variant="modal"
-        column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
-        size="small"
       />
     </ProCard>
   );

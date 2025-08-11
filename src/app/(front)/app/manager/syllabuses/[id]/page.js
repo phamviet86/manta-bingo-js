@@ -103,15 +103,15 @@ function PageContent({ params }) {
   };
 
   // Open info modal
-  const openModulesInfo = (record) => {
-    const { id } = record || {};
+  const openModulesInfo = (moduleRecord) => {
+    const { id } = moduleRecord || {};
     useModules.info.setRequestParams({ id });
     useModules.info.open();
   };
 
   // Open edit form
-  const openModulesEdit = (record) => {
-    const { id } = record || {};
+  const openModulesEdit = (moduleRecord) => {
+    const { id } = moduleRecord || {};
     useModules.edit.setRequestParams({ id });
     useModules.edit.setDeleteParams({ id });
     useModules.edit.open();
@@ -210,15 +210,15 @@ function PageContent({ params }) {
   };
 
   // Open info modal
-  const openLecturesInfo = (record) => {
-    const { id } = record || {};
+  const openLecturesInfo = (lectureRecord) => {
+    const { id } = lectureRecord || {};
     useLectures.info.setRequestParams({ id });
     useLectures.info.open();
   };
 
   // Open edit form
-  const openLecturesEdit = (record) => {
-    const { id } = record || {};
+  const openLecturesEdit = (lectureRecord) => {
+    const { id } = lectureRecord || {};
     useLectures.edit.setRequestParams({ id });
     useLectures.edit.setDeleteParams({ id });
     useLectures.edit.open();

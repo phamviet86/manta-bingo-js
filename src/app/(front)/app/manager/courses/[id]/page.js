@@ -102,15 +102,15 @@ function PageContent({ params }) {
   };
 
   // Open info modal
-  const openClassesInfo = (record) => {
-    const { id } = record || {};
+  const openClassesInfo = (classRecord) => {
+    const { id } = classRecord || {};
     useClasses.info.setRequestParams({ id });
     useClasses.info.open();
   };
 
   // Open edit form
-  const openClassesEdit = (record) => {
-    const { id } = record || {};
+  const openClassesEdit = (classRecord) => {
+    const { id } = classRecord || {};
     useClasses.edit.setRequestParams({ id });
     useClasses.edit.setDeleteParams({ id });
     useClasses.edit.open();

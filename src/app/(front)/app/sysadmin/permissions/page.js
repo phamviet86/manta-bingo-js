@@ -37,8 +37,8 @@ function PageContent() {
   };
 
   // Open edit
-  const openPermissionsEdit = (record) => {
-    const { id } = record || {};
+  const openPermissionsEdit = (permissionRecord) => {
+    const { id } = permissionRecord || {};
     usePermissions.edit.setRequestParams({ id });
     usePermissions.edit.setDeleteParams({ id });
     usePermissions.edit.open();

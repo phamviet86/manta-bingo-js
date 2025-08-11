@@ -123,15 +123,15 @@ function PageContent({ params }) {
   const [paymentAmount, setPaymentAmount] = useState();
 
   // Open info modal
-  const openEnrollmentsInfo = (record) => {
-    const { id } = record || {};
+  const openEnrollmentsInfo = (enrollmentRecord) => {
+    const { id } = enrollmentRecord || {};
     useEnrollments.info.setRequestParams({ id });
     useEnrollments.info.open();
   };
 
   // Open edit form
-  const openEnrollmentsEdit = (record) => {
-    const { id } = record || {};
+  const openEnrollmentsEdit = (enrollmentRecord) => {
+    const { id } = enrollmentRecord || {};
     useEnrollments.edit.setRequestParams({ id });
     useEnrollments.edit.setDeleteParams({ id });
     useEnrollments.edit.open();

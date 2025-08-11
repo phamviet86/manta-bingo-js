@@ -1,6 +1,7 @@
 // path: @/components/feature/schedules-schema.js
 
 import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
+import { fetchOption } from "@/utils/fetch-util";
 
 export function schedulesSchema(params = {}, columnMapping = []) {
   const { scheduleStatus } = params;
@@ -16,15 +17,20 @@ export function schedulesSchema(params = {}, columnMapping = []) {
     {
       key: "class_id",
       dataIndex: "class_id",
-      title: "Lớp học",
+      title: "ID Lớp học",
       valueType: "text",
-      ...buildSchemaProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "shift_id",
       dataIndex: "shift_id",
       title: "Ca học",
-      valueType: "text",
+      valueType: "select",
+      request: async (params) =>
+        fetchOption("/api/shifts", params, {
+          value: "id",
+          label: "shift_name",
+        }),
       ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
@@ -37,11 +43,11 @@ export function schedulesSchema(params = {}, columnMapping = []) {
         format: "YYYY-MM-DD",
         style: { width: "100%" },
       }),
-    }, // Chi điên
+    },
     {
       key: "schedule_status_id",
       dataIndex: "schedule_status_id",
-      title: "Trạng thái lịch học",
+      title: "Trạng thái",
       valueType: "select",
       ...buildSchemaProps({
         rules: [{ required: true }],
@@ -54,12 +60,12 @@ export function schedulesSchema(params = {}, columnMapping = []) {
       dataIndex: "source_id",
       title: "Nguồn lịch học",
       valueType: "text",
-      ...buildSchemaProps({}),
+      ...buildSchemaProps({ disabled: true, hidden: true }),
     },
     {
       key: "lecture_id",
       dataIndex: "lecture_id",
-      title: "Giảng viên",
+      title: "Bài giảng",
       valueType: "text",
       ...buildSchemaProps({}),
     },
@@ -67,15 +73,40 @@ export function schedulesSchema(params = {}, columnMapping = []) {
       key: "room_id",
       dataIndex: "room_id",
       title: "Phòng học",
-      valueType: "text",
-      ...buildSchemaProps({}),
+      valueType: "select",
+      request: async (params) =>
+        fetchOption("/api/rooms", params, {
+          value: "id",
+          label: "room_name",
+        }),
     },
     {
       key: "schedule_desc",
       dataIndex: "schedule_desc",
-      title: "Ghi chú lịch học",
+      title: "Ghi chú",
       valueType: "textarea",
       ...buildSchemaProps({ autoSize: { minRows: 3, maxRows: 6 } }),
+    },
+    {
+      key: "course_name",
+      dataIndex: "course_name",
+      title: "Khóa học",
+      valueType: "text",
+      ...buildSchemaProps({ disabled: true }),
+    },
+    {
+      key: "module_name",
+      dataIndex: "module_name",
+      title: "Học phần",
+      valueType: "text",
+      ...buildSchemaProps({ disabled: true }),
+    },
+    {
+      key: "syllabus_name",
+      dataIndex: "syllabus_name",
+      title: "Giáo trình",
+      valueType: "text",
+      ...buildSchemaProps({ disabled: true }),
     },
   ];
 
@@ -84,15 +115,17 @@ export function schedulesSchema(params = {}, columnMapping = []) {
 
 export const schedulesMapping = {
   fields: [
+    { key: "course_name", colProps: { xs: 12 } },
+    { key: "module_name", colProps: { xs: 12 } },
+    { key: "schedule_date", colProps: { xs: 12 } },
+    { key: "shift_id", colProps: { xs: 12 } },
+    { key: "schedule_status_id", colProps: { xs: 12 } },
+    { key: "room_id", colProps: { xs: 12 } },
+    { key: "lecture_id" },
+    { key: "schedule_desc" },
     { key: "id" },
     { key: "class_id" },
-    { key: "shift_id" },
-    { key: "schedule_date" },
-    { key: "schedule_status_id" },
     { key: "source_id" },
-    { key: "lecture_id" },
-    { key: "room_id" },
-    { key: "schedule_desc" },
   ],
   columns: [
     { key: "id" },

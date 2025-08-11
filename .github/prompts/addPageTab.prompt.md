@@ -52,15 +52,15 @@ export default function Page() {
   };
 
   // Open info modal
-  const open{TableName}Info = (record) => {
-    const { id } = record || {};
+  const open{TableName}Info = ({tableName}Record) => {
+    const { id } = {tableName}Record || {};
     use{TableName}.info.setRequestParams({ id });
     use{TableName}.info.open();
   };
 
   // Open edit form
-  const open{TableName}Edit = (record) => {
-    const { id } = record || {};
+  const open{TableName}Edit = ({tableName}Record) => {
+    const { id } = {tableName}Record || {};
     use{TableName}.edit.setRequestParams({ id });
     use{TableName}.edit.setDeleteParams({ id });
     use{TableName}.edit.open();

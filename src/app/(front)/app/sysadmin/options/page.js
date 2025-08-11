@@ -37,8 +37,8 @@ function PageContent() {
   };
 
   // Open edit form
-  const openOptionsEdit = (record) => {
-    const { id } = record || {};
+  const openOptionsEdit = (optionRecord) => {
+    const { id } = optionRecord || {};
     useOptions.edit.setRequestParams({ id });
     useOptions.edit.setDeleteParams({ id });
     useOptions.edit.open();
