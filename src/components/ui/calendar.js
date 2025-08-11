@@ -1,10 +1,11 @@
 // path: @/component/common/calendar.js
 
-import { useEffect, useCallback, useState, useRef } from "react";
-import { message, Grid, Spin } from "antd";
+import { useEffect, useCallback, useState, useRef, cloneElement } from "react";
+import { message, Grid, Spin, Modal, Drawer } from "antd";
 import Calendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { CALENDAR_CONFIG, RESPONSIVE_CONFIG } from "@/configs/calendar-config";
+import { DRAWER_CONFIG, MODAL_CONFIG } from "@/configs";
 
 const { useBreakpoint } = Grid;
 
@@ -187,11 +188,18 @@ function buildEventItems(data = [], eventProps = {}) {
 }
 
 export function FullCalendar({
+  // Calendar variant configuration
+  variant = "page", // "page" | "modal" | "drawer"
+
+  // Data handling props
   onRequest = undefined,
   onRequestError = undefined,
   onRequestSuccess = undefined,
   requestParams = undefined,
   requestItem = undefined,
+  afterClose = undefined, // used in modal/drawer variants
+
+  // Display configuration
   plugins = [],
   height = "auto",
   responsive = RESPONSIVE_CONFIG,
@@ -200,25 +208,36 @@ export function FullCalendar({
     left: "prev,next today",
     right: "dayGrid,dayGridWeek,dayGridMonth",
   },
+  title = undefined,
+
+  // Modal/Drawer specific props
   calendarHook = {},
+  modalProps = {},
+  drawerProps = {},
+  trigger = undefined,
+
+  // Other props
   ...props
 }) {
   const {
     calendarRef,
+    reloadRef,
     startDate,
     setStartDate,
     endDate,
     setEndDate,
-    loading,
-    setLoading,
+    visible,
+    open,
+    close,
   } = calendarHook;
 
   const [messageApi, contextHolder] = message.useMessage();
   const screens = useBreakpoint();
   const allPlugins = [dayGridPlugin, ...plugins];
 
-  // State management: only need processed events
+  // State management: only need processed events and local loading
   const [processedEvents, setProcessedEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Refs for reload pattern và debouncing
   const reloadDataRef = useRef();
@@ -263,19 +282,23 @@ export function FullCalendar({
     onRequestSuccess,
     onRequestError,
     messageApi,
-    setLoading,
     startDate,
     endDate,
   ]);
 
-  // Reload data pattern giống Transfer
+  // Data reload functionality
   const reloadData = useCallback(async () => {
-    setLoading?.(true);
+    setLoading(true);
     await handleDataRequest();
-  }, [handleDataRequest, setLoading]);
+  }, [handleDataRequest]);
 
   // Đảm bảo luôn cập nhật ref tới hàm reloadData mới nhất
   reloadDataRef.current = reloadData;
+
+  // Expose reload function cho external hook
+  if (reloadRef) {
+    reloadRef.current = reloadData;
+  }
 
   // Debounced handleDatesSet
   const handleDatesSet = useCallback(
@@ -292,11 +315,11 @@ export function FullCalendar({
 
           setStartDate(startDate);
           setEndDate(endDate);
-          setLoading?.(true);
+          setLoading(true);
         }, 300);
       }
     },
-    [setStartDate, setEndDate, setLoading]
+    [setStartDate, setEndDate]
   );
 
   const handleView = useCallback(
@@ -324,31 +347,106 @@ export function FullCalendar({
     }, 0);
   }, [screens, responsive, handleView]);
 
-  // Handle data request khi dates thay đổi
+  // Khi mount: tải lại dữ liệu (chỉ cho variant "page")
   useEffect(() => {
-    // Only trigger data request if not loading and both startDate/endDate are valid (not null/undefined/empty)
-    if (onRequest && loading) {
-      handleDataRequest();
+    if (variant === "page") {
+      setLoading(true);
+      reloadData();
     }
-  }, [handleDataRequest, onRequest, loading, requestParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Handle data request khi dates thay đổi (cho variant "page")
+  useEffect(() => {
+    if (variant === "page" && onRequest && startDate && endDate) {
+      reloadData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startDate, endDate, requestParams]);
+
+  // Khi modal/drawer mở: tải lại dữ liệu
+  useEffect(() => {
+    if ((variant === "modal" || variant === "drawer") && visible) {
+      setLoading(true);
+      reloadData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible, variant]);
+
+  const handleClose = useCallback(() => {
+    close?.();
+    afterClose?.();
+  }, [afterClose, close]);
 
   // Return the component
+  // ========== Base Calendar Props ==========
+  const baseCalendarProps = {
+    ...props,
+    ...CALENDAR_CONFIG,
+    ref: calendarRef,
+    plugins: allPlugins,
+    headerToolbar,
+    height,
+    datesSet: handleDatesSet,
+    events: processedEvents,
+    weekNumbers: true,
+    navLinks: true,
+  };
+
+  // ========== Render Logic ==========
+  // If variant is "drawer", render DrawerForm
+  if (variant === "drawer") {
+    return (
+      <>
+        {contextHolder}
+        {trigger && cloneElement(trigger, { onClick: open })}
+        <Drawer
+          {...DRAWER_CONFIG}
+          {...drawerProps}
+          open={visible}
+          onClose={handleClose}
+          title={title}
+        >
+          {visible ? (
+            <Spin spinning={loading} tip="Đang tải dữ liệu..." delay={500}>
+              <Calendar {...baseCalendarProps} />
+            </Spin>
+          ) : null}
+        </Drawer>
+      </>
+    );
+  }
+
+  // If variant is "modal", render ModalForm
+  if (variant === "modal") {
+    return (
+      <>
+        {contextHolder}
+        {trigger && cloneElement(trigger, { onClick: open })}
+        <Modal
+          {...MODAL_CONFIG}
+          {...modalProps}
+          open={visible}
+          onCancel={handleClose}
+          footer={null} // No footer buttons in modal
+          title={title}
+        >
+          {visible ? (
+            <Spin spinning={loading} tip="Đang tải dữ liệu..." delay={500}>
+              <Calendar {...baseCalendarProps} />
+            </Spin>
+          ) : null}
+        </Modal>
+      </>
+    );
+  }
+
+  // Default: page variant
   return (
     <>
       {contextHolder}
       <Spin spinning={loading} tip="Đang tải dữ liệu..." delay={500}>
-        <Calendar
-          {...props}
-          {...CALENDAR_CONFIG}
-          ref={calendarRef}
-          plugins={allPlugins}
-          headerToolbar={headerToolbar}
-          height={height}
-          datesSet={handleDatesSet}
-          events={processedEvents}
-          weekNumbers={true}
-          navLinks={true}
-        />
+        <Calendar {...baseCalendarProps} />
       </Spin>
     </>
   );

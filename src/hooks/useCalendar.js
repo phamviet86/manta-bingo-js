@@ -5,26 +5,41 @@ import { useRef, useState } from "react";
 export function useCalendar() {
   // Refs
   const calendarRef = useRef();
+  const reloadRef = useRef();
 
   // State
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [requestParams, setRequestParams] = useState({});
+  const [visible, setVisible] = useState(false);
 
   // Actions
+  const open = () => {
+    setVisible(true);
+  };
+
+  const close = () => {
+    setVisible(false);
+    setRequestParams({});
+  };
+
   const reload = () => {
-    setLoading(true);
+    reloadRef?.current?.();
   };
 
   // Expose API
   return {
     calendarRef,
+    reloadRef,
     startDate,
     setStartDate,
     endDate,
     setEndDate,
-    loading,
-    setLoading,
+    requestParams,
+    setRequestParams,
+    visible,
+    open,
+    close,
     reload,
   };
 }
