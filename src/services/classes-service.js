@@ -173,3 +173,48 @@ export async function deleteClassesByCourse(courseId, moduleIds) {
     throw new Error(error.message);
   }
 }
+
+export async function getClassesByDate(searchParams, startDate, endDate) {
+  try {
+    const ignoredSearchColumns = ["start_date", "end_date"];
+    const { whereClause, orderByClause, limitClause, queryValues } =
+      parseSearchParams(searchParams, ignoredSearchColumns);
+
+    const sqlValue = [startDate, endDate, ...queryValues];
+    const sqlText = `
+      SELECT 
+        c.*, 
+        COUNT(*) OVER() AS total,
+        co.course_name, 
+        co.course_code,
+        m.module_name, 
+        s.syllabus_name,
+        ss.pending_count, ss.completed_count, ss.absent_count, ss.total_count
+      FROM classes_view c
+        LEFT JOIN courses co ON c.course_id = co.id AND co.deleted_at IS NULL
+        LEFT JOIN modules m ON c.module_id = m.id AND m.deleted_at IS NULL
+        LEFT JOIN syllabuses s ON m.syllabus_id = s.id AND s.deleted_at IS NULL
+        LEFT JOIN (
+          SELECT 
+            class_id, 
+            COUNT(CASE WHEN schedule_status_id = 31 THEN 1 END) AS pending_count,
+            COUNT(CASE WHEN schedule_status_id = 32 THEN 1 END) AS completed_count,
+            COUNT(CASE WHEN schedule_status_id = 33 THEN 1 END) AS absent_count,
+            COUNT(*) AS total_count
+          FROM schedules 
+          WHERE deleted_at IS NULL
+            AND schedule_date >= $1 
+            AND schedule_date <= $2
+          GROUP BY class_id
+        ) ss ON c.id = ss.class_id
+      WHERE c.deleted_at IS NULL
+        ${whereClause}
+      ${orderByClause || "ORDER BY c.created_at"}
+      ${limitClause};
+    `;
+
+    return await sql.query(sqlText, sqlValue);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

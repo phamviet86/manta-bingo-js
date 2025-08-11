@@ -10,7 +10,7 @@ import {
   schedulesSchema,
   schedulesMapping,
   SchedulesCalendar,
-  ClassesTable,
+  ClassesSummaryTable,
   ClassesInfo,
   classesSchema,
   classesMapping,
@@ -134,7 +134,7 @@ function PageContent() {
         !useSchedules.calendar.endDate || !useSchedules.calendar.startDate
       }
     >
-      <ClassesTable
+      <ClassesSummaryTable
         tableHook={useClasses.table}
         columns={useClasses.columns}
         leftColumns={[
@@ -160,6 +160,8 @@ function PageContent() {
           },
         }}
         syncToUrl={false}
+        startDate={useSchedules.calendar.startDate}
+        endDate={useSchedules.calendar.endDate}
       />
       <ClassesInfo
         infoHook={useClasses.info}

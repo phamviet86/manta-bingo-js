@@ -20,6 +20,21 @@ export function ClassesTable(props) {
     />
   );
 }
+export function ClassesSummaryTable({ startDate, endDate, ...props }) {
+  return (
+    <AntTable
+      {...props}
+      onRequest={(params, sort, filter) =>
+        fetchList(
+          "/api/classes/summary",
+          { start_date_e: startDate, end_date_e: endDate, ...params },
+          sort,
+          filter
+        )
+      }
+    />
+  );
+}
 
 export function ClassesInfo(props) {
   return (

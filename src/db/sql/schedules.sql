@@ -35,10 +35,10 @@ FROM schedules s;
 DROP VIEW IF EXISTS schedules_summary CASCADE;
 CREATE OR REPLACE VIEW schedules_summary AS
 SELECT 
-    class_id, schedule_date, 
+    class_id, 
     COUNT(CASE WHEN schedule_status_id = 31 THEN 1 END) AS pending_count,
     COUNT(CASE WHEN schedule_status_id = 32 THEN 1 END) AS completed_count,
     COUNT(CASE WHEN schedule_status_id = 33 THEN 1 END) AS absent_count,
     COUNT(*) AS total_count
 FROM schedules 
-GROUP BY class_id,schedule_date;
+GROUP BY class_id;
