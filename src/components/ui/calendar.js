@@ -187,11 +187,11 @@ export function buildEventItems(data = [], eventProps = {}) {
 }
 
 export function FullCalendar({
-  onCalendarRequest = undefined,
-  onCalendarRequestError = undefined,
-  onCalendarRequestSuccess = undefined,
-  onCalendarRequestParams = undefined,
-  onCalendarItem = undefined,
+  onRequest = undefined,
+  onRequestError = undefined,
+  onRequestSuccess = undefined,
+  requestParams = undefined,
+  requestItem = undefined,
   plugins = [],
   height = "auto",
   responsive = RESPONSIVE_CONFIG,
@@ -218,67 +218,100 @@ export function FullCalendar({
   const allPlugins = [dayGridPlugin, ...plugins];
 
   // State management: tách biệt raw data và processed events
-  const [rawCalendarData, setRawCalendarData] = useState([]);
   const [processedEvents, setProcessedEvents] = useState([]);
 
   // Refs for reload pattern và debouncing
   const reloadDataRef = useRef();
   const datesSetTimeoutRef = useRef();
 
-  // Process raw data thành events
-  const handleProcessEvents = useCallback(() => {
-    let finalEvents = [];
-
-    if (onCalendarItem) {
-      finalEvents = buildEventItems(rawCalendarData, onCalendarItem);
-    } else {
-      finalEvents = rawCalendarData;
-    }
-
-    setProcessedEvents(finalEvents);
-  }, [rawCalendarData, onCalendarItem]);
-
+  // Debug logging for state changes
   useEffect(() => {
-    handleProcessEvents();
-  }, [handleProcessEvents]);
+    console.log("🔄 Calendar state changed:", {
+      loading,
+      startDate,
+      endDate,
+      hasOnRequest: !!onRequest,
+      hasRequestParams: !!requestParams,
+      eventsCount: processedEvents.length
+    });
+  }, [loading, startDate, endDate, onRequest, requestParams, processedEvents.length]);
 
-  // Handlers
+  // Debug component mount
+  useEffect(() => {
+    console.log("🎯 Calendar component mounted/props changed:", {
+      onRequest: !!onRequest,
+      requestParams,
+      requestItem,
+      calendarHook: Object.keys(calendarHook)
+    });
+  }, [onRequest, requestParams, requestItem, calendarHook]);
+
+  // Handlers - merged data request and processing
   const handleDataRequest = useCallback(async () => {
-    if (!onCalendarRequest) {
+    console.log("🔄 handleDataRequest called");
+    console.log("📊 Request conditions:", {
+      hasOnRequest: !!onRequest,
+      startDate,
+      endDate,
+      requestParams,
+      loading
+    });
+
+    if (!onRequest) {
+      console.log("❌ No onRequest handler provided");
       messageApi.error("Data request handler not provided");
       return;
     }
 
     if (!startDate || !endDate) {
+      console.log("❌ Missing dates:", { startDate, endDate });
       return;
     }
 
+    console.log("🚀 Starting request...");
     try {
-      const result = await onCalendarRequest(onCalendarRequestParams);
+      const result = await onRequest(requestParams);
       const resultData = result.data || result || [];
+      console.log("✅ Request successful:", { resultCount: resultData.length });
 
-      setRawCalendarData(resultData);
-      onCalendarRequestSuccess?.(result);
+      // Process data into events immediately
+      let finalEvents = [];
+      if (requestItem) {
+        finalEvents = buildEventItems(resultData, requestItem);
+        console.log("🔄 Events processed with requestItem:", { finalEventsCount: finalEvents.length });
+      } else {
+        finalEvents = resultData;
+        console.log("➡️ Using raw data as events:", { finalEventsCount: finalEvents.length });
+      }
+      setProcessedEvents(finalEvents);
+
+      onRequestSuccess?.(result);
+      console.log("🎉 Request completed successfully");
     } catch (error) {
+      console.log("💥 Request error:", error);
       messageApi.error(error?.message || "Đã xảy ra lỗi");
-      onCalendarRequestError?.(error);
-      setRawCalendarData([]);
+      onRequestError?.(error);
+      setProcessedEvents([]);
     } finally {
+      console.log("🏁 Setting loading to false");
       setLoading(false);
     }
   }, [
-    onCalendarRequest,
-    onCalendarRequestSuccess,
-    onCalendarRequestError,
-    onCalendarRequestParams,
+    onRequest,
+    onRequestSuccess,
+    onRequestError,
+    requestParams,
+    requestItem,
     messageApi,
     setLoading,
     startDate,
     endDate,
+    loading,
   ]);
 
   // Reload data pattern giống Transfer
   const reloadData = useCallback(async () => {
+    console.log("🔄 reloadData called, setting loading to true");
     setLoading?.(true);
     await handleDataRequest();
   }, [handleDataRequest, setLoading]);
@@ -289,20 +322,27 @@ export function FullCalendar({
   // Debounced handleDatesSet
   const handleDatesSet = useCallback(
     (dateInfo) => {
+      console.log("📅 handleDatesSet called:", dateInfo);
+      
       if (setStartDate && setEndDate) {
         // Clear previous timeout
         if (datesSetTimeoutRef.current) {
+          console.log("⏰ Clearing previous timeout");
           clearTimeout(datesSetTimeoutRef.current);
         }
 
         // Set new timeout with 300ms delay để debounce
         datesSetTimeoutRef.current = setTimeout(() => {
           const { startDate, endDate } = buildCalendarDateRange(dateInfo);
+          console.log("📅 Setting new dates:", { startDate, endDate });
 
           setStartDate(startDate);
           setEndDate(endDate);
+          console.log("⏳ Setting loading to true from handleDatesSet");
           setLoading?.(true);
         }, 300);
+      } else {
+        console.log("❌ Missing setStartDate or setEndDate functions");
       }
     },
     [setStartDate, setEndDate, setLoading]
@@ -335,11 +375,23 @@ export function FullCalendar({
 
   // Handle data request khi dates thay đổi
   useEffect(() => {
+    console.log("🔍 useEffect for data request triggered");
+    console.log("📊 Effect conditions:", {
+      hasOnRequest: !!onRequest,
+      hasRequestParams: !!requestParams,
+      loading,
+      startDate,
+      endDate
+    });
+
     // Only trigger data request if not loading and both startDate/endDate are valid (not null/undefined/empty)
-    if (onCalendarRequest && onCalendarRequestParams && loading) {
+    if (onRequest && requestParams && loading) {
+      console.log("✅ All conditions met, calling handleDataRequest");
       handleDataRequest();
+    } else {
+      console.log("❌ Conditions not met for data request");
     }
-  }, [handleDataRequest, onCalendarRequest, onCalendarRequestParams, loading]);
+  }, [handleDataRequest, onRequest, requestParams, loading, startDate, endDate]);
 
   // Return the component
   return (
