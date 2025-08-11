@@ -20,21 +20,6 @@ export function ClassesTable(props) {
     />
   );
 }
-export function ClassesSummaryTable({ startDate, endDate, ...props }) {
-  return (
-    <AntTable
-      {...props}
-      onRequest={(params, sort, filter) =>
-        fetchList(
-          "/api/classes/summary",
-          { start_date_e: startDate, end_date_e: endDate, ...params },
-          sort,
-          filter
-        )
-      }
-    />
-  );
-}
 
 export function ClassesInfo(props) {
   return (
@@ -107,6 +92,22 @@ export function ClassesTransferByCourse({ courseId, ...props }) {
         itemUnit: "học phần",
         notFoundContent: "Không tìm thấy học phần",
       }}
+    />
+  );
+}
+
+export function ClassesSummaryTable({ startDate, endDate, ...props }) {
+  return (
+    <AntTable
+      {...props}
+      onRequest={(params, sort, filter) =>
+        fetchList(
+          "/api/classes/summary",
+          { start_date_e: startDate, end_date_e: endDate, ...params },
+          sort,
+          filter
+        )
+      }
     />
   );
 }
