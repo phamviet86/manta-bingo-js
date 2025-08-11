@@ -1,5 +1,6 @@
 // path: @/components/feature/schedules-component.js
 
+import { Space, Card, Flex, Badge, Typography } from "antd";
 import { AntTable, AntInfo, AntForm, FullCalendar } from "@/components/ui";
 import {
   fetchList,
@@ -8,6 +9,8 @@ import {
   fetchPut,
   fetchDelete,
 } from "@/utils/fetch-util";
+import { formatTimeHHMM } from "@/utils/format-util";
+import { VIEWS_CONFIG, COLOR_ENUM } from "@/configs";
 
 export function SchedulesTable(props) {
   return (
@@ -56,10 +59,119 @@ export function SchedulesCalendar(props) {
       onRequest={(params) => fetchList("/api/schedules", params)}
       requestItem={{
         id: "id",
-        title: "id",
+        title: "course_name",
         startDate: "schedule_date",
+        startTime: "shift_start_time",
         endDate: "schedule_date",
+        endTime: "shift_end_time",
+        extendedProps: {
+          id: "id",
+          shift_start_time: "shift_start_time",
+          course_name: "course_name",
+          course_code: "course_code",
+          module_name: "module_name",
+          schedule_status_color: "schedule_status_color",
+        },
+      }}
+      views={{
+        dayGrid: {
+          eventContent: renderScheduleShort,
+          ...VIEWS_CONFIG.dayGrid,
+        },
+        dayGridWeek: {
+          eventContent: renderScheduleShort,
+          ...VIEWS_CONFIG.dayGridWeek,
+        },
+        dayGridMonth: {
+          eventContent: renderScheduleShort,
+          ...VIEWS_CONFIG.dayGridMonth,
+        },
       }}
     />
+  );
+}
+
+function renderScheduleShort(info) {
+  const { shift_start_time, course_code, module_name, schedule_status_color } =
+    info.event.extendedProps;
+  const { status, color } = COLOR_ENUM[schedule_status_color];
+
+  const styles = {
+    text: {
+      fontSize: "1em",
+    },
+    time: {
+      fontSize: "1em",
+      fontWeight: 700,
+    },
+  };
+
+  // return the information in a row in order time, class_name, module_name
+  return (
+    <Space size={4} wrap>
+      <Badge status={status ? status : color} />
+      <Typography.Text style={styles.time} strong>
+        {formatTimeHHMM(shift_start_time)}
+      </Typography.Text>
+      <Typography.Text style={styles.text}>{course_code}</Typography.Text>
+      <Typography.Text style={styles.text} type="secondary">
+        {module_name}
+      </Typography.Text>
+    </Space>
+  );
+}
+
+export function renderEventCard(info) {
+  const {
+    shift_start_time,
+    room_name,
+    class_name,
+    module_name,
+    lesson_name,
+    schedule_status_color,
+  } = info.event.extendedProps;
+
+  const { color, bgColor } = COLOR_ENUM[schedule_status_color];
+
+  const styles = {
+    title: {
+      fontSize: "0.8em",
+      fontWeight: 1000,
+      color: color,
+    },
+    text: {
+      fontSize: "0.8em",
+      color: color,
+    },
+    card: {
+      borderRadius: 2,
+      backgroundColor: bgColor,
+      borderColor: color,
+      border: `0.8px solid ${color}`,
+      width: "100%",
+    },
+  };
+  return (
+    <Card size="small" style={styles.card}>
+      <Space direction="vertical" size={0} wrap style={{ width: "100%" }}>
+        <Flex justify="space-between" wrap style={{ width: "100%" }}>
+          <Typography.Text style={styles.title}>
+            {formatTimeHHMM(shift_start_time)}
+          </Typography.Text>
+          <Typography.Text strong style={styles.text}>
+            {room_name}
+          </Typography.Text>
+        </Flex>
+        <Space wrap size={[4, 0]}>
+          <Typography.Text strong style={styles.text}>
+            {class_name}
+          </Typography.Text>
+          <Typography.Text style={styles.text}>{module_name}</Typography.Text>
+        </Space>
+        <Typography.Text italic style={styles.text}>
+          {lesson_name}
+        </Typography.Text>
+      </Space>
+    </Card>
   );
 }

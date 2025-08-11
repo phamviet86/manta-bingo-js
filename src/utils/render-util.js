@@ -2,7 +2,7 @@
 
 import { presetPrimaryColors } from "@ant-design/colors";
 import { Tag, Badge, Typography } from "antd";
-import { COLOR_ENUM } from "@/configs/enum-config";
+import { COLOR_ENUM } from "@/configs";
 
 export function renderTextArea(text) {
   return (

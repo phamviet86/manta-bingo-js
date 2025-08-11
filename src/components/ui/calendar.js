@@ -6,48 +6,13 @@ import Calendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { CALENDAR_CONFIG, RESPONSIVE_CONFIG } from "@/configs/calendar-config";
 import { DRAWER_CONFIG, MODAL_CONFIG } from "@/configs";
+import { formatEventTime, formatEventDate } from "@/utils/format-util";
 
 const { useBreakpoint } = Grid;
 
 function getBreakpoint(screens) {
   const breakpoints = ["xxl", "xl", "lg", "md", "sm", "xs"];
   return breakpoints.find((bp) => screens[bp]) || "xs";
-}
-
-// Calendar utility functions
-function formatEventDate(year, month, day = 1) {
-  const monthStr = String(month + 1).padStart(2, "0");
-  const dayStr = String(day).padStart(2, "0");
-  return `${year}-${monthStr}-${dayStr}T00:00:00`;
-}
-
-function formatEventTime(isoDateString, timeString) {
-  if (!isoDateString || !timeString) return null;
-
-  try {
-    // Parse hours and minutes from time string
-    const timeParts = timeString.split(":");
-    const hours = parseInt(timeParts[0], 10);
-    const minutes = parseInt(timeParts[1], 10);
-
-    // Create date from ISO string
-    const baseDate = new Date(isoDateString);
-
-    // Get date components
-    const year = baseDate.getFullYear();
-    const month = String(baseDate.getMonth() + 1).padStart(2, "0");
-    const day = String(baseDate.getDate()).padStart(2, "0");
-
-    // Format time components
-    const formattedHours = String(hours).padStart(2, "0");
-    const formattedMinutes = String(minutes).padStart(2, "0");
-
-    // Build result string
-    return `${year}-${month}-${day}T${formattedHours}:${formattedMinutes}:00`;
-  } catch (error) {
-    console.error("Error generating event time:", error);
-    return null;
-  }
 }
 
 function buildCalendarDateRange(dateInfo) {
