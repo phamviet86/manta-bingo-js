@@ -1,4 +1,4 @@
-// path: @/components/ui/calendar.js
+// path: @/component/common/calendar.js
 
 import { useEffect, useCallback, useState, useRef } from "react";
 import { message, Grid, Spin } from "antd";
@@ -8,47 +8,19 @@ import { CALENDAR_CONFIG, RESPONSIVE_CONFIG } from "@/configs/calendar-config";
 
 const { useBreakpoint } = Grid;
 
-// Calendar utility functions
-function formatLocalDate(year, month, day = 1) {
-  const monthStr = String(month + 1).padStart(2, "0");
-  const dayStr = String(day).padStart(2, "0");
-  return `${year}-${monthStr}-${dayStr}T00:00:00`;
-}
-
 function getBreakpoint(screens) {
   const breakpoints = ["xxl", "xl", "lg", "md", "sm", "xs"];
   return breakpoints.find((bp) => screens[bp]) || "xs";
 }
 
-function buildCalendarDateRange(dateInfo) {
-  const isMonthView = dateInfo.view?.type?.includes("Month");
-
-  if (isMonthView) {
-    // For month view, get the middle date of the view range to determine the current month
-    const viewStartTime = new Date(dateInfo.start).getTime();
-    const viewEndTime = new Date(dateInfo.end).getTime();
-    const middleDate = new Date(
-      viewStartTime + (viewEndTime - viewStartTime) / 2
-    );
-
-    // Get year and month from middle date
-    const year = middleDate.getFullYear();
-    const month = middleDate.getMonth();
-
-    return {
-      startDate: formatLocalDate(year, month),
-      endDate: formatLocalDate(year, month + 1),
-    };
-  } else {
-    // For non-month views, use the original date range
-    return {
-      startDate: dateInfo.startStr,
-      endDate: dateInfo.endStr,
-    };
-  }
+// Calendar utility functions
+function formatEventDate(year, month, day = 1) {
+  const monthStr = String(month + 1).padStart(2, "0");
+  const dayStr = String(day).padStart(2, "0");
+  return `${year}-${monthStr}-${dayStr}T00:00:00`;
 }
 
-function generateEventTime(isoDateString, timeString) {
+function formatEventTime(isoDateString, timeString) {
   if (!isoDateString || !timeString) return null;
 
   try {
@@ -77,6 +49,34 @@ function generateEventTime(isoDateString, timeString) {
   }
 }
 
+function buildCalendarDateRange(dateInfo) {
+  const isMonthView = dateInfo.view?.type?.includes("Month");
+
+  if (isMonthView) {
+    // For month view, get the middle date of the view range to determine the current month
+    const viewStartTime = new Date(dateInfo.start).getTime();
+    const viewEndTime = new Date(dateInfo.end).getTime();
+    const middleDate = new Date(
+      viewStartTime + (viewEndTime - viewStartTime) / 2
+    );
+
+    // Get year and month from middle date
+    const year = middleDate.getFullYear();
+    const month = middleDate.getMonth();
+
+    return {
+      startDate: formatEventDate(year, month),
+      endDate: formatEventDate(year, month + 1),
+    };
+  } else {
+    // For non-month views, use the original date range
+    return {
+      startDate: dateInfo.startStr,
+      endDate: dateInfo.endStr,
+    };
+  }
+}
+
 /**
  * Converts an array of data items to event format using property mapping configuration
  * @param {Array} data - Array of data objects to convert
@@ -91,7 +91,7 @@ function generateEventTime(isoDateString, timeString) {
  * @param {Object} [eventProps.extendedProps] - Object mapping extended property keys to source properties
  * @returns {Array} - Array of converted event items with required format {id, title, start, end?, extendedProps, ...customProps}
  */
-export function buildEventItems(data = [], eventProps = {}) {
+function buildEventItems(data = [], eventProps = {}) {
   if (!Array.isArray(data) || data.length === 0) return [];
 
   // Reserved property names that have special handling
@@ -128,7 +128,7 @@ export function buildEventItems(data = [], eventProps = {}) {
           ? sourceItem[eventProps.startTime]
           : "00:00:00";
 
-      const eventTime = generateEventTime(startDateValue, startTimeValue);
+      const eventTime = formatEventTime(startDateValue, startTimeValue);
       if (eventTime) {
         eventItem.start = eventTime;
       }
@@ -148,7 +148,7 @@ export function buildEventItems(data = [], eventProps = {}) {
           ? sourceItem[eventProps.endTime]
           : "23:59:59";
 
-      const eventTime = generateEventTime(endDateValue, endTimeValue);
+      const eventTime = formatEventTime(endDateValue, endTimeValue);
       if (eventTime) {
         eventItem.end = eventTime;
       }
@@ -217,101 +217,59 @@ export function FullCalendar({
   const screens = useBreakpoint();
   const allPlugins = [dayGridPlugin, ...plugins];
 
-  // State management: tách biệt raw data và processed events
+  // State management: only need processed events
   const [processedEvents, setProcessedEvents] = useState([]);
 
   // Refs for reload pattern và debouncing
   const reloadDataRef = useRef();
   const datesSetTimeoutRef = useRef();
 
-  // Debug logging for state changes
-  useEffect(() => {
-    console.log("🔄 Calendar state changed:", {
-      loading,
-      startDate,
-      endDate,
-      hasOnRequest: !!onRequest,
-      hasRequestParams: !!requestParams,
-      eventsCount: processedEvents.length
-    });
-  }, [loading, startDate, endDate, onRequest, requestParams, processedEvents.length]);
-
-  // Debug component mount
-  useEffect(() => {
-    console.log("🎯 Calendar component mounted/props changed:", {
-      onRequest: !!onRequest,
-      requestParams,
-      requestItem,
-      calendarHook: Object.keys(calendarHook)
-    });
-  }, [onRequest, requestParams, requestItem, calendarHook]);
-
-  // Handlers - merged data request and processing
+  // Handlers
   const handleDataRequest = useCallback(async () => {
-    console.log("🔄 handleDataRequest called");
-    console.log("📊 Request conditions:", {
-      hasOnRequest: !!onRequest,
-      startDate,
-      endDate,
-      requestParams,
-      loading
-    });
-
     if (!onRequest) {
-      console.log("❌ No onRequest handler provided");
       messageApi.error("Data request handler not provided");
       return;
     }
 
     if (!startDate || !endDate) {
-      console.log("❌ Missing dates:", { startDate, endDate });
       return;
     }
 
-    console.log("🚀 Starting request...");
     try {
       const result = await onRequest(requestParams);
       const resultData = result.data || result || [];
-      console.log("✅ Request successful:", { resultCount: resultData.length });
 
-      // Process data into events immediately
+      // Process events directly here instead of separate handler
       let finalEvents = [];
       if (requestItem) {
         finalEvents = buildEventItems(resultData, requestItem);
-        console.log("🔄 Events processed with requestItem:", { finalEventsCount: finalEvents.length });
       } else {
         finalEvents = resultData;
-        console.log("➡️ Using raw data as events:", { finalEventsCount: finalEvents.length });
       }
-      setProcessedEvents(finalEvents);
 
+      setProcessedEvents(finalEvents);
       onRequestSuccess?.(result);
-      console.log("🎉 Request completed successfully");
     } catch (error) {
-      console.log("💥 Request error:", error);
       messageApi.error(error?.message || "Đã xảy ra lỗi");
       onRequestError?.(error);
       setProcessedEvents([]);
     } finally {
-      console.log("🏁 Setting loading to false");
       setLoading(false);
     }
   }, [
     onRequest,
-    onRequestSuccess,
-    onRequestError,
     requestParams,
     requestItem,
+    onRequestSuccess,
+    onRequestError,
     messageApi,
     setLoading,
     startDate,
     endDate,
-    loading,
   ]);
 
   // Reload data pattern giống Transfer
   const reloadData = useCallback(async () => {
-    console.log("🔄 reloadData called, setting loading to true");
     setLoading?.(true);
     await handleDataRequest();
   }, [handleDataRequest, setLoading]);
@@ -322,27 +280,20 @@ export function FullCalendar({
   // Debounced handleDatesSet
   const handleDatesSet = useCallback(
     (dateInfo) => {
-      console.log("📅 handleDatesSet called:", dateInfo);
-      
       if (setStartDate && setEndDate) {
         // Clear previous timeout
         if (datesSetTimeoutRef.current) {
-          console.log("⏰ Clearing previous timeout");
           clearTimeout(datesSetTimeoutRef.current);
         }
 
         // Set new timeout with 300ms delay để debounce
         datesSetTimeoutRef.current = setTimeout(() => {
           const { startDate, endDate } = buildCalendarDateRange(dateInfo);
-          console.log("📅 Setting new dates:", { startDate, endDate });
 
           setStartDate(startDate);
           setEndDate(endDate);
-          console.log("⏳ Setting loading to true from handleDatesSet");
           setLoading?.(true);
         }, 300);
-      } else {
-        console.log("❌ Missing setStartDate or setEndDate functions");
       }
     },
     [setStartDate, setEndDate, setLoading]
@@ -375,23 +326,11 @@ export function FullCalendar({
 
   // Handle data request khi dates thay đổi
   useEffect(() => {
-    console.log("🔍 useEffect for data request triggered");
-    console.log("📊 Effect conditions:", {
-      hasOnRequest: !!onRequest,
-      hasRequestParams: !!requestParams,
-      loading,
-      startDate,
-      endDate
-    });
-
     // Only trigger data request if not loading and both startDate/endDate are valid (not null/undefined/empty)
-    if (onRequest && requestParams && loading) {
-      console.log("✅ All conditions met, calling handleDataRequest");
+    if (onRequest && loading) {
       handleDataRequest();
-    } else {
-      console.log("❌ Conditions not met for data request");
     }
-  }, [handleDataRequest, onRequest, requestParams, loading, startDate, endDate]);
+  }, [handleDataRequest, onRequest, loading, requestParams]);
 
   // Return the component
   return (
