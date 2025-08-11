@@ -96,17 +96,12 @@ export function ClassesTransferByCourse({ courseId, ...props }) {
   );
 }
 
-export function ClassesSummaryTable({ startDate, endDate, ...props }) {
+export function ClassesSummaryTable(props) {
   return (
     <AntTable
       {...props}
       onRequest={(params, sort, filter) =>
-        fetchList(
-          "/api/classes/summary",
-          { start_date_e: startDate, end_date_e: endDate, ...params },
-          sort,
-          filter
-        )
+        fetchList("/api/classes/summary", params, sort, filter)
       }
     />
   );

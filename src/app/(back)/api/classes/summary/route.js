@@ -1,19 +1,24 @@
-// path: @/app/(back)/api/classes/route.js
+// path: @/app/(back)/api/classes/summary/route.js
 
-import { getClassesByDate } from "@/services/classes-service";
+import { getClassesSummary } from "@/services/classes-service";
 import { buildApiResponse } from "@/utils/api-util";
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
 
-    // Lấy startDate và endDate từ searchParams; format: YYYY-MM-DD
+    // Lấy startDate và endDate từ searchParams
     const startDate =
       searchParams.get("start_date_e") || searchParams.get("start_date");
     const endDate =
       searchParams.get("end_date_e") || searchParams.get("end_date");
 
-    const result = await getClassesByDate(searchParams, startDate, endDate);
+    // Kiểm tra missing params
+    if (!startDate || !endDate) {
+      return buildApiResponse(400, false, "Thiếu thông tin bắt buộc");
+    }
+
+    const result = await getClassesSummary(searchParams, startDate, endDate);
     return buildApiResponse(200, true, "Lấy danh sách lớp học thành công", {
       data: result,
     });

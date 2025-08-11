@@ -158,6 +158,8 @@ function PageContent() {
             class_end_date_gte: useSchedules.calendar.startDate,
             class_end_date_null: true,
           },
+          start_date_e: useSchedules.calendar.startDate,
+          end_date_e: useSchedules.calendar.endDate,
         }}
         syncToUrl={false}
         startDate={useSchedules.calendar.startDate}

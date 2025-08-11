@@ -174,7 +174,7 @@ export async function deleteClassesByCourse(courseId, moduleIds) {
   }
 }
 
-export async function getClassesByDate(searchParams, startDate, endDate) {
+export async function getClassesSummary(searchParams, startDate, endDate) {
   try {
     const ignoredSearchColumns = ["start_date", "end_date"];
     const { whereClause, orderByClause, limitClause, queryValues } =
