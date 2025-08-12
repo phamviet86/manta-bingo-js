@@ -15,7 +15,7 @@ import {
   fetchPut,
   fetchDelete,
 } from "@/utils/fetch-util";
-import { formatTimeHHMM } from "@/utils/format-util";
+import { formatTimeHHMM, formatDateShort } from "@/utils/format-util";
 import { VIEWS_CONFIG, COLOR_ENUM } from "@/configs";
 
 export function SchedulesTable(props) {
@@ -195,11 +195,26 @@ export function SchedulesTransfer(props) {
       sourceItem={{ key: "id", disabled: "disable_duplicate" }}
       targetItem={{ key: "source_id" }}
       render={(record) => (
-        <Space>
-          <Typography.Text>{record?.course_name}</Typography.Text>
-          <Typography.Text type="secondary">
-            ({record?.module_name})
-          </Typography.Text>
+        <Space direction="vertical" size={0} style={{ width: "100%" }}>
+          <Space wrap>
+            <Typography.Text strong style={{ color: "#1677ff" }}>
+              {record?.course_name}
+            </Typography.Text>
+            <Typography.Text type="secondary">
+              - {record?.module_name}
+            </Typography.Text>
+          </Space>
+          <Space wrap>
+            <Typography.Text style={{ fontSize: "0.9em" }}>
+              {formatDateShort(record?.schedule_date)}
+            </Typography.Text>
+            <Typography.Text
+              strong
+              style={{ fontSize: "0.9em", color: "#52c41a" }}
+            >
+              {formatTimeHHMM(record?.shift_start_time)}
+            </Typography.Text>
+          </Space>
         </Space>
       )}
       titles={["Lịch", "Đã sao chép"]}

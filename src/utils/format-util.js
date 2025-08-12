@@ -61,33 +61,6 @@ export function formatEventTime(isoDateString, timeString) {
 }
 
 /**
- * Formats a time string to "HH:MM" format.
- *
- * If the input is falsy, returns "...".
- * If the input contains at least two colon-separated parts, returns the first two parts joined by a colon.
- * Otherwise, returns the original string.
- *
- * @param {string} timeString - The time string to format (e.g., "14:30:45", "09:15", "7").
- * @returns {string} The formatted time string in "HH:MM" format, or "..." if input is falsy.
- *
- * @example
- * formatTimeHHMM("14:30:45"); // "14:30"
- * formatTimeHHMM("09:15");    // "09:15"
- * formatTimeHHMM("7");        // "7"
- * formatTimeHHMM("");         // "..."
- * formatTimeHHMM(null);       // "..."
- * formatTimeHHMM("23:59:59"); // "23:59"
- */
-export function formatTimeHHMM(timeString) {
-  if (!timeString) return "...";
-  const timeParts = timeString.split(":");
-  if (timeParts.length >= 2) {
-    return `${timeParts[0]}:${timeParts[1]}`;
-  }
-  return timeString;
-}
-
-/**
  * Formats a given date input as an ISO date string (YYYY-MM-DD), optionally adding days.
  *
  * Handles input as a Date object, ISO/local date string, or Unix timestamp.
@@ -130,4 +103,94 @@ export function formatIsoDate(startDate, addDays = 0) {
 
   date.setDate(date.getDate() + addDays);
   return date.toISOString().split("T")[0];
+}
+
+/**
+ * Formats a time string to "HH:MM" format.
+ *
+ * If the input is falsy, returns "...".
+ * If the input contains at least two colon-separated parts, returns the first two parts joined by a colon.
+ * Otherwise, returns the original string.
+ *
+ * @param {string} timeString - The time string to format (e.g., "14:30:45", "09:15", "7").
+ * @returns {string} The formatted time string in "HH:MM" format, or "..." if input is falsy.
+ *
+ * @example
+ * formatTimeHHMM("14:30:45"); // "14:30"
+ * formatTimeHHMM("09:15");    // "09:15"
+ * formatTimeHHMM("7");        // "7"
+ * formatTimeHHMM("");         // "..."
+ * formatTimeHHMM(null);       // "..."
+ * formatTimeHHMM("23:59:59"); // "23:59"
+ */
+export function formatTimeHHMM(timeString) {
+  if (!timeString) return "...";
+  const timeParts = timeString.split(":");
+  if (timeParts.length >= 2) {
+    return `${timeParts[0]}:${timeParts[1]}`;
+  }
+  return timeString;
+}
+
+/**
+ * Formats a date to Vietnamese locale with weekday, day, month, and year.
+ *
+ * @param {string|Date} date - The date to format (can be a Date object or date string).
+ * @returns {string} The formatted date string in Vietnamese locale format.
+ *
+ * @example
+ * formatVietnameseDate("2024-06-15"); // Returns: "Thứ Bảy, 15/06/2024"
+ * formatVietnameseDate(new Date("2024-06-15")); // Returns: "Thứ Bảy, 15/06/2024"
+ */
+export function formatDateLong(date) {
+  if (!date) return "...";
+
+  try {
+    const dateObj = new Date(date);
+    if (isNaN(dateObj.getTime())) {
+      console.error("Invalid date:", date);
+      return "...";
+    }
+
+    return dateObj.toLocaleDateString("vi-VN", {
+      weekday: "long",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  } catch (error) {
+    console.error("Error formatting Vietnamese date:", error);
+    return "...";
+  }
+}
+
+/**
+ * Formats a date to Vietnamese locale in short format (weekday short, DD/MM/YY).
+ *
+ * @param {string|Date} date - The date to format (can be a Date object or date string).
+ * @returns {string} The formatted date string in Vietnamese locale short format.
+ *
+ * @example
+ * formatVietnameseDateShort("2024-06-15"); // Returns: "T7, 15/06/24"
+ * formatVietnameseDateShort(new Date("2024-06-15")); // Returns: "T7, 15/06/24"
+ */
+export function formatDateShort(date) {
+  if (!date) return "...";
+
+  try {
+    const dateObj = new Date(date);
+    if (isNaN(dateObj.getTime())) {
+      console.error("Invalid date:", date);
+      return "...";
+    }
+
+    return dateObj.toLocaleDateString("vi-VN", {
+      weekday: "long",
+      day: "2-digit",
+      month: "2-digit",
+    });
+  } catch (error) {
+    console.error("Error formatting Vietnamese date short:", error);
+    return "...";
+  }
 }
