@@ -21,6 +21,33 @@ function buildSearchParams(columns, value) {
   }
 }
 
+/**
+ * Transforms an array of data objects into transfer items with `key` and `disabled` properties
+ * based on the provided column mapping configuration.
+ *
+ * @param {Array<Object>} data - The array of data objects to transform.
+ * @param {Object} columnMapping - Configuration for mapping object properties.
+ * @param {string} [columnMapping.key] - The property name to use as the item's key.
+ * @param {string|Array} [columnMapping.disabled] - Determines how to set the `disabled` property:
+ *   - If a string, uses the property value as `disabled`.
+ *   - If an array: [fieldName, inArray, notInArray], disables based on field value presence in arrays.
+ *
+ * @returns {Array<Object>} Array of transformed items with `key` and `disabled` properties.
+ *
+ * @example
+ * // Example input:
+ * const data = [
+ *   { id: 1, name: 'A', isActive: true },
+ *   { id: 2, name: 'B', isActive: false }
+ * ];
+ * const columnMapping = { key: 'id', disabled: 'isActive' };
+ * buildTransferItems(data, columnMapping);
+ * // Returns:
+ * // [
+ * //   { id: 1, name: 'A', isActive: true, key: 1, disabled: true },
+ * //   { id: 2, name: 'B', isActive: false, key: 2, disabled: false }
+ * // ]
+ */
 function buildTransferItems(data = [], columnMapping = {}) {
   if (!Array.isArray(data) || data.length === 0) return [];
 

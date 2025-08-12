@@ -20,7 +20,14 @@ export async function getSchedules(searchParams) {
         module_name,
         syllabus_name,
         shift_start_time, shift_end_time,
-        option_color AS schedule_status_color
+        option_color AS schedule_status_color,
+        cv.class_end_date,
+        CASE 
+          WHEN cv.class_end_date IS NOT NULL 
+            AND cv.class_end_date - s.schedule_date > INTERVAL '7 days'
+          THEN false
+          ELSE true
+        END AS disable_duplicate
       FROM schedules s
       LEFT JOIN classes_view cv ON cv.id = s.class_id AND cv.deleted_at IS NULL
       LEFT JOIN courses c ON c.id = cv.course_id AND c.deleted_at IS NULL
