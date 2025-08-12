@@ -16,7 +16,7 @@ export async function getSchedules(searchParams) {
     const sqlValue = [...queryValues];
     const sqlText = `
       SELECT s.*, COUNT(*) OVER() AS total,
-        course_name,
+        course_name, course_code,
         module_name,
         syllabus_name,
         shift_start_time, shift_end_time,

@@ -72,3 +72,55 @@ export function compareTimes(startTime, endTime) {
 
   return startDateTime.getTime() <= endDateTime.getTime();
 }
+
+/**
+ * Check if a date falls within a date range
+ * @param {string|Date} checkDate - The date to check
+ * @param {string|Date} startDate - Start date of the range
+ * @param {string|Date|null} endDate - End date of the range (can be null for open-ended range)
+ * @returns {boolean} - true if the date is within the range, false otherwise
+ */
+export function compareDateRange(checkDate, startDate, endDate = null) {
+  if (!checkDate || !startDate) {
+    throw new Error("Check date and start date are required");
+  }
+
+  // Convert all dates to Date objects for comparison
+  let checkDateObj, startDateObj, endDateObj;
+
+  try {
+    checkDateObj =
+      typeof checkDate === "string" ? new Date(checkDate) : checkDate;
+    startDateObj =
+      typeof startDate === "string" ? new Date(startDate) : startDate;
+
+    if (endDate) {
+      endDateObj = typeof endDate === "string" ? new Date(endDate) : endDate;
+    }
+  } catch (error) {
+    throw new Error("Invalid date format");
+  }
+
+  // Check if dates are valid
+  if (isNaN(checkDateObj.getTime()) || isNaN(startDateObj.getTime())) {
+    throw new Error("Invalid date format");
+  }
+
+  if (endDate && isNaN(endDateObj.getTime())) {
+    throw new Error("Invalid end date format");
+  }
+
+  // Check if the date is after or equal to start date
+  const isAfterStart = checkDateObj.getTime() >= startDateObj.getTime();
+
+  // If no end date (null), only check if date is after start
+  if (!endDate) {
+    return isAfterStart;
+  }
+
+  // Check if the date is before or equal to end date
+  const isBeforeEnd = checkDateObj.getTime() <= endDateObj.getTime();
+
+  // Date must be within both bounds
+  return isAfterStart && isBeforeEnd;
+}
