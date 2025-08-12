@@ -135,3 +135,23 @@ export async function deleteSchedule(id) {
     throw new Error(error.message);
   }
 }
+
+// Duplicate multiple schedules by their IDs, incrementing schedule_date by specified days
+export async function duplicateSchedules(ids, days = 7) {
+  try {
+    const placeholders = ids.map((_, index) => `$${index + 2}`).join(", ");
+
+    const queryText = `
+      INSERT INTO schedules (source_id, class_id, shift_id, schedule_date, schedule_status_id)
+      SELECT id, class_id, shift_id, schedule_date + INTERVAL '${days} days', 31 
+      FROM schedules
+      WHERE id IN (${placeholders}) AND deleted_at IS NULL
+      RETURNING *;
+    `;
+    const queryValues = [days, ...ids];
+
+    return await sql.query(queryText, queryValues);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
