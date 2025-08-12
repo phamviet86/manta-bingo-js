@@ -1,7 +1,13 @@
 // path: @/components/feature/schedules-component.js
 
 import { Space, Card, Flex, Badge, Typography } from "antd";
-import { AntTable, AntInfo, AntForm, FullCalendar } from "@/components/ui";
+import {
+  AntTable,
+  AntInfo,
+  AntForm,
+  AntTransfer,
+  FullCalendar,
+} from "@/components/ui";
 import {
   fetchList,
   fetchGet,
@@ -121,7 +127,7 @@ function renderScheduleShort(info) {
   );
 }
 
-export function renderEventCard(info) {
+function renderEventCard(info) {
   const {
     shift_start_time,
     room_name,
@@ -173,5 +179,41 @@ export function renderEventCard(info) {
         </Typography.Text>
       </Space>
     </Card>
+  );
+}
+
+export function SchedulesTransfer(props) {
+  return (
+    <AntTransfer
+      {...props}
+      onSourceRequest={(params) => fetchList(`/api/schedules`, params)}
+      onTargetRequest={(params) => fetchList(`/api/schedules`, params)}
+      onAddItem={(keys) => fetchPost("/api/schedules/duplicate", { ids: keys })}
+      onRemoveItem={(keys) =>
+        fetchDelete(`/api/schedules/duplicate`, { sourceIds: keys })
+      }
+      sourceItem={{ key: "id" }}
+      targetItem={{ key: "source_id" }}
+      render={(record) => (
+        <Space>
+          <Typography.Text>{record?.course_name}</Typography.Text>
+          <Typography.Text type="secondary">
+            ({record?.module_name})
+          </Typography.Text>
+        </Space>
+      )}
+      titles={["Lịch", "Đã sao chép"]}
+      operations={["Sao chép", "Loại bỏ"]}
+      // search functionality
+      showSearch={true}
+      searchSourceColumns={["course_name_like", "module_name_like"]}
+      searchTargetColumns={["course_name_like", "module_name_like"]}
+      locale={{
+        searchPlaceholder: "Tìm kiếm...",
+        itemsUnit: "lịch",
+        itemUnit: "lịch",
+        notFoundContent: "Không tìm thấy lịch",
+      }}
+    />
   );
 }

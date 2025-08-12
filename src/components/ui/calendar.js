@@ -175,6 +175,13 @@ export function FullCalendar({
   },
   title = undefined,
 
+  // Calendar event config
+  weekNumbers = true,
+  navLinks = true,
+  onDayClick = undefined,
+  onWeekClick = undefined,
+  onEventClick = undefined,
+
   // Modal/Drawer specific props
   calendarHook = {},
   modalProps = {},
@@ -354,8 +361,11 @@ export function FullCalendar({
     height,
     datesSet: handleDatesSet,
     events: processedEvents,
-    weekNumbers: true,
-    navLinks: true,
+    eventClick: onEventClick,
+    weekNumbers: weekNumbers,
+    navLinks: navLinks,
+    navLinkDayClick: onDayClick,
+    navLinkWeekClick: onWeekClick,
   };
 
   // ========== Render Logic ==========

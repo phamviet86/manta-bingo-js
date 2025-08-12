@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { ProCard } from "@ant-design/pro-components";
 import { Space } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -10,12 +11,14 @@ import {
   schedulesSchema,
   schedulesMapping,
   SchedulesCalendar,
+  SchedulesTransfer,
   ClassesSummaryTable,
   classesSchema,
   classesMapping,
 } from "@/components/feature";
-import { useTable, useForm, useCalendar } from "@/hooks";
+import { useTable, useForm, useCalendar, useTransfer } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
+import { formatIsoDate } from "@/utils/format-util";
 
 export default function Page(props) {
   return (
@@ -34,8 +37,10 @@ function PageContent() {
     create: useForm(),
     edit: useForm(),
     calendar: useCalendar(),
+    transfer: useTransfer(),
     fields: schedulesSchema({ scheduleStatus }, schedulesMapping.fields),
   };
+  const [transferWeek, setTransferWeek] = useState(null);
 
   // classes Hooks
   const useClasses = {
@@ -54,6 +59,7 @@ function PageContent() {
       class_id: id,
       course_name: course_name,
       module_name: module_name,
+      schedule_status_id: 31, // pending
     });
     useSchedules.create.open();
   };
@@ -70,6 +76,16 @@ function PageContent() {
     useSchedules.edit.setRequestParams({ id });
     useSchedules.edit.setDeleteParams({ id });
     useSchedules.edit.open();
+  };
+
+  // Open schedules transfer
+  const openSchedulesTransfer = (date) => {
+    setTransferWeek({
+      date1: formatIsoDate(date, 0),
+      date2: formatIsoDate(date, 7),
+      date3: formatIsoDate(date, 14),
+    });
+    useSchedules.transfer.open();
   };
 
   // Page action buttons
@@ -92,7 +108,8 @@ function PageContent() {
           schedule_date_gte: useSchedules.calendar.startDate,
           schedule_date_lte: useSchedules.calendar.endDate,
         }}
-        eventClick={(info) => openSchedulesEdit(info.event)}
+        onEventClick={(info) => openSchedulesEdit(info.event)}
+        onWeekClick={(date) => openSchedulesTransfer(date)}
       />
       <SchedulesCreate
         formHook={useSchedules.create}
@@ -111,6 +128,20 @@ function PageContent() {
         onDeleteSuccess={reloadData}
         title="Chỉnh sửa lịch học"
         variant="drawer"
+      />
+      <SchedulesTransfer
+        transferHook={useSchedules.transfer}
+        sourceParams={{
+          schedule_date_gte: transferWeek?.date1,
+          schedule_date_lte: transferWeek?.date2,
+        }}
+        targetParams={{
+          schedule_date_gte: transferWeek?.date2,
+          schedule_date_lte: transferWeek?.date3,
+        }}
+        variant="modal"
+        title="Sao chép lịch"
+        afterClose={reloadData}
       />
     </ProCard>
   );
