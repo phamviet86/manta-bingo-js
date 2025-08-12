@@ -155,3 +155,23 @@ export async function duplicateSchedules(ids, days = 7) {
     throw new Error(error.message);
   }
 }
+
+// Soft-delete multiple schedules by their source IDs
+export async function deleteSchedulesBySource(ids) {
+  try {
+    const placeholders = ids.map((_, index) => `$${index + 1}`).join(", ");
+
+    const queryText = `
+      UPDATE schedules
+      SET deleted_at = NOW()
+      WHERE deleted_at IS NULL 
+        AND source_id IN (${placeholders})
+      RETURNING *;
+    `;
+    const queryValues = ids;
+
+    return await sql.query(queryText, queryValues);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
