@@ -193,7 +193,12 @@ export function SchedulesTransfer(props) {
         fetchDelete(`/api/schedules/duplicate`, { sourceIds: keys })
       }
       sourceItem={{ key: "id", disabled: "disable_duplicate" }}
-      targetItem={{ key: "source_id" }}
+      targetItem={{
+        key: "source_id",
+        disabled: ["schedule_status_id", [], [31]],
+      }}
+      titles={["Lịch", "Đã sao chép"]}
+      operations={["Sao chép", "Loại bỏ"]}
       render={(record) => (
         <Space direction="vertical" size={0} style={{ width: "100%" }}>
           <Space wrap>
@@ -217,8 +222,6 @@ export function SchedulesTransfer(props) {
           </Space>
         </Space>
       )}
-      titles={["Lịch", "Đã sao chép"]}
-      operations={["Sao chép", "Loại bỏ"]}
       // search functionality
       showSearch={true}
       searchSourceColumns={["course_name_like", "module_name_like"]}
