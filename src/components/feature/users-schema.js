@@ -74,6 +74,13 @@ export function usersSchema(params = {}, columnMapping = []) {
       ...buildSchemaProps({ autoSize: { minRows: 3, maxRows: 9 } }),
     },
     {
+      key: "role_names",
+      dataIndex: "role_names",
+      title: "Phân quyền",
+      valueType: "textarea",
+      ...buildSchemaProps({ autoSize: { minRows: 3, maxRows: 9 } }),
+    },
+    {
       key: "displayAvatar",
       width: 68,
       align: "center",
@@ -132,5 +139,6 @@ export const usersMapping = {
     { key: "user_phone", hideInTable: true },
     { key: "user_parent_phone", hideInTable: true },
     { key: "user_notes", responsive: ["xl"] },
+    { key: "role_names", responsive: ["xl"] },
   ],
 };
