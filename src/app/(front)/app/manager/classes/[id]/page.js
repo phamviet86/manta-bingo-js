@@ -120,7 +120,6 @@ function PageContent({ params }) {
 
   const [typeId, setTypeId] = useState();
   const [paymentTypeId, setPaymentTypeId] = useState();
-  const [paymentAmount, setPaymentAmount] = useState();
 
   // Open info modal
   const openEnrollmentsInfo = (enrollmentRecord) => {
@@ -141,8 +140,6 @@ function PageContent({ params }) {
   const openTeacherTransfer = () => {
     setTypeId(26);
     setPaymentTypeId(30);
-    setPaymentAmount(0);
-
     useEnrollments.transfer.open();
   };
 
@@ -150,8 +147,6 @@ function PageContent({ params }) {
   const openAssistantTransfer = () => {
     setTypeId(27);
     setPaymentTypeId(30);
-    setPaymentAmount(0);
-
     useEnrollments.transfer.open();
   };
 
@@ -159,8 +154,6 @@ function PageContent({ params }) {
   const openStudentTransfer = () => {
     setTypeId(28);
     setPaymentTypeId(30);
-    setPaymentAmount(useClasses.info?.dataSource?.class_fee || 0);
-
     useEnrollments.transfer.open();
   };
 
@@ -170,7 +163,6 @@ function PageContent({ params }) {
 
     setTypeId(undefined);
     setPaymentTypeId(undefined);
-    setPaymentAmount(undefined);
 
     useEnrollments.transfer.close();
   };
@@ -275,7 +267,6 @@ function PageContent({ params }) {
         classId={classId}
         enrollmentTypeId={typeId}
         enrollmentPaymentTypeId={paymentTypeId}
-        enrollmentPaymentAmount={paymentAmount}
         variant="modal"
         title="Xếp lớp"
         afterClose={closeTransferModal}

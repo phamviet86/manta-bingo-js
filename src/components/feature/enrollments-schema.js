@@ -138,12 +138,17 @@ export function enrollmentsSchema(params = {}, columnMapping = []) {
           <Space direction="vertical" size={0}>
             <Space wrap>
               <Typography.Text strong>{record?.course_name}</Typography.Text>
-              <Typography.Text>{record?.module_name}</Typography.Text>
+              <Typography.Text type="secondary">
+                {record?.module_name}
+              </Typography.Text>
             </Space>
 
-            <Typography.Text type="secondary">
-              {record?.syllabus_name}
-            </Typography.Text>
+            {renderEnum(
+              enrollmentType?.valueEnum,
+              record?.enrollment_type_id,
+              "",
+              "tag"
+            )}
           </Space>
         );
       },
@@ -210,6 +215,17 @@ export const enrollmentsMapping = {
   ],
   classEnrollmentsColumns: [
     { key: "displayUser" },
+    { key: "user_name", hideInTable: true },
+    { key: "enrollment_type_id", hideInTable: true },
+    { key: "enrollment_status_id", responsive: ["md"] },
+    { key: "enrollment_start_date", search: false, responsive: ["lg"] },
+    { key: "enrollment_end_date", search: false, responsive: ["lg"] },
+    { key: "enrollment_payment_type_id", responsive: ["xl"] },
+    { key: "enrollment_payment_amount", search: false, responsive: ["xl"] },
+    { key: "enrollment_desc", search: false, responsive: ["lg"] },
+  ],
+  userEnrollmentsColumns: [
+    { key: "displayClass" },
     { key: "user_name", hideInTable: true },
     { key: "enrollment_type_id", hideInTable: true },
     { key: "enrollment_status_id", responsive: ["md"] },

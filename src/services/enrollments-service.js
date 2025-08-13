@@ -205,21 +205,20 @@ export async function deleteEnrollmentsByClass(
 // Create multiple enrollments by user ID and class IDs
 export async function createEnrollmentsByUser(
   userId,
-  classIds,
+  classesData,
   enrollmentTypeId,
-  enrollmentPaymentTypeId,
-  enrollmentPaymentAmount
+  enrollmentPaymentTypeId
 ) {
   try {
     const queryValues = [];
-    const valuePlaceholders = classIds
-      .map((classId, index) => {
+    const valuePlaceholders = classesData
+      .map((classData, index) => {
         queryValues.push(
           userId,
-          classId,
+          classData.id,
           enrollmentTypeId,
           enrollmentPaymentTypeId,
-          enrollmentPaymentAmount
+          classData.class_fee
         );
         return `($${index * 5 + 1}, $${index * 5 + 2}, $${index * 5 + 3}, $${
           index * 5 + 4

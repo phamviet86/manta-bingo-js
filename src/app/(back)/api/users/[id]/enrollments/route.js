@@ -4,6 +4,7 @@ import {
   createEnrollmentsByUser,
   deleteEnrollmentsByUser,
 } from "@/services/enrollments-service";
+import { getClassesFees } from "@/services/classes-service";
 import { buildApiResponse } from "@/utils/api-util";
 
 // Tạo nhiều đăng ký cho người dùng theo danh sách classIds
@@ -18,7 +19,6 @@ export async function POST(request, context) {
       classIds,
       enrollmentTypeId,
       enrollmentPaymentTypeId = 30,
-      enrollmentPaymentAmount = 0,
     } = await request.json();
 
     // Validate required fields
@@ -30,12 +30,24 @@ export async function POST(request, context) {
       return buildApiResponse(400, false, "Thiếu thông tin bắt buộc");
     }
 
+    // Get class data with fees based on enrollmentTypeId
+    let classesData;
+    if (enrollmentTypeId === 28) {
+      // If enrollmentTypeId = 28, get actual class fees
+      classesData = await getClassesFees(classIds);
+    } else {
+      // If not enrollmentTypeId = 28, set class_fee = 0 for all classes
+      classesData = classIds.map((id) => ({
+        id,
+        class_fee: 0,
+      }));
+    }
+
     const result = await createEnrollmentsByUser(
       userId,
-      classIds,
+      classesData,
       enrollmentTypeId,
-      enrollmentPaymentTypeId,
-      enrollmentPaymentAmount
+      enrollmentPaymentTypeId
     );
 
     if (!result || !result.length)

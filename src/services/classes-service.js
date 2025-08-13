@@ -218,3 +218,37 @@ export async function getClassesSummary(searchParams, startDate, endDate) {
     throw new Error(error.message);
   }
 }
+
+export async function getClassFee(id) {
+  try {
+    return await sql`
+      SELECT id, class_fee
+      FROM classes
+      WHERE deleted_at IS NULL
+        AND id = ${id};
+    `;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function getClassesFees(classIds) {
+  try {
+    if (!classIds || classIds.length === 0) {
+      return [];
+    }
+
+    const placeholders = classIds.map((_, index) => `$${index + 1}`).join(", ");
+
+    const queryText = `
+      SELECT id, class_fee
+      FROM classes
+      WHERE deleted_at IS NULL
+        AND id IN (${placeholders});
+    `;
+
+    return await sql.query(queryText, classIds);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

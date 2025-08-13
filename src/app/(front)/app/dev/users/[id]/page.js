@@ -1,6 +1,8 @@
 "use client";
 
 import { use, useState } from "react";
+import { EditOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { Space, Typography } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import {
   AntPage,
@@ -14,8 +16,14 @@ import {
   usersSchema,
   usersMapping,
   UsersResetPassword,
+  EnrollmentsTable,
+  EnrollmentsInfo,
+  EnrollmentsEdit,
+  enrollmentsSchema,
+  enrollmentsMapping,
+  EnrollmentsTransferByUser,
 } from "@/components/feature";
-import { useInfo, useForm, useNavigate } from "@/hooks";
+import { useInfo, useForm, useNavigate, useTable, useTransfer } from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
 
 export default function Page(props) {
@@ -28,7 +36,12 @@ export default function Page(props) {
 
 function PageContent({ params }) {
   // Context
-  const { userStatus } = usePageContext();
+  const {
+    userStatus,
+    enrollmentType,
+    enrollmentStatus,
+    enrollmentPaymentType,
+  } = usePageContext();
   const { navBack } = useNavigate();
   const { id: userId } = use(params);
 
@@ -115,6 +128,155 @@ function PageContent({ params }) {
   // Page title
   const pageTitle = useUsers.info?.dataSource?.user_name || "Chi tiết";
 
+  // ENROLLMENTS TAB
+  // Hooks
+  const useEnrollments = {
+    table: useTable(),
+    info: useInfo(),
+    edit: useForm(),
+    columns: enrollmentsSchema(
+      {
+        enrollmentType,
+        enrollmentStatus,
+        enrollmentPaymentType,
+      },
+      enrollmentsMapping.userEnrollmentsColumns
+    ),
+    fields: enrollmentsSchema(
+      {
+        enrollmentType,
+        enrollmentStatus,
+        enrollmentPaymentType,
+      },
+      enrollmentsMapping.fields
+    ),
+    transfer: useTransfer(),
+  };
+
+  const [typeId, setTypeId] = useState();
+  const [paymentTypeId, setPaymentTypeId] = useState();
+
+  // Open info modal
+  const openEnrollmentsInfo = (enrollmentRecord) => {
+    const { id } = enrollmentRecord || {};
+    useEnrollments.info.setRequestParams({ id });
+    useEnrollments.info.open();
+  };
+
+  // Open edit form
+  const openEnrollmentsEdit = (enrollmentRecord) => {
+    const { id } = enrollmentRecord || {};
+    useEnrollments.edit.setRequestParams({ id });
+    useEnrollments.edit.setDeleteParams({ id });
+    useEnrollments.edit.open();
+  };
+
+  // enrollments tab buttons
+  const enrollmentsButton = (
+    <Space>
+      <AntButton
+        key="reload-button"
+        label="Tải lại"
+        color="default"
+        variant="outlined"
+        onClick={() => useEnrollments.table.reload()}
+      />
+      <AntButton
+        key="add-student"
+        label="Xếp lớp"
+        color="primary"
+        variant="solid"
+        onClick={() => useEnrollments.transfer.open()}
+      />
+    </Space>
+  );
+
+  // enrollments tab content
+  const enrollmentsContent = (
+    <ProCard boxShadow bordered title="Danh sách" extra={enrollmentsButton}>
+      <EnrollmentsTable
+        tableHook={useEnrollments.table}
+        columns={useEnrollments.columns}
+        leftColumns={[
+          {
+            width: 68,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<InfoCircleOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => openEnrollmentsInfo(record)}
+              />
+            ),
+          },
+        ]}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<EditOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => openEnrollmentsEdit(record)}
+              />
+            ),
+          },
+        ]}
+        requestParams={{ user_id: userId }}
+        syncToUrl={false}
+      />
+      <EnrollmentsInfo
+        infoHook={useEnrollments.info}
+        columns={useEnrollments.columns}
+        requestParams={useEnrollments.info.requestParams}
+        title="Thông tin đăng ký"
+        variant="modal"
+        column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
+        size="small"
+      />
+      <EnrollmentsEdit
+        formHook={useEnrollments.edit}
+        fields={useEnrollments.fields}
+        requestParams={useEnrollments.edit.requestParams}
+        deleteParams={useEnrollments.edit.deleteParams}
+        onSubmitSuccess={() => useEnrollments.table.reload()}
+        onDeleteSuccess={() => useEnrollments.table.reload()}
+        title="Sửa đăng ký"
+        variant="drawer"
+      />
+      <EnrollmentsTransferByUser
+        transferHook={useEnrollments.transfer}
+        userId={userId}
+        enrollmentTypeId={28}
+        enrollmentPaymentTypeId={30}
+        variant="modal"
+        title="Xếp lớp"
+        afterClose={() => useEnrollments.table.reload()}
+      />
+    </ProCard>
+  );
+
+  // const disabled content
+  const disabledContent = (
+    <ProCard boxShadow bordered>
+      <Typography.Text type="secondary">
+        Nội dung bị vô hiệu hóa
+      </Typography.Text>
+    </ProCard>
+  );
+
+  // enrollments tab configuration
+  const enrollmentsTab = {
+    key: "enrollments",
+    label: "Xếp lớp",
+    children: disableUserEdit ? disabledContent : enrollmentsContent,
+  };
+
   // Render
   return (
     <AntPage
@@ -126,6 +288,7 @@ function PageContent({ params }) {
       title={pageTitle}
       extra={pageButton}
       content={pageContent}
+      tabList={[enrollmentsTab]}
     />
   );
 }

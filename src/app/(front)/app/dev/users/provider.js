@@ -13,7 +13,33 @@ export function PageProvider({ children }) {
     { option_table: "users", option_column: "user_status_id" }
   );
 
-  const contextValue = useMemo(() => ({ userStatus }), [userStatus]);
+  const enrollmentType = buildSelection(
+    optionsData,
+    { value: "id", label: "option_label", color: "option_color" },
+    { option_table: "enrollments", option_column: "enrollment_type_id" }
+  );
+
+  const enrollmentPaymentType = buildSelection(
+    optionsData,
+    { value: "id", label: "option_label", color: "option_color" },
+    { option_table: "enrollments", option_column: "enrollment_payment_type_id" }
+  );
+
+  const enrollmentStatus = buildSelection(
+    optionsData,
+    { value: "id", label: "option_label", color: "option_color" },
+    { option_table: "enrollments", option_column: "enrollment_status_id" }
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      userStatus,
+      enrollmentType,
+      enrollmentStatus,
+      enrollmentPaymentType,
+    }),
+    [userStatus, enrollmentType, enrollmentStatus, enrollmentPaymentType]
+  );
 
   return (
     <PageContext.Provider value={contextValue}>{children}</PageContext.Provider>

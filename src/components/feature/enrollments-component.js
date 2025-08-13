@@ -54,7 +54,6 @@ export function EnrollmentsTransferByClass({
   classId,
   enrollmentTypeId,
   enrollmentPaymentTypeId,
-  enrollmentPaymentAmount = 0,
   ...props
 }) {
   return (
@@ -71,7 +70,6 @@ export function EnrollmentsTransferByClass({
           userIds: keys,
           enrollmentTypeId: enrollmentTypeId,
           enrollmentPaymentTypeId: enrollmentPaymentTypeId,
-          enrollmentPaymentAmount: enrollmentPaymentAmount,
         })
       }
       onRemoveItem={(keys) =>
@@ -117,7 +115,6 @@ export function EnrollmentsTransferByUser({
   userId,
   enrollmentTypeId,
   enrollmentPaymentTypeId,
-  enrollmentPaymentAmount = 0,
   ...props
 }) {
   return (
@@ -134,7 +131,6 @@ export function EnrollmentsTransferByUser({
           classIds: keys,
           enrollmentTypeId: enrollmentTypeId,
           enrollmentPaymentTypeId: enrollmentPaymentTypeId,
-          enrollmentPaymentAmount: enrollmentPaymentAmount,
         })
       }
       onRemoveItem={(keys) =>
@@ -171,9 +167,7 @@ function renderClass(record) {
   return (
     <Space wrap>
       <Typography.Text>{record?.course_name}</Typography.Text>
-      <Typography.Text type="secondary">
-        {record?.module_name}
-      </Typography.Text>
+      <Typography.Text type="secondary">{record?.module_name}</Typography.Text>
     </Space>
   );
 }
