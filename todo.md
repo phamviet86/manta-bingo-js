@@ -52,7 +52,10 @@
   - **users**:
     - [x] xem/tạo người dùng (học viên)
     - **id**:
-      - [ ] thêm học viên vào các lớp (bảng enrollments)
+      - [x] thêm học viên vào các lớp (bảng enrollments) - chỉ thêm học viên vào lớp
+      - [x] khoá edit đối với nhân viên
+      - [ ] thêm phần disable các lớp đã học xong (transfer source list)
+      - [ ] thêm phần disable các lớp đang học (transfer target list)
   - **classes**:
     - [ ] xem lớp học
     - **id**:
