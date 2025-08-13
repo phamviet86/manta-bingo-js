@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ProCard } from "@ant-design/pro-components";
 import { Space } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { PlusSquareOutlined } from "@ant-design/icons";
 import { AntPage, AntButton } from "@/components/ui";
 import {
   SchedulesCreate,
@@ -41,6 +41,7 @@ function PageContent() {
     fields: schedulesSchema({ scheduleStatus }, schedulesMapping.fields),
   };
   const [transferWeek, setTransferWeek] = useState(null);
+  const [classIds, setClassIds] = useState([]);
 
   // classes Hooks
   const useClasses = {
@@ -88,6 +89,14 @@ function PageContent() {
     useSchedules.transfer.open();
   };
 
+  // filter the classes
+  const filterClasses = {
+    type: "checkbox",
+    onChange: (checkedValues) => {
+      setClassIds(checkedValues);
+    },
+  };
+
   // Page action buttons
   const pageButton = [
     <AntButton
@@ -107,6 +116,7 @@ function PageContent() {
         requestParams={{
           schedule_date_gte: useSchedules.calendar.startDate,
           schedule_date_lte: useSchedules.calendar.endDate,
+          class_id_in: classIds.length > 0 ? classIds : undefined,
         }}
         onEventClick={(info) => openSchedulesEdit(info.event)}
         onWeekClick={(date) => openSchedulesTransfer(date)}
@@ -174,14 +184,14 @@ function PageContent() {
       <ClassesSummaryTable
         tableHook={useClasses.table}
         columns={useClasses.columns}
-        leftColumns={[
+        rightColumns={[
           {
             width: 56,
             align: "center",
             search: false,
             render: (_, record) => (
               <AntButton
-                icon={<PlusCircleOutlined />}
+                icon={<PlusSquareOutlined />}
                 color="primary"
                 variant="link"
                 onClick={() => openSchedulesCreate(record)}
@@ -201,6 +211,7 @@ function PageContent() {
         syncToUrl={false}
         startDate={useSchedules.calendar.startDate}
         endDate={useSchedules.calendar.endDate}
+        rowSelection={filterClasses}
       />
     </ProCard>
   );

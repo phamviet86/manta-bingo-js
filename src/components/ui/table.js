@@ -16,9 +16,6 @@ export function AntTable({
   requestParams = undefined,
 
   // Row selection props
-  onRowsSelect = undefined,
-  onRowsSelectError = undefined,
-  selectType = "checkbox",
 
   // Column configuration
   columns = [],
@@ -73,32 +70,9 @@ export function AntTable({
     [onRequest, onRequestSuccess, onRequestError, messageApi]
   );
 
-  // Row selection handler with error handling
-  const handleRowsSelect = useCallback(
-    (_, selectedRowsData) => {
-      if (!onRowsSelect) return true;
-
-      try {
-        onRowsSelect(selectedRowsData);
-        return true;
-      } catch (error) {
-        const errorMessage = error?.message || "An error occurred";
-        messageApi.error(errorMessage);
-        onRowsSelectError?.(error);
-        return false;
-      }
-    },
-    [onRowsSelect, onRowsSelectError, messageApi]
-  );
-
   // ========== Configuration Setup ==========
   // Column configuration
   const allColumns = [...leftColumns, ...columns, ...rightColumns];
-
-  // Row selection configuration
-  const rowSelectionConfig = onRowsSelect
-    ? { type: selectType, onChange: handleRowsSelect }
-    : undefined;
 
   // Feature configurations
   const searchConfig = showSearch ? TABLE_CONFIG.search : false;
@@ -117,7 +91,6 @@ export function AntTable({
     params: requestParams,
     headerTitle: title,
     toolBarRender: extra ? () => extra : undefined,
-    rowSelection: rowSelectionConfig,
     form: formConfig,
     search: searchConfig,
     pagination: paginationConfig,
