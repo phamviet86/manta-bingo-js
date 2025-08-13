@@ -7,46 +7,46 @@
   - **options**:
     - [x] quản lý tuỳ chọn
   - **permissions**:
-    - [ ] quản lý quyền
+    - [x] quản lý quyền
   - **roles**:
-    - [ ] xem/tạo vai trò
+    - [x] xem/tạo vai trò
     - **id**:
-      - [ ] sửa/xoá vai trò
-      - [ ] thêm quyền (bảng role-permissions)
+      - [x] sửa/xoá vai trò
+      - [x] thêm quyền (bảng role-permissions)
 
 - **setup**
 
   - **rooms**:
-    - [ ] quản lý phòng học
+    - [x] quản lý phòng học
   - **shifts**:
-    - [ ] quản lý giờ học
+    - [x] quản lý giờ học
 
 - **manager**
 
   - **users**:
-    - [ ] xem/tạo người dùng
+    - [x] xem/tạo người dùng
     - **id**:
-      - [ ] sửa/xoá/reset mật khẩu người dùng
-      - [ ] thêm vai trò (bảng user-roles)
+      - [x] sửa/xoá/reset mật khẩu người dùng
+      - [x] thêm vai trò (bảng user-roles)
   - **syllabuses**:
-    - [ ] xem/tạo giáo trình
+    - [x] xem/tạo giáo trình
     - **id**:
-      - [ ] sửa/xoá giáo trình
-      - [ ] quản lý học phần
-      - [ ] quản lý bài giảng
+      - [x] sửa/xoá giáo trình
+      - [x] quản lý học phần
+      - [x] quản lý bài giảng
   - **courses**:
-    - [ ] xem/tạo khoá học
+    - [x] xem/tạo khoá học
     - **id**:
-      - [ ] sửa/xoá khoá học
-      - [ ] quản lý lớp học
+      - [x] sửa/xoá khoá học
+      - [x] quản lý lớp học: tạo lớp, học phí, ngày bắt đầu
   - **classes**:
-    - [ ] xem lớp học
+    - [x] xem lớp học
     - **id**:
-      - [ ] sửa/xoá lớp học
-      - [ ] quản lý giáo viên, trợ giảng, học viên (bảng enrollments)
+      - [x] sửa/xoá lớp học
+      - [x] quản lý giáo viên, trợ giảng, học viên (bảng enrollments)
   - **schedules**:
-    - [ ] quản lý lịch học
-    - [ ] sao chép lịch học
+    - [x] quản lý lịch học
+    - [x] sao chép lịch học
 
 - **admin**
   - **users**:
