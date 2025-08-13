@@ -28,7 +28,7 @@ export function usersSchema(params = {}, columnMapping = []) {
       dataIndex: "user_desc",
       title: "Mô tả",
       valueType: "text",
-      ...buildSchemaProps({ rules: [{ required: true }] }),
+      ...buildSchemaProps({}),
     },
     {
       key: "user_status_id",

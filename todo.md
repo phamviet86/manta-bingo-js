@@ -50,7 +50,7 @@
 
 - **admin**
   - **users**:
-    - [ ] xem/tạo người dùng (học viên)
+    - [x] xem/tạo người dùng (học viên)
     - **id**:
       - [ ] thêm học viên vào các lớp (bảng enrollments)
   - **classes**:
