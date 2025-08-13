@@ -59,7 +59,6 @@ export function UsersEdit(props) {
 export function UsersResetPassword({ userId, ...props }) {
   return (
     <AntConfirm
-      {...props}
       onConfirm={() => fetchPut(`/api/users/${userId}/reset-password`)}
       showConfirmMessage={true}
       title="Đặt lại mật khẩu"
@@ -69,6 +68,7 @@ export function UsersResetPassword({ userId, ...props }) {
       cancelText="Không"
     >
       <AntButton
+        {...props}
         label="Đặt lại mật khẩu"
         icon={<KeyOutlined />}
         color="default"

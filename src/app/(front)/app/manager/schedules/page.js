@@ -226,7 +226,7 @@ function PageContent() {
   // Render
   return (
     <AntPage
-      items={[{ title: "Development" }, { title: "Lịch học" }]}
+      items={[{ title: "Quản lý" }, { title: "Lịch học" }]}
       title="Lịch học"
       extra={pageButton}
       content={pageContent}

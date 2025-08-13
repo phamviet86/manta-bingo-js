@@ -1,6 +1,7 @@
 // path: @/components/feature/users-schema.js
 
-import { Space, Typography } from "antd";
+import { Space, Typography, Tooltip } from "antd";
+import { IdcardTwoTone } from "@ant-design/icons";
 import { DiceBeerAvatar, SubLink } from "@/components/ui";
 import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
@@ -103,7 +104,14 @@ export function usersSchema(params = {}, columnMapping = []) {
       title: "Người dùng",
       render: (_, record) => (
         <Space direction="vertical" size={0}>
-          <Typography.Text strong>{record?.user_name}</Typography.Text>
+          <Space>
+            {record.role_names ? (
+              <Tooltip title="Nhân viên" color="blue">
+                <IdcardTwoTone />
+              </Tooltip>
+            ) : null}
+            <Typography.Text strong>{record?.user_name}</Typography.Text>
+          </Space>
           <Typography.Text type="secondary">
             {record?.user_desc}
           </Typography.Text>
@@ -138,7 +146,19 @@ export const usersMapping = {
     { key: "user_email", responsive: ["md"] },
     { key: "user_phone", hideInTable: true },
     { key: "user_parent_phone", hideInTable: true },
-    { key: "user_notes", responsive: ["xl"] },
     { key: "role_names", responsive: ["xl"] },
+    { key: "user_notes", responsive: ["xl"] },
+  ],
+  adminColumns: [
+    { key: "displayAvatar" },
+    { key: "displayUser" },
+    { key: "user_name", hideInTable: true },
+    { key: "user_desc", hideInTable: true },
+    { key: "user_status_id", responsive: ["sm"] },
+    { key: "user_email", responsive: ["md"] },
+    { key: "user_phone", responsive: ["lg"] },
+    { key: "user_parent_phone", responsive: ["lg"] },
+    { key: "role_names", hideInTable: true, search: false },
+    { key: "user_notes", hideInTable: true },
   ],
 };

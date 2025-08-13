@@ -32,7 +32,7 @@ export function AntForm({
   fields = [],
   extra = [],
   title = undefined,
-  showDeleteBtn = true,
+  showDelete = true,
 
   // Form reference hook
   formHook = {},
@@ -140,7 +140,7 @@ export function AntForm({
       wrap
     >
       {/* Left: delete */}
-      {showDeleteBtn && onDelete ? (
+      {showDelete && onDelete ? (
         <Popconfirm
           key="delete-button"
           title="Xác nhận xóa?"
