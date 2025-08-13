@@ -199,29 +199,8 @@ export function SchedulesTransfer(props) {
       }}
       titles={["Lịch", "Đã sao chép"]}
       operations={["Sao chép", "Loại bỏ"]}
-      render={(record) => (
-        <Space direction="vertical" size={0} style={{ width: "100%" }}>
-          <Space wrap>
-            <Typography.Text strong style={{ color: "#1677ff" }}>
-              {record?.course_name}
-            </Typography.Text>
-            <Typography.Text type="secondary">
-              - {record?.module_name}
-            </Typography.Text>
-          </Space>
-          <Space wrap>
-            <Typography.Text style={{ fontSize: "0.9em" }}>
-              {formatDateShort(record?.schedule_date)}
-            </Typography.Text>
-            <Typography.Text
-              strong
-              style={{ fontSize: "0.9em", color: "#52c41a" }}
-            >
-              {formatTimeHHMM(record?.shift_start_time)}
-            </Typography.Text>
-          </Space>
-        </Space>
-      )}
+      // render schedule
+      render={renderSchedule}
       // search functionality
       showSearch={true}
       searchSourceColumns={["course_name_like", "module_name_like"]}
@@ -233,5 +212,28 @@ export function SchedulesTransfer(props) {
         notFoundContent: "Không tìm thấy lịch",
       }}
     />
+  );
+}
+
+function renderSchedule(record) {
+  return (
+    <Space direction="vertical" size={0} style={{ width: "100%" }}>
+      <Space wrap split="-">
+        <Typography.Text strong style={{ color: "#1677ff" }}>
+          {record?.course_name}
+        </Typography.Text>
+        <Typography.Text type="secondary">
+          {record?.module_name}
+        </Typography.Text>
+      </Space>
+      <Space wrap>
+        <Typography.Text style={{ fontSize: "0.9em" }}>
+          {formatDateShort(record?.schedule_date)}
+        </Typography.Text>
+        <Typography.Text strong style={{ fontSize: "0.9em", color: "#52c41a" }}>
+          {formatTimeHHMM(record?.shift_start_time)}
+        </Typography.Text>
+      </Space>
+    </Space>
   );
 }

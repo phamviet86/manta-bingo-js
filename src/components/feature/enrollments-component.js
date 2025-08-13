@@ -1,5 +1,6 @@
 // path: @/components/feature/enrollments-component.js
 
+import { Space, Typography } from "antd";
 import { AntTable, AntInfo, AntForm, AntTransfer } from "@/components/ui";
 import {
   fetchList,
@@ -85,8 +86,8 @@ export function EnrollmentsTransferByClass({
         key: "user_id",
         disabled: ["enrollment_status_id", [], [20, 23]],
       }}
-      // Render
-      render={(record) => record?.user_name}
+      // Render user
+      render={renderUser}
       // Search
       showSearch={true}
       searchSourceColumns={[
@@ -109,5 +110,79 @@ export function EnrollmentsTransferByClass({
       titles={["Người dùng", "Đã gán"]}
       operations={["Xếp vào lớp", "Gỡ khỏi lớp"]}
     />
+  );
+}
+
+export function EnrollmentsTransferByUser({
+  userId,
+  enrollmentTypeId,
+  enrollmentPaymentTypeId,
+  enrollmentPaymentAmount = 0,
+  ...props
+}) {
+  return (
+    <AntTransfer
+      {...props}
+      // Source: classes
+      onSourceRequest={(params) => fetchList(`/api/classes`, params)}
+      // Target: enrollments filtered by user
+      onTargetRequest={(params) => fetchList(`/api/enrollments`, params)}
+      targetParams={{ user_id: userId }}
+      // Add/Remove via user enrollments route
+      onAddItem={(keys) =>
+        fetchPost(`/api/users/${userId}/enrollments`, {
+          classIds: keys,
+          enrollmentTypeId: enrollmentTypeId,
+          enrollmentPaymentTypeId: enrollmentPaymentTypeId,
+          enrollmentPaymentAmount: enrollmentPaymentAmount,
+        })
+      }
+      onRemoveItem={(keys) =>
+        fetchDelete(`/api/users/${userId}/enrollments`, {
+          classIds: keys,
+          enrollmentTypeId: enrollmentTypeId,
+        })
+      }
+      // Key mapping
+      sourceItem={{ key: "id" }}
+      targetItem={{
+        key: "class_id",
+      }}
+      // Render class
+      render={renderClass}
+      // Search
+      showSearch={true}
+      searchSourceColumns={["course_name_like", "module_name_like"]}
+      searchTargetColumns={["course_name_like", "module_name_like"]}
+      // Locale
+      locale={{
+        searchPlaceholder: "Tìm theo tên khóa học, module",
+        itemsUnit: "lớp học",
+        itemUnit: "lớp học",
+        notFoundContent: "Không tìm thấy lớp học",
+      }}
+      titles={["Lớp học", "Đã xếp lớp"]}
+      operations={["Đăng ký", "Hủy đăng ký"]}
+    />
+  );
+}
+
+function renderClass(record) {
+  return (
+    <Space wrap>
+      <Typography.Text>{record?.course_name}</Typography.Text>
+      <Typography.Text type="secondary">
+        {record?.module_name}
+      </Typography.Text>
+    </Space>
+  );
+}
+
+function renderUser(record) {
+  return (
+    <Space wrap>
+      <Typography.Text>{record?.user_name}</Typography.Text>
+      <Typography.Text type="secondary">{record?.user_desc}</Typography.Text>
+    </Space>
   );
 }

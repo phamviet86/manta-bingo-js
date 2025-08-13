@@ -69,14 +69,8 @@ export function UserRolesTransferByUser({ userId, ...props }) {
       }
       sourceItem={{ key: "id" }}
       targetItem={{ key: "role_id" }}
-      render={(record) => (
-        <Space>
-          <Typography.Text>{record?.role_name}</Typography.Text>
-          <Typography.Text type="secondary">
-            ({record?.role_path})
-          </Typography.Text>
-        </Space>
-      )}
+      // render role
+      render={renderRole}
       titles={["Vai trò", "Đã gán"]}
       operations={["Gán vai trò", "Gỡ vai trò"]}
       showSearch={false}
@@ -86,5 +80,14 @@ export function UserRolesTransferByUser({ userId, ...props }) {
         notFoundContent: "Không tìm thấy vai trò",
       }}
     />
+  );
+}
+
+function renderRole(record) {
+  return (
+    <Space>
+      <Typography.Text>{record?.role_name}</Typography.Text>
+      <Typography.Text type="secondary">{record?.role_path}</Typography.Text>
+    </Space>
   );
 }

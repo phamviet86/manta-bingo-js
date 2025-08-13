@@ -72,15 +72,8 @@ export function ClassesTransferByCourse({ courseId, ...props }) {
         key: "module_id",
         disabled: ["class_status_id", [], [15, 16]],
       }}
-      render={(record) => (
-        <Space>
-          <Typography.Text>{record?.module_name}</Typography.Text>
-          <Typography.Text type="secondary">
-            ({record?.syllabus_name})
-          </Typography.Text>
-        </Space>
-      )}
-      titles={["Module", "Đã tạo lớp"]}
+      render={renderModule}
+      titles={["Học phần", "Đã tạo lớp"]}
       operations={["Tạo lớp học", "Xóa lớp học"]}
       // search functionality
       showSearch={true}
@@ -104,5 +97,16 @@ export function ClassesSummaryTable(props) {
         fetchList("/api/classes/summary", params, sort, filter)
       }
     />
+  );
+}
+
+function renderModule(record) {
+  return (
+    <Space wrap>
+      <Typography.Text>{record?.module_name}</Typography.Text>
+      <Typography.Text type="secondary">
+        {record?.syllabus_name}
+      </Typography.Text>
+    </Space>
   );
 }

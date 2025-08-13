@@ -71,14 +71,8 @@ export function RolePermissionsTransferByRole({ roleId, ...props }) {
       }
       sourceItem={{ key: "id" }}
       targetItem={{ key: "permission_id" }}
-      render={(record) => (
-        <Space>
-          <Typography.Text>{record?.permission_key}</Typography.Text>
-          <Typography.Text type="secondary">
-            ({record?.permission_desc})
-          </Typography.Text>
-        </Space>
-      )}
+      // render permission
+      render={renderPermission}
       titles={["Quyền", "Đã gán"]}
       operations={["Gán quyền", "Gỡ quyền"]}
       showSearch={true}
@@ -91,5 +85,16 @@ export function RolePermissionsTransferByRole({ roleId, ...props }) {
         notFoundContent: "Không tìm thấy quyền",
       }}
     />
+  );
+}
+
+function renderPermission(record) {
+  return (
+    <Space>
+      <Typography.Text>{record?.permission_key}</Typography.Text>
+      <Typography.Text type="secondary">
+        {record?.permission_desc}
+      </Typography.Text>
+    </Space>
   );
 }
