@@ -140,9 +140,10 @@ export function EnrollmentsTransferByUser({
         })
       }
       // Key mapping
-      sourceItem={{ key: "id" }}
+      sourceItem={{ key: "id", disabled: ["class_status_id", [], [16, 19]] }}
       targetItem={{
         key: "class_id",
+        disabled: ["enrollment_status_id", [], [20, 23]],
       }}
       // Render class
       render={renderClass}

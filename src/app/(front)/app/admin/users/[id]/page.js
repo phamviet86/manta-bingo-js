@@ -275,6 +275,7 @@ function PageContent({ params }) {
     key: "enrollments",
     label: "Xếp lớp",
     children: disableUserEdit ? disabledContent : enrollmentsContent,
+    disabled: disableUserEdit,
   };
 
   // Render

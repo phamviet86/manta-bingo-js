@@ -54,8 +54,8 @@
     - **id**:
       - [x] khoá edit đối với nhân viên
       - [x] thêm học viên vào các lớp (bảng enrollments) - chỉ thêm học viên vào lớp
-      - [ ] thêm phần disable các lớp đã học xong (transfer source list)
-      - [ ] thêm phần disable các lớp đang học (transfer target list)
+      - [x] thêm phần disable các lớp đã học xong (transfer source list)
+      - [x] thêm phần disable các lớp đang học (transfer target list)
   - **classes**:
     - [ ] xem lớp học
     - **id**:
