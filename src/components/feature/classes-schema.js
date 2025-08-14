@@ -1,7 +1,42 @@
 // path: @/components/feature/classes-schema.js
 
 import { Space, Typography } from "antd";
+import { presetPrimaryColors } from "@ant-design/colors";
 import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
+
+// helper function to render class information
+function renderDisplayClass(_, record) {
+  return (
+    <Space direction="vertical" size={0}>
+      <Space wrap>
+        <Typography.Text strong>{record?.course_name}</Typography.Text>
+        <Typography.Text>{record?.module_name}</Typography.Text>
+      </Space>
+
+      <Typography.Text type="secondary">
+        {record?.syllabus_name}
+      </Typography.Text>
+    </Space>
+  );
+}
+
+function renderDisplayModule(_, record) {
+  return (
+    <Space wrap>
+      <Typography.Text strong>{record?.syllabus_name}</Typography.Text>
+      <Typography.Text type="secondary">{record?.module_name}</Typography.Text>
+    </Space>
+  );
+}
+
+function renderCount(number, color = "default") {
+  const textColor = presetPrimaryColors[color] || presetPrimaryColors.default;
+  return (
+    <Typography.Text strong style={{ color: textColor }}>
+      {number}
+    </Typography.Text>
+  );
+}
 
 export function classesSchema(params = {}, columnMapping = []) {
   const { classStatus } = params;
@@ -102,58 +137,40 @@ export function classesSchema(params = {}, columnMapping = []) {
       dataIndex: "pending_count",
       title: "Chờ",
       valueType: "digit",
+      render: (text) => renderCount(text, "blue"),
     },
     {
       key: "completed_count",
       dataIndex: "completed_count",
       title: "Đã học",
       valueType: "digit",
+      render: (text) => renderCount(text, "green"),
     },
     {
       key: "absent_count",
       dataIndex: "absent_count",
       title: "Nghỉ",
       valueType: "digit",
+      render: (text) => renderCount(text, "red"),
     },
     {
       key: "total_count",
       dataIndex: "total_count",
       title: "Tổng",
       valueType: "digit",
+      render: (text) => renderCount(text, "default"),
     },
     {
       key: "displayClass",
       title: "Lớp học",
-      render: (_, record) => {
-        return (
-          <Space direction="vertical" size={0}>
-            <Space wrap>
-              <Typography.Text strong>{record?.course_name}</Typography.Text>
-              <Typography.Text>{record?.module_name}</Typography.Text>
-            </Space>
-
-            <Typography.Text type="secondary">
-              {record?.syllabus_name}
-            </Typography.Text>
-          </Space>
-        );
-      },
+      render: renderDisplayClass,
       search: false,
       hideInDescriptions: true,
     },
     {
       key: "displayModule",
       title: "Học phần",
-      render: (_, record) => {
-        return (
-          <Space wrap>
-            <Typography.Text strong>{record?.syllabus_name}</Typography.Text>
-            <Typography.Text type="secondary">
-              {record?.module_name}
-            </Typography.Text>
-          </Space>
-        );
-      },
+      render: renderDisplayModule,
       search: false,
       hideInDescriptions: true,
     },
@@ -212,6 +229,21 @@ export const classesMapping = {
     { key: "class_status_id" },
     { key: "class_start_date", search: false, responsive: ["lg"] },
     { key: "class_end_date", search: false, responsive: ["lg"] },
+    { key: "pending_count", search: false, responsive: ["xl"] },
+    { key: "completed_count", search: false, responsive: ["xl"] },
+    { key: "absent_count", search: false, responsive: ["xl"] },
+    { key: "total_count", search: false, responsive: ["xl"] },
+  ],
+  adminColumns: [
+    { key: "displayClass" },
+    { key: "course_name", hideInTable: true },
+    { key: "syllabus_name", hideInTable: true },
+    { key: "module_name", hideInTable: true },
+    { key: "class_status_id" },
+    { key: "class_start_date", search: false, responsive: ["lg"] },
+    { key: "class_end_date", search: false, responsive: ["lg"] },
+    { key: "class_fee", search: false, hideInTable: true },
+    { key: "class_total_fee", search: false, hideInTable: true },
     { key: "pending_count", search: false, responsive: ["xl"] },
     { key: "completed_count", search: false, responsive: ["xl"] },
     { key: "absent_count", search: false, responsive: ["xl"] },
