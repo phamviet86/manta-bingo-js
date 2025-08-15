@@ -1,4 +1,4 @@
-// path: @/app/(front)/app/dev/classes/provider.js
+// path: @/app/(front)/app/admin/classes/provider.js
 
 import { createContext, useContext, useMemo } from "react";
 import { useAppContext } from "@/app/(front)/provider";
@@ -33,14 +33,27 @@ export function PageProvider({ children }) {
     { option_table: "enrollments", option_column: "enrollment_status_id" }
   );
 
+  const scheduleStatus = buildSelection(
+    optionsData,
+    { value: "id", label: "option_label", color: "option_color" },
+    { option_table: "schedules", option_column: "schedule_status_id" }
+  );
+
   const contextValue = useMemo(
     () => ({
       classStatus,
       enrollmentStatus,
       enrollmentType,
       enrollmentPaymentType,
+      scheduleStatus,
     }),
-    [classStatus, enrollmentStatus, enrollmentType, enrollmentPaymentType]
+    [
+      classStatus,
+      enrollmentStatus,
+      enrollmentType,
+      enrollmentPaymentType,
+      scheduleStatus,
+    ]
   );
 
   return (

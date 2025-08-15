@@ -1,4 +1,4 @@
-// path: @/app/(front)/app/dev/classes/[id]/page.js
+// path: @/app/(front)/app/admin/classes/[id]/page.js
 
 "use client";
 
@@ -18,8 +18,19 @@ import {
   enrollmentsSchema,
   enrollmentsMapping,
   EnrollmentsTransferByClass,
+  SchedulesCalendar,
+  SchedulesEdit,
+  schedulesSchema,
+  schedulesMapping,
 } from "@/components/feature";
-import { useInfo, useForm, useNavigate, useTable, useTransfer } from "@/hooks";
+import {
+  useInfo,
+  useForm,
+  useNavigate,
+  useTable,
+  useTransfer,
+  useCalendar,
+} from "@/hooks";
 import { PageProvider, usePageContext } from "../provider";
 
 export default function Page(props) {
@@ -37,6 +48,7 @@ function PageContent({ params }) {
     enrollmentType,
     enrollmentStatus,
     enrollmentPaymentType,
+    scheduleStatus,
   } = usePageContext();
   const { navBack } = useNavigate();
   const { id: classId } = use(params);
@@ -94,6 +106,66 @@ function PageContent({ params }) {
   const pageTitle =
     `${useClasses.info?.dataSource?.course_name} - ${useClasses.info?.dataSource?.module_name}` ||
     "Chi tiết";
+
+  // SCHEDULE TAB
+  // Hooks
+  const useSchedules = {
+    calendar: useCalendar(),
+    edit: useForm(),
+    fields: schedulesSchema({ scheduleStatus }, schedulesMapping.fields),
+  };
+
+  // Open edit form
+  const openSchedulesEdit = (schedulesRecord) => {
+    const { id } = schedulesRecord || {};
+    useSchedules.edit.setRequestParams({ id });
+    useSchedules.edit.open();
+  };
+
+  // schedules tab buttons
+  const schedulesButton = (
+    <Space>
+      <AntButton
+        key="reload-button"
+        label="Tải lại"
+        color="default"
+        variant="outlined"
+        onClick={() => useSchedules.calendar.reload()}
+      />
+    </Space>
+  );
+
+  // schedules tab content
+  const schedulesContent = (
+    <ProCard boxShadow bordered title="Danh sách" extra={schedulesButton}>
+      <SchedulesCalendar
+        calendarHook={useSchedules.calendar}
+        requestParams={{
+          schedule_date_gte: useSchedules.calendar.startDate,
+          schedule_date_lte: useSchedules.calendar.endDate,
+          class_id_e: classId,
+        }}
+        onEventClick={(info) => openSchedulesEdit(info.event)}
+      />
+      <SchedulesEdit
+        formHook={useSchedules.edit}
+        fields={useSchedules.fields}
+        requestParams={useSchedules.edit.requestParams}
+        deleteParams={useSchedules.edit.deleteParams}
+        onSubmitSuccess={() => useSchedules.calendar.reload()}
+        title="Sửa lịch học"
+        variant="drawer"
+        showDelete={false}
+      />
+    </ProCard>
+  );
+
+  // schedules tab configuration
+  const schedulesTab = {
+    key: "schedules",
+    label: "Lịch học",
+    children: schedulesContent,
+  };
 
   // ENROLLMENTS TAB
   // Hooks
@@ -264,7 +336,7 @@ function PageContent({ params }) {
       title={pageTitle}
       extra={pageButton}
       content={pageContent}
-      tabList={[enrollmentsTab]}
+      tabList={[schedulesTab, enrollmentsTab]}
     />
   );
 }

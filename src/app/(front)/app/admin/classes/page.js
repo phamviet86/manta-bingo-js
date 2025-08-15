@@ -1,4 +1,4 @@
-// path: @/app/(front)/app/dev/classes/page.js
+// path: @/app/(front)/app/admin/classes/page.js
 
 "use client";
 

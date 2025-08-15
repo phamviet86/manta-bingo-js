@@ -1,4 +1,4 @@
-// path: @/app/(front)/app/dev/classes/provider.js
+// path: @/app/(front)/app/manager/classes/provider.js
 
 import { createContext, useContext, useMemo } from "react";
 import { useAppContext } from "@/app/(front)/provider";

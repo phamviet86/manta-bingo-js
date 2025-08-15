@@ -59,8 +59,9 @@
   - **classes**:
     - [x] xem lớp học
     - **id**:
-      - [ ] sửa lớp học
-      - [ ] thêm học viên vào lớp (bảng enrollments)
+      - [x] sửa lớp học
+      - [x] thêm học viên vào lớp (bảng enrollments) - không xem và sửa giáo viên, trợ giảng
+      - [x] thêm tab lịch học của lớp
   - **schedules**:
     - [ ] xem lịch học
     - [ ] điểm danh
