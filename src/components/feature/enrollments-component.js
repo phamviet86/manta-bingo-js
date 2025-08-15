@@ -82,7 +82,7 @@ export function EnrollmentsTransferByClass({
       sourceItem={{ key: "id" }}
       targetItem={{
         key: "user_id",
-        disabled: ["enrollment_status_id", [], [20, 23]],
+        disabled: [{ column: "enrollment_status_id", notIn: [20, 23] }],
       }}
       // Render user
       render={renderUser}
@@ -140,10 +140,13 @@ export function EnrollmentsTransferByUser({
         })
       }
       // Key mapping
-      sourceItem={{ key: "id", disabled: ["class_status_id", [], [16, 19]] }}
+      sourceItem={{
+        key: "id",
+        disabled: [{ column: "class_status_id", notIn: [16, 19] }],
+      }}
       targetItem={{
         key: "class_id",
-        disabled: ["enrollment_status_id", [], [20, 23]],
+        disabled: [{ column: "enrollment_status_id", notIn: [20, 23] }],
       }}
       // Render class
       render={renderClass}

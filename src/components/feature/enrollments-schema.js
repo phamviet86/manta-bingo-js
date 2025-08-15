@@ -235,4 +235,15 @@ export const enrollmentsMapping = {
     { key: "enrollment_payment_amount", search: false, responsive: ["xl"] },
     { key: "enrollment_desc", search: false, responsive: ["lg"] },
   ],
+  classEnrollmentsColumns: [
+    { key: "displayUser" },
+    { key: "user_name", hideInTable: true },
+    { key: "enrollment_type_id", hideInTable: true },
+    { key: "enrollment_status_id", responsive: ["md"] },
+    { key: "enrollment_start_date", search: false, responsive: ["lg"] },
+    { key: "enrollment_end_date", search: false, responsive: ["lg"] },
+    { key: "enrollment_payment_type_id", hideInTable: true },
+    { key: "enrollment_payment_amount", search: false, hideInTable: true },
+    { key: "enrollment_desc", search: false, responsive: ["xl"] },
+  ],
 };

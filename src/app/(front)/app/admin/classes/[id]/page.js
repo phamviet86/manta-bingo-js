@@ -4,7 +4,7 @@
 
 import { use, useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
-import { Space, Dropdown } from "antd";
+import { Space } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import { AntPage, AntButton, DiceBeerAvatar } from "@/components/ui";
 import {
@@ -118,9 +118,6 @@ function PageContent({ params }) {
     transfer: useTransfer(),
   };
 
-  const [typeId, setTypeId] = useState();
-  const [paymentTypeId, setPaymentTypeId] = useState();
-
   // Open info modal
   const openEnrollmentsInfo = (enrollmentRecord) => {
     const { id } = enrollmentRecord || {};
@@ -136,34 +133,9 @@ function PageContent({ params }) {
     useEnrollments.edit.open();
   };
 
-  // Open transfer modal: adding teacher
-  const openTeacherTransfer = () => {
-    setTypeId(26);
-    setPaymentTypeId(30);
-    useEnrollments.transfer.open();
-  };
-
-  // Open transfer modal: adding assistant
-  const openAssistantTransfer = () => {
-    setTypeId(27);
-    setPaymentTypeId(30);
-    useEnrollments.transfer.open();
-  };
-
-  // Open transfer modal: adding student
-  const openStudentTransfer = () => {
-    setTypeId(28);
-    setPaymentTypeId(30);
-    useEnrollments.transfer.open();
-  };
-
   // Close transfer modal
   const closeTransferModal = () => {
     useEnrollments.table.reload();
-
-    setTypeId(undefined);
-    setPaymentTypeId(undefined);
-
     useEnrollments.transfer.close();
   };
 
@@ -177,28 +149,13 @@ function PageContent({ params }) {
         variant="outlined"
         onClick={() => useEnrollments.table.reload()}
       />
-      <Dropdown.Button
-        key="add-teacher"
-        type="primary"
+      <AntButton
+        key="add-student"
+        label="Thêm học viên"
+        color="primary"
         variant="solid"
-        onClick={openTeacherTransfer}
-        menu={{
-          items: [
-            {
-              key: "add-assistant",
-              label: "Thêm trợ giảng",
-              onClick: openAssistantTransfer,
-            },
-            {
-              key: "add-student",
-              label: "Thêm học viên",
-              onClick: openStudentTransfer,
-            },
-          ],
-        }}
-      >
-        Thêm giáo viên
-      </Dropdown.Button>
+        onClick={() => useEnrollments.transfer.open()}
+      />
     </Space>
   );
 
@@ -220,7 +177,11 @@ function PageContent({ params }) {
                 shape="square"
                 size="large"
                 alt="Ảnh đại diện"
-                onClick={() => openEnrollmentsInfo(record)}
+                onClick={() => {
+                  record?.enrollment_type_id == 28
+                    ? openEnrollmentsInfo(record)
+                    : null;
+                }}
               />
             ),
           },
@@ -236,6 +197,7 @@ function PageContent({ params }) {
                 color="primary"
                 variant="link"
                 onClick={() => openEnrollmentsEdit(record)}
+                disabled={record?.enrollment_type_id == 28 ? false : true}
               />
             ),
           },
@@ -265,8 +227,8 @@ function PageContent({ params }) {
       <EnrollmentsTransferByClass
         transferHook={useEnrollments.transfer}
         classId={classId}
-        enrollmentTypeId={typeId}
-        enrollmentPaymentTypeId={paymentTypeId}
+        enrollmentTypeId={28}
+        enrollmentPaymentTypeId={30}
         variant="modal"
         title="Xếp lớp"
         afterClose={closeTransferModal}

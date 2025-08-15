@@ -192,10 +192,10 @@ export function SchedulesTransfer(props) {
       onRemoveItem={(keys) =>
         fetchDelete(`/api/schedules/duplicate`, { sourceIds: keys })
       }
-      sourceItem={{ key: "id", disabled: "disable_duplicate" }}
+      sourceItem={{ key: "id", disabled: [{ column: "disable_duplicate" }] }}
       targetItem={{
         key: "source_id",
-        disabled: ["schedule_status_id", [], [31]],
+        disabled: [{ column: "schedule_status_id", notIn: [31] }],
       }}
       titles={["Lịch", "Đã sao chép"]}
       operations={["Sao chép", "Loại bỏ"]}

@@ -67,10 +67,13 @@ export function ClassesTransferByCourse({ courseId, ...props }) {
           moduleIds: keys,
         })
       }
-      sourceItem={{ key: "id", disabled: ["module_status_id", [12], []] }}
+      sourceItem={{
+        key: "id",
+        disabled: [{ column: "module_status_id", in: [12] }],
+      }}
       targetItem={{
         key: "module_id",
-        disabled: ["class_status_id", [], [15, 16]],
+        disabled: [{ column: "class_status_id", notIn: [15, 16] }],
       }}
       render={renderModule}
       titles={["Học phần", "Đã tạo lớp"]}

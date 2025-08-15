@@ -57,7 +57,7 @@
       - [x] thêm phần disable các lớp đã học xong (transfer source list)
       - [x] thêm phần disable các lớp đang học (transfer target list)
   - **classes**:
-    - [ ] xem lớp học
+    - [x] xem lớp học
     - **id**:
       - [ ] sửa lớp học
       - [ ] thêm học viên vào lớp (bảng enrollments)
