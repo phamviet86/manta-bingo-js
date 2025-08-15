@@ -91,7 +91,9 @@ function PageContent({ params }) {
   );
 
   // Page title
-  const pageTitle = useClasses.info?.dataSource?.classStartDate || "Chi tiết";
+  const pageTitle =
+    `${useClasses.info?.dataSource?.course_name} - ${useClasses.info?.dataSource?.module_name}` ||
+    "Chi tiết";
 
   // ENROLLMENTS TAB
   // Hooks
@@ -161,7 +163,7 @@ function PageContent({ params }) {
 
   // enrollments tab content
   const enrollmentsContent = (
-    <ProCard boxShadow bordered title="Danh sách" extra={enrollmentsButton}>
+    <ProCard boxShadow bordered extra={enrollmentsButton}>
       <EnrollmentsTable
         tableHook={useEnrollments.table}
         columns={useEnrollments.columns}
@@ -223,6 +225,7 @@ function PageContent({ params }) {
         onDeleteSuccess={() => useEnrollments.table.reload()}
         title="Sửa đăng ký"
         variant="drawer"
+        showDelete={false}
       />
       <EnrollmentsTransferByClass
         transferHook={useEnrollments.transfer}
@@ -232,6 +235,13 @@ function PageContent({ params }) {
         variant="modal"
         title="Xếp lớp"
         afterClose={closeTransferModal}
+        targetItem={{
+          key: "user_id",
+          disabled: [
+            { column: "enrollment_status_id", notIn: [20, 23] },
+            { column: "enrollment_type_id", notIn: [28] },
+          ],
+        }}
       />
     </ProCard>
   );
@@ -239,7 +249,7 @@ function PageContent({ params }) {
   // enrollments tab configuration
   const enrollmentsTab = {
     key: "enrollments",
-    label: "Đăng ký",
+    label: "Danh sách lớp",
     children: enrollmentsContent,
   };
 
@@ -247,7 +257,7 @@ function PageContent({ params }) {
   return (
     <AntPage
       items={[
-        { title: "Quản lý" },
+        { title: "Quản sinh" },
         { title: "Lớp học" },
         { title: "Chi tiết" },
       ]}

@@ -193,7 +193,7 @@ function PageContent({ params }) {
 
   // enrollments tab content
   const enrollmentsContent = (
-    <ProCard boxShadow bordered title="Danh sách" extra={enrollmentsButton}>
+    <ProCard boxShadow bordered extra={enrollmentsButton}>
       <EnrollmentsTable
         tableHook={useEnrollments.table}
         columns={useEnrollments.columns}
