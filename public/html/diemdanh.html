@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Điểm danh</title>
+  <meta name="description" content="Trang điểm danh mẫu" />
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --panel: #121826;
+      --muted: #8fa3bf;
+      --text: #e6eefc;
+      --accent: #3b82f6;
+      --accent-2: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --border: #1f2a44;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+        Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+      color: var(--text);
+      background: linear-gradient(180deg, #0b0f17 0%, #0c1222 100%);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: saturate(140%) blur(8px);
+      background: rgba(12, 18, 34, 0.7);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .spacer {
+      flex: 1;
+    }
+
+    input[type="date"] {
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      outline: none;
+    }
+
+    main.container {
+      padding-top: 12px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 860px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: rgba(18, 24, 38, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .panel h2 {
+      margin: 0;
+      padding: 14px 14px 12px 14px;
+      font-size: 15px;
+      font-weight: 600;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 12px;
+    }
+
+    .btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      background: #25304b;
+      color: var(--text);
+    }
+
+    .btn.ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      background: #0e1527;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .row:hover {
+      border-color: #2b3b66;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .room-input {
+      width: 120px;
+    }
+
+    .room-input input {
+      width: 100%;
+      background: #0b1222;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
+
+    .status-select,
+    .room-input input {
+      height: 36px;
+    }
+
+    select.status-select {
+      background: #0b1222;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 6px 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: #0b1222;
+    }
+
+    .badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .dot.green {
+      background: var(--accent-2);
+    }
+
+    .dot.yellow {
+      background: var(--warning);
+    }
+
+    .dot.red {
+      background: var(--danger);
+    }
+
+    .empty {
+      padding: 16px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      padding: 18px 0 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container header-row">
+      <div class="title">Điểm danh</div>
+      <div class="spacer"></div>
+      <input id="datePicker" type="date" />
+      <button id="todayBtn" class="btn secondary">Hôm nay</button>
+      <button id="clearBtn" class="btn ghost" title="Xóa dữ liệu cục bộ">Xóa lưu</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid">
+      <section class="panel" aria-label="Danh sách lớp">
+        <h2>Lớp trong ngày</h2>
+        <div id="classesToolbar" class="toolbar"></div>
+        <div id="classesList" class="list" role="list"></div>
+      </section>
+      <section class="panel" aria-label="Danh sách học viên">
+        <h2>Học viên trong ngày</h2>
+        <div id="studentsToolbar" class="toolbar"></div>
+        <div id="studentsList" class="list" role="list"></div>
+      </section>
+    </div>
+    <footer>Data lưu trong trình duyệt (localStorage). Có thể tuỳ biến để gọi API thật.</footer>
+  </main>
+
+  <script>
+    // -------- Mock data (có thể thay bằng API thật) --------
+    const mock = (() => {
+      // lớp học theo ngày (ISO yyyy-mm-dd)
+      const classes = [
+        { id: 'C01', name: 'Toán A1', module: 'Đại số', teacher: 'Thầy Minh', date: '2025-08-15', time: '07:30-09:30' },
+        { id: 'C02', name: 'Văn B2', module: 'Văn học', teacher: 'Cô Hoa', date: '2025-08-15', time: '09:45-11:15' },
+        { id: 'C03', name: 'Anh C1', module: 'Giao tiếp', teacher: 'Cô Ly', date: '2025-08-16', time: '13:30-15:00' },
+      ];
+      // học viên theo lớp
+      const enrollments = {
+        C01: [
+          { id: 'S01', name: 'Nguyễn An' },
+          { id: 'S02', name: 'Trần Bình' },
+          { id: 'S03', name: 'Lê Chi' },
+        ],
+        C02: [
+          { id: 'S02', name: 'Trần Bình' },
+          { id: 'S04', name: 'Phạm Duy' },
+        ],
+        C03: [
+          { id: 'S01', name: 'Nguyễn An' },
+          { id: 'S05', name: 'Vũ Em' },
+        ],
+      };
+      return { classes, enrollments };
+    })();
+
+    // -------- Storage helpers --------
+    const LS_KEY = 'attendance:data:v1';
+    const loadState = () => {
+      try { return JSON.parse(localStorage.getItem(LS_KEY)) || { rooms: {}, attendance: {} }; }
+      catch { return { rooms: {}, attendance: {} }; }
+    };
+    const saveState = (state) => localStorage.setItem(LS_KEY, JSON.stringify(state));
+
+    // structure:
+    // state.rooms[date][classId] = 'P101'
+    // state.attendance[date][classId][studentId] = 'present'|'late'|'absent'
+
+    const state = loadState();
+
+    // -------- Utilities --------
+    const todayISO = () => new Date().toISOString().slice(0, 10);
+    const byDate = (date) => mock.classes.filter(c => c.date === date);
+    const getStudentsForDate = (date) => {
+      // hợp nhất học viên của tất cả lớp trong ngày (duy nhất theo id), đính kèm lớp đang học
+      const classes = byDate(date);
+      const map = new Map();
+      for (const c of classes) {
+        const list = mock.enrollments[c.id] || [];
+        for (const s of list) {
+          if (!map.has(s.id)) map.set(s.id, { ...s, classes: [] });
+          map.get(s.id).classes.push(c.id);
+        }
+      }
+      return Array.from(map.values());
+    };
+
+    // ensure nested paths
+    const ensure = (obj, path, init) => {
+      let cur = obj;
+      for (const key of path) {
+        if (!(key in cur)) cur[key] = typeof init === 'function' ? init() : (init ?? {});
+        cur = cur[key];
+      }
+      return cur;
+    };
+
+    // -------- DOM refs --------
+    const $date = document.getElementById('datePicker');
+    const $today = document.getElementById('todayBtn');
+    const $clear = document.getElementById('clearBtn');
+    const $classesList = document.getElementById('classesList');
+    const $studentsList = document.getElementById('studentsList');
+    const $classesToolbar = document.getElementById('classesToolbar');
+    const $studentsToolbar = document.getElementById('studentsToolbar');
+
+    // -------- Rendering --------
+    function render(date) {
+      renderClasses(date);
+      renderStudents(date);
+      renderToolbars(date);
+    }
+
+    function renderToolbars(date) {
+      const classes = byDate(date);
+      const students = getStudentsForDate(date);
+      $classesToolbar.innerHTML = `<span class="meta">${classes.length} lớp</span>`;
+      $studentsToolbar.innerHTML = `<span class="meta">${students.length} học viên</span>`;
+    }
+
+    function renderClasses(date) {
+      const classes = byDate(date);
+      if (!classes.length) {
+        $classesList.innerHTML = `<div class="empty">Không có lớp trong ngày này.</div>`;
+        return;
+      }
+      const roomsForDate = (state.rooms[date] ||= {});
+      $classesList.innerHTML = '';
+      for (const c of classes) {
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.role = 'listitem';
+        row.innerHTML = `
+						<div>
+							<div style="font-weight:600;">${c.name} <span class="meta">• ${c.module}</span></div>
+							<div class="meta">Mã: ${c.id} • ${c.time} • GV: ${c.teacher}</div>
+						</div>
+						<div class="room-input">
+							<input type="text" placeholder="Phòng" value="${roomsForDate[c.id] || ''}" aria-label="Phòng cho lớp ${c.name}" />
+						</div>`;
+        const input = row.querySelector('input');
+        input.addEventListener('change', (e) => {
+          ensure(state, ['rooms', date], () => ({}))[c.id] = e.target.value.trim();
+          saveState(state);
+        });
+        $classesList.appendChild(row);
+      }
+    }
+
+    function renderStudents(date) {
+      const classes = byDate(date);
+      const students = getStudentsForDate(date);
+      if (!students.length) {
+        $studentsList.innerHTML = `<div class="empty">Không có học viên trong ngày này.</div>`;
+        return;
+      }
+      const attendanceForDate = ensure(state, ['attendance', date], () => ({}));
+      $studentsList.innerHTML = '';
+      for (const s of students) {
+        // chọn trạng thái theo từng lớp (nếu 1 hs học nhiều lớp trong ngày, lưu theo từng cặp class-student)
+        // để đơn giản, hiển thị trạng thái của lớp đầu tiên trong danh sách lớp ngày đó
+        const firstClassId = s.classes[0];
+        const classAttendance = ensure(attendanceForDate, [firstClassId], () => ({}));
+        const current = classAttendance[s.id] || 'present';
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.role = 'listitem';
+        row.innerHTML = `
+						<div>
+							<div style="font-weight:600;">${s.name}</div>
+							<div class="meta">Mã: ${s.id} • Lớp: ${s.classes.join(', ')}</div>
+						</div>
+						<div>
+							<select class="status-select" aria-label="Trạng thái điểm danh">
+								<option value="present">Có mặt</option>
+								<option value="late">Đi muộn</option>
+								<option value="absent">Vắng</option>
+							</select>
+						</div>`;
+        const select = row.querySelector('select');
+        select.value = current;
+        select.addEventListener('change', (e) => {
+          const val = e.target.value;
+          ensure(state, ['attendance', date, firstClassId], () => ({}))[s.id] = val;
+          saveState(state);
+          // optional: flash badge? keep simple
+        });
+        $studentsList.appendChild(row);
+      }
+    }
+
+    // -------- Events --------
+    function setDate(d) { $date.value = d; render(d); }
+    $today.addEventListener('click', () => setDate(todayISO()));
+    $clear.addEventListener('click', () => { localStorage.removeItem(LS_KEY); location.reload(); });
+    $date.addEventListener('change', (e) => render(e.target.value));
+
+    // init
+    (function init() {
+      const initDate = new URLSearchParams(location.search).get('date') || todayISO();
+      setDate(initDate);
+    })();
+  </script>
+</body>
+
+</html>
