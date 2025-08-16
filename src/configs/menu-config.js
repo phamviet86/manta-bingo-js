@@ -57,6 +57,7 @@ export const MENU_CONFIG = [
     routes: [
       { path: "/app/admin/users", name: "Liên hệ" },
       { path: "/app/admin/classes", name: "Lớp học" },
+      { path: "/app/admin/schedules", name: "Lịch học" },
     ],
   },
   {

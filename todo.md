@@ -64,6 +64,7 @@
       - [x] thêm tab lịch học của lớp
   - **schedules**:
     - [ ] xem lịch học
+    - [ ] xếp phòng
     - [ ] điểm danh
     - **id**:
       - [ ] xem/sửa lịch học

@@ -1,4 +1,4 @@
-// path: @/component/common/transfer.js
+// path: @/components/ui/transfer.js
 
 import { useState, useEffect, useCallback, useRef, cloneElement } from "react";
 import { Transfer, message, Spin, Modal, Drawer } from "antd";
