@@ -1,5 +1,7 @@
 // path: @/lib/utils/format-util.js
 
+import dayjs from "dayjs";
+
 /**
  * Formats a date into an ISO-like string (YYYY-MM-DDT00:00:00).
  *
@@ -13,9 +15,11 @@
  * formatEventDate(2024, 0);     // Returns: "2024-01-01T00:00:00"
  */
 export function formatEventDate(year, month, day = 1) {
-  const monthStr = String(month + 1).padStart(2, "0");
-  const dayStr = String(day).padStart(2, "0");
-  return `${year}-${monthStr}-${dayStr}T00:00:00`;
+  return dayjs()
+    .year(year)
+    .month(month)
+    .date(day)
+    .format("YYYY-MM-DDTHH:mm:ss");
 }
 
 /**
@@ -40,20 +44,14 @@ export function formatEventTime(isoDateString, timeString) {
     const hours = parseInt(timeParts[0], 10);
     const minutes = parseInt(timeParts[1], 10);
 
-    // Create date from ISO string
-    const baseDate = new Date(isoDateString);
+    // Use dayjs to parse date and set time
+    const result = dayjs(isoDateString)
+      .hour(hours)
+      .minute(minutes)
+      .second(0)
+      .format("YYYY-MM-DDTHH:mm:ss");
 
-    // Get date components
-    const year = baseDate.getFullYear();
-    const month = String(baseDate.getMonth() + 1).padStart(2, "0");
-    const day = String(baseDate.getDate()).padStart(2, "0");
-
-    // Format time components
-    const formattedHours = String(hours).padStart(2, "0");
-    const formattedMinutes = String(minutes).padStart(2, "0");
-
-    // Build result string
-    return `${year}-${month}-${day}T${formattedHours}:${formattedMinutes}:00`;
+    return result;
   } catch (error) {
     console.error("Error generating event time:", error);
     return null;
@@ -77,32 +75,20 @@ export function formatEventTime(isoDateString, timeString) {
  * formatIsoDate('invalid-date'); // Returns: null
  */
 export function formatIsoDate(startDate, addDays = 0) {
-  // Handle various input formats
-  let date;
+  try {
+    const date = dayjs(startDate);
 
-  if (startDate instanceof Date) {
-    // Already a Date object
-    date = new Date(startDate);
-  } else if (typeof startDate === "string") {
-    // Try to parse string - could be ISO, locale format, etc.
-    date = new Date(startDate);
-  } else if (typeof startDate === "number") {
-    // Unix timestamp
-    date = new Date(startDate);
-  } else {
-    // Invalid input
-    console.error("Invalid startDate format:", startDate);
+    // Check if date is valid
+    if (!date.isValid()) {
+      console.error("Invalid date created from:", startDate);
+      return null;
+    }
+
+    return date.add(addDays, "day").format("YYYY-MM-DD");
+  } catch (error) {
+    console.error("Error formatting ISO date:", error);
     return null;
   }
-
-  // Check if date is valid
-  if (isNaN(date.getTime())) {
-    console.error("Invalid date created from:", startDate);
-    return null;
-  }
-
-  date.setDate(date.getDate() + addDays);
-  return date.toISOString().split("T")[0];
 }
 
 /**
@@ -146,13 +132,14 @@ export function formatDateLong(date) {
   if (!date) return "...";
 
   try {
-    const dateObj = new Date(date);
-    if (isNaN(dateObj.getTime())) {
+    const dayjsDate = dayjs(date);
+    if (!dayjsDate.isValid()) {
       console.error("Invalid date:", date);
       return "...";
     }
 
-    return dateObj.toLocaleDateString("vi-VN", {
+    // Use native JavaScript for Vietnamese locale since dayjs locale requires plugin
+    return dayjsDate.toDate().toLocaleDateString("vi-VN", {
       weekday: "long",
       day: "2-digit",
       month: "2-digit",
@@ -178,13 +165,14 @@ export function formatDateShort(date) {
   if (!date) return "...";
 
   try {
-    const dateObj = new Date(date);
-    if (isNaN(dateObj.getTime())) {
+    const dayjsDate = dayjs(date);
+    if (!dayjsDate.isValid()) {
       console.error("Invalid date:", date);
       return "...";
     }
 
-    return dateObj.toLocaleDateString("vi-VN", {
+    // Use native JavaScript for Vietnamese locale since dayjs locale requires plugin
+    return dayjsDate.toDate().toLocaleDateString("vi-VN", {
       weekday: "long",
       day: "2-digit",
       month: "2-digit",
