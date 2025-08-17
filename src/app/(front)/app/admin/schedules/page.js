@@ -1,16 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { ProCard } from "@ant-design/pro-components";
 import { Space } from "antd";
+import { ProCard } from "@ant-design/pro-components";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import {
   AntPage,
   AntButton,
+  SubPathButton,
   ResponsiveCard,
   AntCalendar,
   headerRenderMonth,
 } from "@/components/ui";
 import {
+  SchedulesTable,
   SchedulesEdit,
   schedulesSchema,
   schedulesMapping,
@@ -18,7 +21,7 @@ import {
   classesMapping,
 } from "@/components/feature";
 import dayjs from "dayjs";
-import { useTable, useForm } from "@/hooks";
+import { useTable, useForm, useNavigate } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -38,7 +41,9 @@ function PageContent() {
 
   // Schedules Hooks
   const useSchedules = {
+    table: useTable(),
     edit: useForm(),
+    columns: schedulesSchema({ scheduleStatus }, schedulesMapping.columns),
     fields: schedulesSchema({ scheduleStatus }, schedulesMapping.fields),
   };
 
@@ -74,7 +79,7 @@ function PageContent() {
       <ProCard
         colSpan={{ sm: 24, md: "300px" }}
         layout="center"
-        title={`Tháng ${selectedDate.format("MM/YYYY")}`}
+        title={`Ngày ${selectedDate.format("YYYY-MM-DD")}`}
       >
         <AntCalendar
           fullscreen={false}
@@ -85,6 +90,28 @@ function PageContent() {
         />
       </ProCard>
       <ProCard>
+        <SchedulesTable
+          tableHook={useSchedules.table}
+          columns={useSchedules.columns}
+          rightColumns={[
+            {
+              width: 56,
+              align: "center",
+              search: false,
+              render: (_, record) => {
+                return (
+                  <SubPathButton
+                    icon={<InfoCircleOutlined />}
+                    color="primary"
+                    variant="link"
+                    path={record?.id}
+                  />
+                );
+              },
+            },
+          ]}
+          requestParams={{ schedule_date_e: selectedDate.format("YYYY-MM-DD") }}
+        />
         <SchedulesEdit
           formHook={useSchedules.edit}
           fields={useSchedules.fields}
