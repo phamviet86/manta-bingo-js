@@ -108,6 +108,8 @@ export function schedulesSchema(params = {}, columnMapping = []) {
       valueType: "text",
       ...buildSchemaProps({ disabled: true }),
     },
+    { key: "displayClass" },
+    { key: "displayTime" },
   ];
 
   return buildSchema(schema, columnMapping);
