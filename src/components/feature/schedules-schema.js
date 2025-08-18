@@ -63,6 +63,7 @@ export function schedulesSchema(params = {}, columnMapping = []) {
           value: "id",
           label: "shift_name",
         }),
+      sorter: true,
       ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
@@ -86,6 +87,7 @@ export function schedulesSchema(params = {}, columnMapping = []) {
         options: scheduleStatus?.options,
         valueEnum: scheduleStatus?.valueEnum,
       }),
+      filters: true,
     },
     {
       key: "source_id",
@@ -175,15 +177,12 @@ export const schedulesMapping = {
   ],
   columns: [
     { key: "displayClass" },
-    {
-      key: "displayTime",
-      responsive: ["xs", "sm", "lg"],
-    },
-    { key: "shift_id" },
+    { key: "displayTime" },
+    { key: "shift_id", hideInTable: true },
     { key: "course_name", hideInTable: true, search: false },
     { key: "module_name", hideInTable: true, search: false },
     { key: "schedule_date", hideInTable: true, search: false },
-    { key: "schedule_status_id", responsive: ["xxl"], search: false },
+    { key: "schedule_status_id", search: false },
     { key: "room_id", responsive: ["xxl"], search: false },
     { key: "schedule_desc", responsive: ["xxl"], search: false },
   ],
