@@ -19,7 +19,8 @@ export async function getSchedules(searchParams) {
         course_name, course_code,
         module_name,
         syllabus_name,
-        shift_start_time, shift_end_time,
+        lecture_name,
+        shift_name, shift_start_time, shift_end_time,
         option_color AS schedule_status_color,
         cv.class_end_date,
         CASE 
@@ -32,12 +33,16 @@ export async function getSchedules(searchParams) {
       LEFT JOIN classes_view cv ON cv.id = s.class_id AND cv.deleted_at IS NULL
       LEFT JOIN courses c ON c.id = cv.course_id AND c.deleted_at IS NULL
       LEFT JOIN modules m ON m.id = cv.module_id AND m.deleted_at IS NULL
+      LEFT JOIN lectures l ON l.id = s.lecture_id AND l.deleted_at IS NULL
       LEFT JOIN syllabuses sy ON sy.id = m.syllabus_id AND sy.deleted_at IS NULL
       LEFT JOIN shifts sh ON sh.id = s.shift_id AND sh.deleted_at IS NULL
       LEFT JOIN options o ON o.id = s.schedule_status_id AND o.deleted_at IS NULL
       WHERE s.deleted_at IS NULL
       ${whereClause}
-      ${orderByClause || "ORDER BY s.created_at"}
+      ${
+        orderByClause ||
+        "ORDER BY s.schedule_date, sh.shift_start_time, c.course_name, m.module_name"
+      }
       ${limitClause};
     `;
 
@@ -50,15 +55,28 @@ export async function getSchedules(searchParams) {
 export async function getSchedule(id) {
   try {
     return await sql`
-      SELECT s.*, 
-        course_name,
+      SELECT s.*, COUNT(*) OVER() AS total,
+        course_name, course_code,
         module_name,
-        syllabus_name
+        syllabus_name,
+        lecture_name,
+        shift_name, shift_start_time, shift_end_time,
+        option_color AS schedule_status_color,
+        cv.class_end_date,
+        CASE 
+          WHEN cv.class_end_date IS NOT NULL 
+            AND cv.class_end_date - s.schedule_date > INTERVAL '7 days'
+          THEN false
+          ELSE true
+        END AS disable_duplicate
       FROM schedules s
       LEFT JOIN classes_view cv ON cv.id = s.class_id AND cv.deleted_at IS NULL
       LEFT JOIN courses c ON c.id = cv.course_id AND c.deleted_at IS NULL
       LEFT JOIN modules m ON m.id = cv.module_id AND m.deleted_at IS NULL
+      LEFT JOIN lecture l ON l.id = s.lecture_id AND l.deleted_at IS NULL
       LEFT JOIN syllabuses sy ON sy.id = m.syllabus_id AND sy.deleted_at IS NULL
+      LEFT JOIN shifts sh ON sh.id = s.shift_id AND sh.deleted_at IS NULL
+      LEFT JOIN options o ON o.id = s.schedule_status_id AND o.deleted_at IS NULL
       WHERE s.deleted_at IS NULL
         AND s.id = ${id};
     `;

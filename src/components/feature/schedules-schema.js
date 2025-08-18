@@ -1,7 +1,39 @@
 // path: @/components/feature/schedules-schema.js
 
+import { Space, Typography } from "antd";
+import { presetPrimaryColors } from "@ant-design/colors";
 import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 import { fetchOption } from "@/utils/fetch-util";
+import { formatTimeHHMM } from "@/utils/format-util";
+
+// render function
+function renderDisplayClass(_, record) {
+  return (
+    <Space direction="vertical" size={0}>
+      <Space wrap>
+        <Typography.Text strong>{record?.course_name}</Typography.Text>
+        <Typography.Text>{record?.module_name}</Typography.Text>
+      </Space>
+      <Typography.Text type="secondary">{record?.lecture_name}</Typography.Text>
+    </Space>
+  );
+}
+
+function renderDisplayTime(_, record) {
+  return (
+    <Space direction="vertical" size={0}>
+      <Typography.Text strong>{record?.shift_name}</Typography.Text>
+      <Space wrap split="-">
+        <Typography.Text type="secondary">
+          {formatTimeHHMM(record?.shift_start_time)}
+        </Typography.Text>
+        <Typography.Text type="secondary">
+          {formatTimeHHMM(record?.shift_end_time)}
+        </Typography.Text>
+      </Space>
+    </Space>
+  );
+}
 
 export function schedulesSchema(params = {}, columnMapping = []) {
   const { scheduleStatus } = params;
@@ -108,8 +140,20 @@ export function schedulesSchema(params = {}, columnMapping = []) {
       valueType: "text",
       ...buildSchemaProps({ disabled: true }),
     },
-    { key: "displayClass" },
-    { key: "displayTime" },
+    {
+      key: "displayClass",
+      title: "Lớp học",
+      render: renderDisplayClass,
+      search: false,
+      hideInDescriptions: true,
+    },
+    {
+      key: "displayTime",
+      title: "Thời gian",
+      render: renderDisplayTime,
+      search: false,
+      hideInDescriptions: true,
+    },
   ];
 
   return buildSchema(schema, columnMapping);
@@ -130,14 +174,17 @@ export const schedulesMapping = {
     { key: "source_id" },
   ],
   columns: [
-    { key: "id" },
-    { key: "class_id" },
+    { key: "displayClass" },
+    {
+      key: "displayTime",
+      responsive: ["xs", "sm", "lg"],
+    },
     { key: "shift_id" },
-    { key: "schedule_date" },
-    { key: "schedule_status_id" },
-    { key: "source_id" },
-    { key: "lecture_id" },
-    { key: "room_id" },
-    { key: "schedule_desc" },
+    { key: "course_name", hideInTable: true, search: false },
+    { key: "module_name", hideInTable: true, search: false },
+    { key: "schedule_date", hideInTable: true, search: false },
+    { key: "schedule_status_id", responsive: ["xxl"], search: false },
+    { key: "room_id", responsive: ["xxl"], search: false },
+    { key: "schedule_desc", responsive: ["xxl"], search: false },
   ],
 };
