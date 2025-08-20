@@ -111,6 +111,7 @@ function PageContent() {
             },
           ]}
           requestParams={{ schedule_date_e: selectedDate.format("YYYY-MM-DD") }}
+          size="small"
         />
         <SchedulesEdit
           formHook={useSchedules.edit}

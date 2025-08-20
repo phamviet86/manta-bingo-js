@@ -5,14 +5,21 @@ import { presetPrimaryColors } from "@ant-design/colors";
 import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 import { fetchOption } from "@/utils/fetch-util";
 import { formatTimeHHMM } from "@/utils/format-util";
+import { renderEnum } from "@/utils/render-util";
 
 // render function
-function renderDisplayClass(_, record) {
+function renderDisplayClass(_, record, scheduleStatus) {
   return (
     <Space direction="vertical" size={0}>
       <Space wrap>
         <Typography.Text strong>{record?.course_name}</Typography.Text>
         <Typography.Text>{record?.module_name}</Typography.Text>
+        {renderEnum(
+          scheduleStatus.valueEnum,
+          record?.schedule_status_id,
+          null,
+          "tag"
+        )}
       </Space>
       <Typography.Text type="secondary">{record?.lecture_name}</Typography.Text>
     </Space>
@@ -63,7 +70,6 @@ export function schedulesSchema(params = {}, columnMapping = []) {
           value: "id",
           label: "shift_name",
         }),
-      sorter: true,
       ...buildSchemaProps({ rules: [{ required: true }] }),
     },
     {
@@ -87,7 +93,6 @@ export function schedulesSchema(params = {}, columnMapping = []) {
         options: scheduleStatus?.options,
         valueEnum: scheduleStatus?.valueEnum,
       }),
-      filters: true,
     },
     {
       key: "source_id",
@@ -145,9 +150,9 @@ export function schedulesSchema(params = {}, columnMapping = []) {
     {
       key: "displayClass",
       title: "Lớp học",
-      render: renderDisplayClass,
       search: false,
       hideInDescriptions: true,
+      render: (_, record) => renderDisplayClass(_, record, scheduleStatus),
     },
     {
       key: "displayTime",
@@ -182,8 +187,8 @@ export const schedulesMapping = {
     { key: "course_name", hideInTable: true, search: false },
     { key: "module_name", hideInTable: true, search: false },
     { key: "schedule_date", hideInTable: true, search: false },
-    { key: "schedule_status_id", search: false },
-    { key: "room_id", responsive: ["xxl"], search: false },
-    { key: "schedule_desc", responsive: ["xxl"], search: false },
+    { key: "schedule_status_id", hideInTable: true },
+    { key: "room_id", responsive: ["lg"], search: false },
+    { key: "schedule_desc", responsive: ["xl"], search: false },
   ],
 };
