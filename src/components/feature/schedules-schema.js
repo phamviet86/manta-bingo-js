@@ -1,7 +1,6 @@
 // path: @/components/feature/schedules-schema.js
 
 import { Space, Typography } from "antd";
-import { presetPrimaryColors } from "@ant-design/colors";
 import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 import { fetchOption } from "@/utils/fetch-util";
 import { formatTimeHHMM } from "@/utils/format-util";
@@ -14,14 +13,18 @@ function renderDisplayClass(_, record, scheduleStatus) {
       <Space wrap>
         <Typography.Text strong>{record?.course_name}</Typography.Text>
         <Typography.Text>{record?.module_name}</Typography.Text>
+      </Space>
+      <Space wrap>
         {renderEnum(
           scheduleStatus.valueEnum,
           record?.schedule_status_id,
           null,
           "tag"
         )}
+        <Typography.Text type="secondary">
+          {record?.lecture_name}
+        </Typography.Text>
       </Space>
-      <Typography.Text type="secondary">{record?.lecture_name}</Typography.Text>
     </Space>
   );
 }
