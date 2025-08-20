@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Space } from "antd";
 import { ProCard } from "@ant-design/pro-components";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined, EditOutlined } from "@ant-design/icons";
 import {
   AntPage,
   AntButton,
@@ -57,9 +57,17 @@ function PageContent() {
     fields: classesSchema({ classStatus }, classesMapping.fields),
   };
 
+  // Handlers
+  const openSchedulesEdit = (optionRecord) => {
+    const { id } = optionRecord || {};
+    useSchedules.edit.setRequestParams({ id });
+    useSchedules.edit.setDeleteParams({ id });
+    useSchedules.edit.open();
+  };
+
   // reload data
   const reloadData = () => {
-    useClasses.table.reload();
+    useSchedules.table.reload();
   };
 
   // Page action buttons
@@ -100,11 +108,11 @@ function PageContent() {
               search: false,
               render: (_, record) => {
                 return (
-                  <SubPathButton
-                    icon={<InfoCircleOutlined />}
+                  <AntButton
+                    icon={<EditOutlined />}
                     color="primary"
                     variant="link"
-                    path={record?.id}
+                    onClick={() => openSchedulesEdit(record)}
                   />
                 );
               },
@@ -117,11 +125,12 @@ function PageContent() {
           formHook={useSchedules.edit}
           fields={useSchedules.fields}
           requestParams={useSchedules.edit.requestParams}
-          onSubmitSuccess={reloadData}
+          onSubmitSuccess={useSchedules.table.reload}
           deleteParams={useSchedules.edit.deleteParams}
-          onDeleteSuccess={reloadData}
+          onDeleteSuccess={useSchedules.table.reload}
           title="Chỉnh sửa lịch học"
           variant="drawer"
+          showDelete={false}
         />
       </ProCard>
     </ResponsiveCard>

@@ -21,6 +21,7 @@ export async function getSchedules(searchParams) {
         syllabus_name,
         lecture_name,
         shift_name, shift_start_time, shift_end_time,
+        room_name,
         option_color AS schedule_status_color,
         cv.class_end_date,
         CASE 
@@ -36,6 +37,7 @@ export async function getSchedules(searchParams) {
       LEFT JOIN lectures l ON l.id = s.lecture_id AND l.deleted_at IS NULL
       LEFT JOIN syllabuses sy ON sy.id = m.syllabus_id AND sy.deleted_at IS NULL
       LEFT JOIN shifts sh ON sh.id = s.shift_id AND sh.deleted_at IS NULL
+      LEFT JOIN rooms r ON r.id = s.room_id AND r.deleted_at IS NULL
       LEFT JOIN options o ON o.id = s.schedule_status_id AND o.deleted_at IS NULL
       WHERE s.deleted_at IS NULL
       ${whereClause}
@@ -61,6 +63,7 @@ export async function getSchedule(id) {
         syllabus_name,
         lecture_name,
         shift_name, shift_start_time, shift_end_time,
+        room_name,
         option_color AS schedule_status_color,
         cv.class_end_date,
         CASE 
@@ -73,9 +76,10 @@ export async function getSchedule(id) {
       LEFT JOIN classes_view cv ON cv.id = s.class_id AND cv.deleted_at IS NULL
       LEFT JOIN courses c ON c.id = cv.course_id AND c.deleted_at IS NULL
       LEFT JOIN modules m ON m.id = cv.module_id AND m.deleted_at IS NULL
-      LEFT JOIN lecture l ON l.id = s.lecture_id AND l.deleted_at IS NULL
+      LEFT JOIN lectures l ON l.id = s.lecture_id AND l.deleted_at IS NULL
       LEFT JOIN syllabuses sy ON sy.id = m.syllabus_id AND sy.deleted_at IS NULL
       LEFT JOIN shifts sh ON sh.id = s.shift_id AND sh.deleted_at IS NULL
+      LEFT JOIN rooms r ON r.id = s.room_id AND r.deleted_at IS NULL
       LEFT JOIN options o ON o.id = s.schedule_status_id AND o.deleted_at IS NULL
       WHERE s.deleted_at IS NULL
         AND s.id = ${id};
@@ -125,6 +129,22 @@ export async function updateSchedule(id, data) {
       schedule_status_id,
       schedule_desc,
     } = data;
+
+    console.log(`
+      UPDATE schedules
+      SET
+        source_id = ${source_id},
+        class_id = ${class_id},
+        lecture_id = ${lecture_id},
+        shift_id = ${shift_id},
+        room_id = ${room_id},
+        schedule_date = ${schedule_date},
+        schedule_status_id = ${schedule_status_id},
+        schedule_desc = ${schedule_desc}
+      WHERE deleted_at IS NULL
+        AND id = ${id}
+      RETURNING *;
+    `);
 
     return await sql`
       UPDATE schedules

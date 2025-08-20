@@ -1,6 +1,6 @@
 // path: @/components/feature/schedules-schema.js
 
-import { Space, Typography } from "antd";
+import { Space, Typography, Tag } from "antd";
 import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 import { fetchOption } from "@/utils/fetch-util";
 import { formatTimeHHMM } from "@/utils/format-util";
@@ -129,10 +129,18 @@ export function schedulesSchema(params = {}, columnMapping = []) {
       valueType: "textarea",
       ...buildSchemaProps({ autoSize: { minRows: 3, maxRows: 6 } }),
     },
+    // info
     {
       key: "course_name",
       dataIndex: "course_name",
       title: "Khóa học",
+      valueType: "text",
+      ...buildSchemaProps({ disabled: true }),
+    },
+    {
+      key: "syllabus_name",
+      dataIndex: "syllabus_name",
+      title: "Giáo trình",
       valueType: "text",
       ...buildSchemaProps({ disabled: true }),
     },
@@ -144,12 +152,23 @@ export function schedulesSchema(params = {}, columnMapping = []) {
       ...buildSchemaProps({ disabled: true }),
     },
     {
-      key: "syllabus_name",
-      dataIndex: "syllabus_name",
-      title: "Giáo trình",
+      key: "lecture_name",
+      dataIndex: "lecture_name",
+      title: "Bài giảng",
       valueType: "text",
       ...buildSchemaProps({ disabled: true }),
     },
+    {
+      key: "room_name",
+      dataIndex: "room_name",
+      title: "Phòng học",
+      valueType: "text",
+      ...buildSchemaProps({ disabled: true }),
+      render: (_, record) =>
+        record?.room_name || <Tag color="error">Chưa xếp phòng</Tag>,
+      sorter: true,
+    },
+    // render
     {
       key: "displayClass",
       title: "Lớp học",
@@ -170,19 +189,6 @@ export function schedulesSchema(params = {}, columnMapping = []) {
 }
 
 export const schedulesMapping = {
-  fields: [
-    { key: "course_name", colProps: { xs: 12 } },
-    { key: "module_name", colProps: { xs: 12 } },
-    { key: "schedule_date", colProps: { xs: 12 } },
-    { key: "shift_id", colProps: { xs: 12 } },
-    { key: "schedule_status_id", colProps: { xs: 12 } },
-    { key: "room_id", colProps: { xs: 12 } },
-    { key: "lecture_id" },
-    { key: "schedule_desc" },
-    { key: "id" },
-    { key: "class_id" },
-    { key: "source_id" },
-  ],
   columns: [
     { key: "displayClass" },
     { key: "displayTime" },
@@ -191,7 +197,33 @@ export const schedulesMapping = {
     { key: "module_name", hideInTable: true, search: false },
     { key: "schedule_date", hideInTable: true, search: false },
     { key: "schedule_status_id", hideInTable: true },
-    { key: "room_id", responsive: ["lg"], search: false },
+    { key: "room_name", responsive: ["lg"], search: false },
     { key: "schedule_desc", responsive: ["xl"], search: false },
+  ],
+  fields: [
+    { key: "course_name", colProps: { xs: 12 } },
+    { key: "module_name", colProps: { xs: 12 } },
+    { key: "lecture_name", colProps: { xs: 24 } },
+    { key: "schedule_date", colProps: { xs: 12 } },
+    { key: "shift_id", colProps: { xs: 12 } },
+    { key: "schedule_status_id", colProps: { xs: 12 } },
+    { key: "room_id", colProps: { xs: 12 } },
+    { key: "schedule_desc" },
+    { key: "id" },
+    { key: "class_id" },
+    { key: "source_id" },
+  ],
+  adminFields: [
+    { key: "course_name", colProps: { xs: 12 } },
+    { key: "module_name", colProps: { xs: 12 } },
+    { key: "lecture_name", colProps: { xs: 24 } },
+    { key: "schedule_date", colProps: { xs: 12 } },
+    { key: "shift_id", colProps: { xs: 12 } },
+    { key: "schedule_status_id", colProps: { xs: 12 } },
+    { key: "room_id", colProps: { xs: 12 } },
+    { key: "schedule_desc" },
+    { key: "id" },
+    { key: "class_id" },
+    { key: "source_id" },
   ],
 };
