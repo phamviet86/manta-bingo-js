@@ -213,17 +213,4 @@ export const schedulesMapping = {
     { key: "class_id" },
     { key: "source_id" },
   ],
-  adminFields: [
-    { key: "course_name", colProps: { xs: 12 } },
-    { key: "module_name", colProps: { xs: 12 } },
-    { key: "lecture_name", colProps: { xs: 24 } },
-    { key: "schedule_date", colProps: { xs: 12 } },
-    { key: "shift_id", colProps: { xs: 12 } },
-    { key: "schedule_status_id", colProps: { xs: 12 } },
-    { key: "room_id", colProps: { xs: 12 } },
-    { key: "schedule_desc" },
-    { key: "id" },
-    { key: "class_id" },
-    { key: "source_id" },
-  ],
 };
