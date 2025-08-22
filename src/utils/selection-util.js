@@ -82,5 +82,13 @@ export function buildSelection(
     }));
   }
 
-  return { valueEnum, options };
+  // Sort valueEnum by keys
+  const sortedValueEnum = Object.keys(valueEnum)
+    .sort()
+    .reduce((acc, key) => {
+      acc[key] = valueEnum[key];
+      return acc;
+    }, {});
+
+  return { valueEnum: sortedValueEnum, options };
 }
