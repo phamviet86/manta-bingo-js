@@ -33,6 +33,7 @@ export function AttendancesList(props) {
         type: "inner",
         ghost: true,
       }}
+      showCard={false}
     />
   );
 }
