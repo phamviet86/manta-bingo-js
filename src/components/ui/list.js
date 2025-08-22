@@ -26,6 +26,7 @@ export function AntList({
   showCard = true,
   grid = undefined,
   syncToUrl = true,
+  ghost = true,
 
   // Header configuration
   title = undefined,
@@ -98,8 +99,7 @@ export function AntList({
     options: optionsConfig,
     grid: showCard ? gridConfig : undefined,
     rowKey: "id",
-    bordered: true,
-    ghost: true,
+    ghost: ghost,
   };
 
   // ========== Render Logic ==========

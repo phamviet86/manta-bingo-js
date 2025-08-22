@@ -77,10 +77,8 @@ export const attendancesMapping = {
     { key: "attendance_desc", search: false },
   ],
   metas: {
-    title: {},
-    subTitle: {},
-    description: {},
     title: {
+      search: false,
       render: (record) => (
         <DiceBeerImage
           src="https://gw.alipayobjects.com/zos/antfincdn/LlvErxo8H9/photo-1503185912284-5271ff81b9a8.webp"
@@ -89,8 +87,7 @@ export const attendancesMapping = {
         />
       ),
     },
-    content: { render: () => "content" },
-    extra: {},
-    actions: {},
+    content: { search: false, render: () => "Phạm Quang Việt" },
+    actions: { cardActionProps: "actions", render: () => "test" },
   },
 };
