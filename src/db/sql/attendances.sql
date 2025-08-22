@@ -7,7 +7,7 @@ CREATE TABLE attendances (
   schedule_id UUID NOT NULL,
   enrollment_id UUID NOT NULL,
   attendance_status_id INTEGER NOT NULL,
-  attendance_type_id INTEGER NOT NULL,
+  attendance_type_id INTEGER DEFAULT NULL,
   attendance_desc TEXT DEFAULT NULL
 );
 CREATE TRIGGER update_record BEFORE

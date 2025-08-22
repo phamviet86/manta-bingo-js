@@ -17,11 +17,15 @@ import {
   SchedulesEdit,
   schedulesSchema,
   schedulesMapping,
-  classesSchema,
-  classesMapping,
+  AttendancesTable,
+  AttendancesCreate,
+  AttendancesInfo,
+  AttendancesEdit,
+  attendancesSchema,
+  attendancesMapping,
 } from "@/components/feature";
 import dayjs from "dayjs";
-import { useTable, useForm, useNavigate } from "@/hooks";
+import { useTable, useForm, useInfo } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -34,7 +38,7 @@ export default function Page(props) {
 
 function PageContent() {
   // Context
-  const { scheduleStatus, classStatus } = usePageContext();
+  const { scheduleStatus, attendanceStatus, attendanceType } = usePageContext();
 
   // Calendar state
   const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -47,14 +51,20 @@ function PageContent() {
     fields: schedulesSchema({ scheduleStatus }, schedulesMapping.fields),
   };
 
-  // classes Hooks
-  const useClasses = {
+  // attendances hooks
+  const useAttendances = {
     table: useTable(),
-    columns: classesSchema(
-      { classStatus },
-      classesMapping.scheduleClassesColumns
+    info: useInfo(),
+    create: useForm(),
+    edit: useForm(),
+    columns: attendancesSchema(
+      { attendanceStatus, attendanceType },
+      attendancesMapping.columns
     ),
-    fields: classesSchema({ classStatus }, classesMapping.fields),
+    fields: attendancesSchema(
+      { attendanceStatus, attendanceType },
+      attendancesMapping.fields
+    ),
   };
 
   // Handlers
@@ -137,31 +147,113 @@ function PageContent() {
   );
 
   // CLASSES TAB
-  // classes tab buttons
-  const classesButton = (
+
+  // Open info modal
+  const openAttendancesInfo = (attendancesRecord) => {
+    const { id } = attendancesRecord || {};
+    useAttendances.info.setRequestParams({ id });
+    useAttendances.info.open();
+  };
+
+  // Open edit form
+  const openAttendancesEdit = (attendancesRecord) => {
+    const { id } = attendancesRecord || {};
+    useAttendances.edit.setRequestParams({ id });
+    useAttendances.edit.setDeleteParams({ id });
+    useAttendances.edit.open();
+  };
+
+  // attendances tab buttons
+  const attendancesButton = (
     <Space>
       <AntButton
         key="reload-button"
         label="Tải lại"
         color="default"
         variant="outlined"
-        onClick={() => useClasses.table.reload()}
+        onClick={() => useAttendances.table.reload()}
+      />
+      <AntButton
+        key="create-button"
+        label="Tạo mới"
+        color="primary"
+        variant="solid"
+        onClick={() => useAttendances.create.open()}
       />
     </Space>
   );
 
-  // classes tab content
-  const classesContent = (
-    <ProCard boxShadow bordered title="Danh sách lớp" extra={classesButton}>
-      {/* ClassesSummaryTable removed */}
+  // attendances tab content
+  const attendancesContent = (
+    <ProCard boxShadow bordered title="Danh sách" extra={attendancesButton}>
+      <AttendancesTable
+        tableHook={useAttendances.table}
+        columns={useAttendances.columns}
+        leftColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<InfoCircleOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => openAttendancesInfo(record)}
+              />
+            ),
+          },
+        ]}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <AntButton
+                icon={<EditOutlined />}
+                color="primary"
+                variant="link"
+                onClick={() => openAttendancesEdit(record)}
+              />
+            ),
+          },
+        ]}
+      />
+      <AttendancesInfo
+        infoHook={useAttendances.info}
+        columns={useAttendances.columns}
+        requestParams={useAttendances.info.requestParams}
+        title="Thông tin điểm danh"
+        variant="modal"
+        column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
+        size="small"
+      />
+      <AttendancesCreate
+        formHook={useAttendances.create}
+        fields={useAttendances.fields}
+        onSubmitSuccess={() => useAttendances.table.reload()}
+        title="Tạo điểm danh"
+        variant="drawer"
+      />
+      <AttendancesEdit
+        formHook={useAttendances.edit}
+        fields={useAttendances.fields}
+        requestParams={useAttendances.edit.requestParams}
+        deleteParams={useAttendances.edit.deleteParams}
+        onSubmitSuccess={() => useAttendances.table.reload()}
+        onDeleteSuccess={() => useAttendances.table.reload()}
+        title="Sửa điểm danh"
+        variant="drawer"
+      />
     </ProCard>
   );
 
-  // classes tab configuration
-  const classesTab = {
-    key: "classes",
-    label: "Lớp học",
-    children: classesContent,
+  // attendances tab configuration
+  const attendancesTab = {
+    key: "attendances",
+    label: "Điểm danh",
+    children: attendancesContent,
   };
 
   // Render
@@ -171,7 +263,7 @@ function PageContent() {
       title="Lịch học"
       extra={pageButton}
       content={pageContent}
-      tabList={[classesTab]}
+      tabList={[attendancesTab]}
     />
   );
 }
