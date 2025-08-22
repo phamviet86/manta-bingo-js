@@ -7,6 +7,7 @@
  * @param {string} columnMapping.value - Property name to use as key/value
  * @param {string} columnMapping.label - Property name to use as display text
  * @param {string} [columnMapping.color] - Optional property name for color/status information
+ * @param {string} [columnMapping.group] - Optional property name for grouping options
  * @param {Object} [filterParams={}] - Optional filter parameters (field:value pairs)
  * @returns {Object} { valueEnum, options }
  */
@@ -15,15 +16,20 @@ export function buildSelection(
   columnMapping = {},
   filterParams = {}
 ) {
-  const { value: valueKey, label: labelKey, color: colorKey } = columnMapping;
+  const {
+    value: valueKey,
+    label: labelKey,
+    color: colorKey,
+    group: groupKey,
+  } = columnMapping;
   if (!Array.isArray(data) || !valueKey || !labelKey)
     return { valueEnum: {}, options: [] };
 
   const filterEntries = Object.entries(filterParams);
-
   const valueEnum = {};
-  const options = [];
+  const filteredItems = [];
 
+  // Single pass: build valueEnum and collect filtered items
   data.forEach((item) => {
     if (!item || item[valueKey] === undefined) return;
 
@@ -39,15 +45,42 @@ export function buildSelection(
     const key = item[valueKey];
     const label = item[labelKey];
 
-    // valueEnum giữ nguyên đủ field
+    // Build valueEnum (single place)
     valueEnum[key] = {
       text: label,
       ...(colorValue && { color: colorValue, status: colorValue }),
     };
 
-    // options chỉ lấy label, value
-    options.push({ label, value: key });
+    // Collect filtered items for options building
+    filteredItems.push({
+      value: key,
+      label,
+      ...(groupKey && { group: item[groupKey] || "Ungrouped" }),
+    });
   });
+
+  // Build options based on grouping
+  let options = [];
+  if (!groupKey) {
+    // No grouping - simple options array
+    options = filteredItems.map(({ value, label }) => ({ label, value }));
+  } else {
+    // Group data by specified field
+    const groupedData = filteredItems.reduce((acc, { value, label, group }) => {
+      if (!acc[group]) {
+        acc[group] = [];
+      }
+      acc[group].push({ value, label });
+      return acc;
+    }, {});
+
+    // Convert to Ant Design grouped options format
+    options = Object.keys(groupedData).map((key) => ({
+      label: key,
+      key: key,
+      options: groupedData[key],
+    }));
+  }
 
   return { valueEnum, options };
 }

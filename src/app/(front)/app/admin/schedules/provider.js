@@ -13,15 +13,29 @@ export function PageProvider({ children }) {
     { option_table: "schedules", option_column: "schedule_status_id" }
   );
 
-  const classStatus = buildSelection(
+  const attendanceStatus = buildSelection(
     optionsData,
-    { value: "id", label: "option_label", color: "option_color" },
-    { option_table: "classes", option_column: "class_status_id" }
+    {
+      value: "id",
+      label: "option_label",
+      color: "option_color",
+    },
+    { option_table: "attendances", option_column: "attendance_status_id" }
+  );
+  const attendanceType = buildSelection(
+    optionsData,
+    {
+      value: "id",
+      label: "option_label",
+      color: "option_color",
+      group: "option_group",
+    },
+    { option_table: "attendances", option_column: "attendance_type_id" }
   );
 
   const contextValue = useMemo(
-    () => ({ scheduleStatus, classStatus }),
-    [scheduleStatus, classStatus]
+    () => ({ scheduleStatus, attendanceStatus, attendanceType }),
+    [scheduleStatus, attendanceStatus, attendanceType]
   );
 
   return (

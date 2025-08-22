@@ -19,7 +19,10 @@ export async function getOptions(searchParams) {
       FROM options o
       WHERE o.deleted_at IS NULL
       ${whereClause}
-      ${orderByClause || "ORDER BY o.created_at"}
+      ${
+        orderByClause ||
+        "ORDER BY o.option_column, o.option_group, o.option_label"
+      }
       ${limitClause};
     `;
 
