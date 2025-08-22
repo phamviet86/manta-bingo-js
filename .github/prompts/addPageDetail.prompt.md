@@ -74,7 +74,7 @@ function PageContent({ params }) {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <{TableName}Info
         infoHook={use{TableName}.info}
         requestParams={{ id: {tableName}Id }}
@@ -132,7 +132,7 @@ Replace template placeholders with your table data:
 - Use **PascalCase** for component imports and usage
 - Use **camelCase** for ID parameters and variables
 - Use **Vietnamese** labels for all user-facing text
-- Use **ProCard** for layout with boxShadow and bordered properties
+- Use **ProCard** for layout with hoverable and bordered properties
 - Import components from `@/components/ui` and `@/components/feature`
 - Import hooks from `@/hooks`
 - Import schema and mapping from `@/components/feature`
@@ -158,7 +158,7 @@ Replace template placeholders with your table data:
 - ✅ **Template structure**: Keep all component structure unchanged
 - ✅ **Provider pattern**: Use PageProvider and usePageContext exactly as shown
 - ✅ **Dynamic routing**: Use `use(params)` pattern for accessing route parameters
-- ✅ **Layout**: Use ProCard structure with boxShadow and bordered properties
+- ✅ **Layout**: Use ProCard structure with hoverable and bordered properties
 
 ## Component Integration
 
@@ -179,7 +179,7 @@ Replace template placeholders with your table data:
 ### Page Structure
 
 - **AntPage**: Main page wrapper with breadcrumbs and title
-- **ProCard**: Content wrapper with boxShadow and bordered properties
+- **ProCard**: Content wrapper with hoverable and bordered properties
 - **PageProvider**: Context provider for page state (shared with list page)
 - **Action buttons**: Back and Edit buttons array
 - **Dynamic title**: Based on data field with fallback
@@ -220,7 +220,7 @@ Choose appropriate field for `{titleField}` placeholder:
 - ✅ **Success handling**: Proper reload and navigation after operations
 - ✅ **Dynamic title**: Page title based on record data with fallback
 - ✅ **Route parameters**: Proper use of dynamic routing with use(params)
-- ✅ **Layout**: ProCard structure with boxShadow and bordered properties
+- ✅ **Layout**: ProCard structure with hoverable and bordered properties
 
 ## Output Location
 

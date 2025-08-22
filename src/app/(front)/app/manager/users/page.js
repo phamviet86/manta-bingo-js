@@ -52,7 +52,7 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <UsersTable tableHook={useUsers.table} columns={useUsers.columns} />
       <UsersCreate
         formHook={useUsers.create}

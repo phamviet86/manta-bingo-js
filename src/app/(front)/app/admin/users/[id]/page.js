@@ -85,7 +85,7 @@ function PageContent({ params }) {
   // Main content
   const pageContent = (
     <ResponsiveCard
-      boxShadow
+      hoverable
       bordered
       splitAt="md"
       actions={
@@ -193,7 +193,7 @@ function PageContent({ params }) {
 
   // enrollments tab content
   const enrollmentsContent = (
-    <ProCard boxShadow bordered extra={enrollmentsButton}>
+    <ProCard hoverable bordered extra={enrollmentsButton}>
       <EnrollmentsTable
         tableHook={useEnrollments.table}
         columns={useEnrollments.columns}
@@ -263,7 +263,7 @@ function PageContent({ params }) {
 
   // const disabled content
   const disabledContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <Typography.Text type="secondary">
         Nội dung bị vô hiệu hóa
       </Typography.Text>

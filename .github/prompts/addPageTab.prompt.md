@@ -37,7 +37,7 @@ import { useTable, useInfo, useForm } from "@/hooks";
 export default function Page() {
   const pageButton = [];
   const pageContent = (
-    <ProCard boxShadow bordered />
+    <ProCard hoverable bordered />
   );
   const pageTitle = "{vnTableName} Tab";
 
@@ -88,7 +88,7 @@ export default function Page() {
 
   // {tableName} tab content
   const {tableName}Content = (
-    <ProCard boxShadow bordered title="Danh sách" extra={{tableName}Button}>
+    <ProCard hoverable bordered title="Danh sách" extra={{tableName}Button}>
       <{TableName}Table
         tableHook={use{TableName}.table}
         columns={use{TableName}.columns}
@@ -239,7 +239,7 @@ Replace template placeholders with your table data:
 ### Page Structure
 
 - **AntPage**: Main page wrapper with breadcrumbs and tabs
-- **ProCard**: Content wrapper with boxShadow and bordered properties
+- **ProCard**: Content wrapper with hoverable and bordered properties
 - **Tab integration**: Single tab with complete CRUD operations
 - **Action buttons**: Reload and Create buttons in tab header
 

@@ -53,7 +53,7 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <SyllabusesTable
         tableHook={useSyllabuses.table}
         columns={useSyllabuses.columns}

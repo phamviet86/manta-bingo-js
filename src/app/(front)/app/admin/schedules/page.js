@@ -18,6 +18,7 @@ import {
   schedulesSchema,
   schedulesMapping,
   AttendancesTable,
+  AttendancesList,
   AttendancesCreate,
   AttendancesInfo,
   AttendancesEdit,
@@ -25,7 +26,7 @@ import {
   attendancesMapping,
 } from "@/components/feature";
 import dayjs from "dayjs";
-import { useTable, useForm, useInfo } from "@/hooks";
+import { useTable, useList, useForm, useInfo } from "@/hooks";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -54,6 +55,7 @@ function PageContent() {
   // attendances hooks
   const useAttendances = {
     table: useTable(),
+    list: useList(),
     info: useInfo(),
     create: useForm(),
     edit: useForm(),
@@ -65,6 +67,7 @@ function PageContent() {
       { attendanceStatus, attendanceType },
       attendancesMapping.fields
     ),
+    metas: attendancesMapping.metas,
   };
 
   // Handlers
@@ -93,7 +96,7 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <ResponsiveCard boxShadow bordered splitAt="md">
+    <ResponsiveCard hoverable bordered splitAt="md">
       <ProCard
         colSpan={{ sm: 24, md: "300px" }}
         layout="center"
@@ -185,7 +188,7 @@ function PageContent() {
 
   // attendances tab content
   const attendancesContent = (
-    <ProCard boxShadow bordered title="Danh sách" extra={attendancesButton}>
+    <ProCard hoverable bordered title="Danh sách" extra={attendancesButton}>
       <AttendancesTable
         tableHook={useAttendances.table}
         columns={useAttendances.columns}
@@ -219,6 +222,10 @@ function PageContent() {
             ),
           },
         ]}
+      />
+      <AttendancesList
+        listHook={useAttendances.list}
+        metas={useAttendances.metas}
       />
       <AttendancesInfo
         infoHook={useAttendances.info}

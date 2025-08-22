@@ -81,7 +81,7 @@ function PageContent({ params }) {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <ClassesInfo
         infoHook={useClasses.info}
         requestParams={{ id: classId }}
@@ -137,7 +137,7 @@ function PageContent({ params }) {
 
   // schedules tab content
   const schedulesContent = (
-    <ProCard boxShadow bordered title="Danh sách" extra={schedulesButton}>
+    <ProCard hoverable bordered title="Danh sách" extra={schedulesButton}>
       <SchedulesCalendar
         calendarHook={useSchedules.calendar}
         requestParams={{
@@ -235,7 +235,7 @@ function PageContent({ params }) {
 
   // enrollments tab content
   const enrollmentsContent = (
-    <ProCard boxShadow bordered extra={enrollmentsButton}>
+    <ProCard hoverable bordered extra={enrollmentsButton}>
       <EnrollmentsTable
         tableHook={useEnrollments.table}
         columns={useEnrollments.columns}

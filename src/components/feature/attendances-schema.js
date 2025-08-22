@@ -1,5 +1,7 @@
 // path: @/components/feature/attendances-schema.js
 
+import { Card } from "antd";
+import { DiceBeerAvatar, DiceBeerImage } from "@/components/ui";
 import { buildSchema, buildSchemaProps } from "@/utils/schema-util";
 
 export function attendancesSchema(params = {}, columnMapping = []) {
@@ -74,4 +76,20 @@ export const attendancesMapping = {
     { key: "attendance_type_id" },
     { key: "attendance_desc", search: false },
   ],
+  metas: {
+    title: { render: () => "title" },
+    subTitle: { render: () => "subTitle" },
+    // description: { render: () => "description" },
+    avatar: {
+      render: (record) => (
+        <DiceBeerImage
+          src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+          seed={record?.id}
+        />
+      ),
+    },
+    content: { render: () => "content" },
+    extra: { render: () => "extra" },
+    // actions: { render: () => "actions" },
+  },
 };

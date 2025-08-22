@@ -62,7 +62,7 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <ShiftsTable
         tableHook={useShifts.table}
         columns={useShifts.columns}

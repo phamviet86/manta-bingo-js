@@ -82,7 +82,7 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <{TableName}Table
         tableHook={use{TableName}.table}
         columns={use{TableName}.columns}
@@ -231,7 +231,7 @@ export function usePageContext() {
 ### Page Structure:
 
 - **AntPage**: Main page wrapper with breadcrumbs and title
-- **ProCard**: Content wrapper with boxShadow and bordered properties
+- **ProCard**: Content wrapper with hoverable and bordered properties
 - **PageProvider**: Context provider for page state
 - **Action buttons**: Reload and Create buttons
 - **Edit functionality**: Edit button in table rows with form handling
@@ -265,7 +265,7 @@ The page uses a standard navigation pattern:
 - ✅ **Success handling**: Table reload after successful operations
 - ✅ **Provider template**: Exact provider.js content without modifications
 - ✅ **Edit functionality**: Edit form with request/delete parameters
-- ✅ **Grid layout**: ProCard structure with boxShadow and bordered wrapper
+- ✅ **Grid layout**: ProCard structure with hoverable and bordered wrapper
 
 ## Output Location
 

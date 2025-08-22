@@ -1,6 +1,6 @@
 // path: @/components/feature/attendances-component.js
 
-import { AntTable, AntInfo, AntForm } from "@/components/ui";
+import { AntTable, AntList, AntInfo, AntForm } from "@/components/ui";
 import {
   fetchList,
   fetchGet,
@@ -16,6 +16,23 @@ export function AttendancesTable(props) {
       onRequest={(params, sort, filter) =>
         fetchList("/api/attendances", params, sort, filter)
       }
+    />
+  );
+}
+
+export function AttendancesList(props) {
+  return (
+    <AntList
+      {...props}
+      onRequest={(params, sort, filter) =>
+        // fetchList("/api/attendances", params, sort, filter)
+        fetchList("/api/schedules", params, sort, filter)
+      }
+      itemCardProps={{
+        // bordered: false,
+        type: "inner",
+        ghost: true,
+      }}
     />
   );
 }

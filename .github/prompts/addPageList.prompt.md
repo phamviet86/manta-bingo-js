@@ -73,7 +73,7 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <{TableName}Table
         tableHook={use{TableName}.table}
         columns={use{TableName}.columns}
@@ -239,7 +239,7 @@ export function usePageContext() {
 ### Page Structure:
 
 - **AntPage**: Main page wrapper with breadcrumbs, title, and extra buttons
-- **ProCard**: Content wrapper with boxShadow and bordered properties
+- **ProCard**: Content wrapper with hoverable and bordered properties
 - **PageProvider**: Context provider for page state (wraps PageContent)
 - **Action buttons**: Array with Reload and Create buttons in pageButton variable
 - **Detail navigation**: Info button in rightColumns that navigates to detail page using SubPathButton
@@ -291,7 +291,7 @@ The page uses a standard navigation pattern:
 - ✅ **Create form**: {TableName}Create with formHook, fields, onSubmitSuccess, title, variant props
 - ✅ **Navigation handling**: navDetail function called with result?.data[0]?.id
 - ✅ **Provider template**: Empty contextValue with useAppContext and buildSelection imports
-- ✅ **Content wrapper**: ProCard with boxShadow and bordered properties
+- ✅ **Content wrapper**: ProCard with hoverable and bordered properties
 - ✅ **Page wrapper**: AntPage with items, title, extra, and content props
 
 ## Output Location

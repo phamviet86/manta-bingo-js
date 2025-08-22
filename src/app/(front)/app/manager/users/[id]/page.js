@@ -66,7 +66,7 @@ function PageContent({ params }) {
   // Main content
   const pageContent = (
     <ResponsiveCard
-      boxShadow
+      hoverable
       bordered
       splitAt="md"
       actions={<UsersResetPassword userId={userId} />}
@@ -135,7 +135,7 @@ function PageContent({ params }) {
 
   // userRoles tab content
   const userRolesContent = (
-    <ProCard boxShadow bordered extra={userRolesButton}>
+    <ProCard hoverable bordered extra={userRolesButton}>
       <UserRolesTable
         tableHook={useUserRoles.table}
         columns={useUserRoles.columns}

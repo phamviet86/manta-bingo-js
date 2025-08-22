@@ -53,7 +53,7 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <CoursesTable
         tableHook={useCourses.table}
         columns={useCourses.columns}

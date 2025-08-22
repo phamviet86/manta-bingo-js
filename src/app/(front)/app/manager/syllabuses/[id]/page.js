@@ -67,7 +67,7 @@ function PageContent({ params }) {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <SyllabusesInfo
         infoHook={useSyllabuses.info}
         requestParams={{ id: syllabusId }}
@@ -139,7 +139,7 @@ function PageContent({ params }) {
 
   // modules tab content
   const modulesContent = (
-    <ProCard boxShadow bordered extra={modulesButton}>
+    <ProCard hoverable bordered extra={modulesButton}>
       <ModulesTable
         tableHook={useModules.table}
         columns={useModules.columns}
@@ -246,7 +246,7 @@ function PageContent({ params }) {
 
   // lectures tab content
   const lecturesContent = (
-    <ProCard boxShadow bordered title="Danh sách" extra={lecturesButton}>
+    <ProCard hoverable bordered title="Danh sách" extra={lecturesButton}>
       <LecturesTable
         tableHook={useLectures.table}
         columns={useLectures.columns}

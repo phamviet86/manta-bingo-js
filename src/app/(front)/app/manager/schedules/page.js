@@ -110,7 +110,7 @@ function PageContent() {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <SchedulesCalendar
         calendarHook={useSchedules.calendar}
         requestParams={{
@@ -173,7 +173,7 @@ function PageContent() {
   // classes tab content
   const classesContent = (
     <ProCard
-      boxShadow
+      hoverable
       bordered
       title="Danh sách lớp"
       extra={classesButton}

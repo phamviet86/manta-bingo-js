@@ -18,7 +18,7 @@ export const LIST_CONFIG = {
     setting: false,
   },
   grid: {
-    gutter: 16,
+    // gutter: 16,
     column: 4,
     xs: 1,
     sm: 2,

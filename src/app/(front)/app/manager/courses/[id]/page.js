@@ -62,7 +62,7 @@ function PageContent({ params }) {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <CoursesInfo
         infoHook={useCourses.info}
         requestParams={{ id: courseId }}
@@ -139,7 +139,7 @@ function PageContent({ params }) {
 
   // classes tab content
   const classesContent = (
-    <ProCard boxShadow bordered title="Danh sách" extra={classesButton}>
+    <ProCard hoverable bordered title="Danh sách" extra={classesButton}>
       <ClassesTable
         tableHook={useClasses.table}
         columns={useClasses.columns}

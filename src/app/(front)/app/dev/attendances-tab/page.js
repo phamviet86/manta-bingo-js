@@ -17,7 +17,7 @@ import { useTable, useInfo, useForm } from "@/hooks";
 
 export default function Page() {
   const pageButton = [];
-  const pageContent = <ProCard boxShadow bordered />;
+  const pageContent = <ProCard hoverable bordered />;
   const pageTitle = "Điểm danh Tab";
 
   // Hooks
@@ -59,7 +59,7 @@ export default function Page() {
 
   // attendances tab content
   const attendancesContent = (
-    <ProCard boxShadow bordered title="Danh sách" extra={attendancesButton}>
+    <ProCard hoverable bordered title="Danh sách" extra={attendancesButton}>
       <AttendancesTable
         tableHook={useAttendances.table}
         columns={useAttendances.columns}

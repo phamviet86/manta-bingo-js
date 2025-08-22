@@ -61,7 +61,7 @@ function PageContent({ params }) {
 
   // Main content
   const pageContent = (
-    <ProCard boxShadow bordered>
+    <ProCard hoverable bordered>
       <RolesInfo
         infoHook={useRoles.info}
         columns={useRoles.columns}
@@ -111,7 +111,7 @@ function PageContent({ params }) {
 
   // rolePermissions tab content
   const rolePermissionsContent = (
-    <ProCard boxShadow bordered extra={rolePermissionsButton}>
+    <ProCard hoverable bordered extra={rolePermissionsButton}>
       <RolePermissionsTransferByRole
         transferHook={useRolePermissions.transfer}
         roleId={roleId}
