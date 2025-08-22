@@ -28,12 +28,8 @@ export function AttendancesList(props) {
         // fetchList("/api/attendances", params, sort, filter)
         fetchList("/api/schedules", params, sort, filter)
       }
-      itemCardProps={{
-        // bordered: false,
-        type: "inner",
-        ghost: true,
-      }}
-      showCard={false}
+      itemCardProps={{ layout: "center" }}
+      // showCard={false}
     />
   );
 }

@@ -77,19 +77,20 @@ export const attendancesMapping = {
     { key: "attendance_desc", search: false },
   ],
   metas: {
-    title: { render: () => "title" },
-    subTitle: { render: () => "subTitle" },
-    // description: { render: () => "description" },
-    extra: {
+    title: {},
+    subTitle: {},
+    description: {},
+    title: {
       render: (record) => (
         <DiceBeerImage
-          src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+          src="https://gw.alipayobjects.com/zos/antfincdn/LlvErxo8H9/photo-1503185912284-5271ff81b9a8.webp"
           seed={record?.id}
+          style={{ borderRadius: 6 }}
         />
       ),
     },
     content: { render: () => "content" },
-    // extra: { render: () => "extra" },
-    // actions: { render: () => "actions" },
+    extra: {},
+    actions: {},
   },
 };
