@@ -23,7 +23,7 @@ export function AntList({
   showSearch = true,
   showOptions = false,
   showPagination = true,
-  showCard = false,
+  showCard = true,
   grid = undefined,
   syncToUrl = true,
 
