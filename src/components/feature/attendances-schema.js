@@ -80,7 +80,7 @@ export const attendancesMapping = {
     title: { render: () => "title" },
     subTitle: { render: () => "subTitle" },
     // description: { render: () => "description" },
-    avatar: {
+    extra: {
       render: (record) => (
         <DiceBeerImage
           src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
@@ -89,7 +89,7 @@ export const attendancesMapping = {
       ),
     },
     content: { render: () => "content" },
-    extra: { render: () => "extra" },
+    // extra: { render: () => "extra" },
     // actions: { render: () => "actions" },
   },
 };

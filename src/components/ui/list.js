@@ -23,8 +23,9 @@ export function AntList({
   showSearch = true,
   showOptions = false,
   showPagination = true,
-  syncToUrl = true,
+  showCard = false,
   grid = undefined,
+  syncToUrl = true,
 
   // Header configuration
   title = undefined,
@@ -95,7 +96,7 @@ export function AntList({
     search: searchConfig,
     pagination: paginationConfig,
     options: optionsConfig,
-    grid: gridConfig,
+    grid: showCard ? gridConfig : undefined,
     rowKey: "id",
     bordered: true,
     ghost: true,
